@@ -5,7 +5,12 @@ namespace EquipmentBorrowing.Infrastructure.Repositories;
 
 public class InMemoryEquipmentRepository : IEquipmentRepository
 {
-    private readonly List<Equipment> _equipment = new();
+    private readonly List<Equipment> _equipment = new()
+    {
+        new Equipment(1, "Laptop", true),
+        new Equipment(2, "Projector", true),
+        new Equipment(3, "Microscope", false)
+    };
 
     public Task<Equipment?> GetByIdAsync(
         int id,
