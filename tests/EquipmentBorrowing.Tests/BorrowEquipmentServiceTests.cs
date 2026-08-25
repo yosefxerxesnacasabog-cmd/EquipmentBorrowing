@@ -145,4 +145,38 @@ public class BorrowEquipmentServiceTests
 
         Assert.False(result);
     }
+    [Fact]
+    public async Task DemonstrateSuccessfulBorrowing()
+    {
+        var studentRepository = new InMemoryStudentRepository();
+        var equipmentRepository = new InMemoryEquipmentRepository();
+        var borrowingRepository = new InMemoryBorrowingRepository();
+
+        var service = new BorrowEquipmentService(
+            studentRepository,
+            equipmentRepository,
+            borrowingRepository);
+
+        Console.WriteLine("=== Campus Equipment Borrowing System ===");
+        Console.WriteLine("Student requests available equipment...");
+        Console.WriteLine("Application service validates request...");
+        Console.WriteLine("Repositories provide required information...");
+
+        var result = await service.BorrowEquipmentAsync(
+            1,
+            1,
+            DateTime.Now.AddDays(7));
+
+        if (result)
+        {
+            Console.WriteLine("Borrowing created.");
+            Console.WriteLine("Operation succeeded!");
+        }
+        else
+        {
+            Console.WriteLine("Operation failed.");
+        }
+
+        Assert.True(result);
+    }
 }

@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="src/BorrowingSystemDemo/BorrowingSystemDemo.csproj" />
     <Project Path="src/EquipmentBorrowing.Application/EquipmentBorrowing.Application.csproj" />
     <Project Path="src/EquipmentBorrowing.Domain/EquipmentBorrowing.Domain.csproj" />
     <Project Path="src/EquipmentBorrowing.Infrastructure/EquipmentBorrowing.Infrastructure.csproj" />
