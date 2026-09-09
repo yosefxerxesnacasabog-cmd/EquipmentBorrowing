@@ -1,8 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using System.Threading.Tasks;
 using EquipmentBorrowing.Application.Interfaces;
 using EquipmentBorrowing.Domain;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace EquipmentBorrowing.Desktop.ViewModels;
 
@@ -12,9 +12,12 @@ public partial class EquipmentViewModel : ViewModelBase
 
     public ObservableCollection<Equipment> Equipment { get; } = new();
 
-    public EquipmentViewModel(IEquipmentRepository equipmentRepository)
+    public EquipmentViewModel(
+        IEquipmentRepository equipmentRepository)
     {
         _equipmentRepository = equipmentRepository;
+
+        _ = LoadEquipmentAsync();
     }
 
     public async Task LoadEquipmentAsync()
