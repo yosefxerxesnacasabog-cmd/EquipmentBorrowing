@@ -12,7 +12,6 @@ public class InMemoryBorrowingRepository : IBorrowingRepository
         CancellationToken cancellationToken = default)
     {
         _borrowings.Add(borrowing);
-
         return Task.CompletedTask;
     }
 
@@ -25,5 +24,26 @@ public class InMemoryBorrowingRepository : IBorrowingRepository
             b.Status == BorrowingStatus.Active);
 
         return Task.FromResult(count);
+    }
+
+    public Task<IReadOnlyList<Borrowing>> GetActiveAsync(
+        CancellationToken cancellationToken = default)
+    {
+        var activeBorrowings = _borrowings
+            .Where(b => b.Status == BorrowingStatus.Active)
+            .ToList();
+
+        return Task.FromResult<IReadOnlyList<Borrowing>>(activeBorrowings);
+    }
+
+    public Task<Borrowing?> GetActiveByEquipmentIdAsync(
+        int equipmentId,
+        CancellationToken cancellationToken = default)
+    {
+        var borrowing = _borrowings.FirstOrDefault(b =>
+            b.Equipment.Id == equipmentId &&
+            b.Status == BorrowingStatus.Active);
+
+        return Task.FromResult(borrowing);
     }
 }
