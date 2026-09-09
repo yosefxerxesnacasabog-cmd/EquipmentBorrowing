@@ -71,6 +71,8 @@ public class BorrowEquipmentService
             DateTime.Now,
             expectedReturnDate);
 
+	equipment.MarkAsBorrowed();
+
         await _borrowingRepository.AddAsync(
             borrowing,
             cancellationToken);
