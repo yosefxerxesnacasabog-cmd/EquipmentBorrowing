@@ -18,6 +18,9 @@ public partial class BorrowingsViewModel : ViewModelBase
     [ObservableProperty]
     private Borrowing? selectedBorrowing;
 
+    [ObservableProperty]
+    private string message = string.Empty;
+
     public BorrowingsViewModel(
         IBorrowingRepository borrowingRepository,
         ReturnEquipmentService returnEquipmentService)
@@ -41,8 +44,11 @@ public partial class BorrowingsViewModel : ViewModelBase
     [RelayCommand]
     private async Task ReturnEquipmentAsync()
     {
+        Message = string.Empty;
+
         if (SelectedBorrowing is null)
         {
+            Message = "Please select a borrowing.";
             return;
         }
 
@@ -51,7 +57,13 @@ public partial class BorrowingsViewModel : ViewModelBase
 
         if (success)
         {
+            Message = "Equipment returned successfully.";
             await LoadBorrowingsAsync();
+            SelectedBorrowing = null;
+        }
+        else
+        {
+            Message = "Unable to return equipment.";
         }
     }
 }

@@ -1,0 +1,65 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:EquipmentBorrowing.Desktop.ViewModels"
+    x:Class="EquipmentBorrowing.Desktop.Views.BorrowEquipmentView"
+    x:DataType="vm:BorrowEquipmentViewModel">
+
+    <StackPanel Margin="20" Spacing="15">
+
+        <TextBlock
+            Text="Borrow Equipment"
+            FontSize="28"
+            FontWeight="Bold" />
+
+        <TextBlock Text="Select Student" />
+
+        <ComboBox
+            ItemsSource="{Binding Students}"
+            SelectedItem="{Binding SelectedStudent}"
+            HorizontalAlignment="Stretch">
+
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock
+                        Text="{Binding Name}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+
+        </ComboBox>
+
+        <TextBlock Text="Select Equipment" />
+
+        <ComboBox
+            ItemsSource="{Binding Equipment}"
+            SelectedItem="{Binding SelectedEquipment}"
+            HorizontalAlignment="Stretch">
+
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock
+                        Text="{Binding Name}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+
+        </ComboBox>
+
+        <TextBlock Text="Expected Return Date" />
+
+        <DatePicker
+            SelectedDate="{Binding ExpectedReturnDate}" />
+
+       <Button
+
+        Content="Borrow Equipment"
+        Command="{Binding BorrowEquipmentCommand}"
+        HorizontalAlignment="Left"
+        Padding="15,8" />
+
+        <TextBlock
+            Text="{Binding Message}"
+            TextWrapping="Wrap" />
+
+    </StackPanel>
+
+</UserControl>

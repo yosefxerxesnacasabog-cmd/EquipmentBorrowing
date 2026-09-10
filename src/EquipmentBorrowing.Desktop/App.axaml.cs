@@ -26,12 +26,14 @@ public partial class App : Avalonia.Application
         services.AddSingleton<IStudentRepository, InMemoryStudentRepository>();
         services.AddSingleton<IEquipmentRepository, InMemoryEquipmentRepository>();
         services.AddSingleton<IBorrowingRepository, InMemoryBorrowingRepository>();
+        
 
         services.AddSingleton<BorrowEquipmentService>();
         services.AddSingleton<ReturnEquipmentService>();
 
         services.AddTransient<EquipmentViewModel>();
         services.AddTransient<BorrowingsViewModel>();
+        services.AddTransient<BorrowEquipmentViewModel>();
         services.AddTransient<MainWindowViewModel>();
 
         _serviceProvider = services.BuildServiceProvider();

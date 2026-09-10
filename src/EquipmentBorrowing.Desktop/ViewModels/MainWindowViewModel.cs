@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Threading.Tasks;
 
 namespace EquipmentBorrowing.Desktop.ViewModels;
 
@@ -9,15 +10,19 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public BorrowingsViewModel BorrowingsViewModel { get; }
 
+    public BorrowEquipmentViewModel BorrowEquipmentViewModel { get; }
+
     [ObservableProperty]
     private ViewModelBase currentView;
 
     public MainWindowViewModel(
         EquipmentViewModel equipmentViewModel,
-        BorrowingsViewModel borrowingsViewModel)
+        BorrowingsViewModel borrowingsViewModel,
+        BorrowEquipmentViewModel borrowEquipmentViewModel)
     {
         EquipmentViewModel = equipmentViewModel;
         BorrowingsViewModel = borrowingsViewModel;
+        BorrowEquipmentViewModel = borrowEquipmentViewModel;
 
         currentView = EquipmentViewModel;
     }
@@ -29,8 +34,15 @@ public partial class MainWindowViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void ShowBorrowings()
+    private async Task ShowBorrowings()
     {
+        await BorrowingsViewModel.LoadBorrowingsAsync();
         CurrentView = BorrowingsViewModel;
+    }
+
+    [RelayCommand]
+    private void ShowBorrowEquipment()
+    {
+        CurrentView = BorrowEquipmentViewModel;
     }
 }
