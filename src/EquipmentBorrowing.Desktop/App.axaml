@@ -3,7 +3,6 @@
              x:Class="EquipmentBorrowing.Desktop.App"
              xmlns:local="using:EquipmentBorrowing.Desktop"
              RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.DataTemplates>
         <local:ViewLocator />
@@ -11,5 +10,27 @@
 
     <Application.Styles>
         <FluentTheme />
+
+        <Style Selector="Button">
+            <Setter Property="Padding" Value="12,8" />
+            <Setter Property="Margin" Value="0,4" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+        </Style>
+
+        <Style Selector="TextBlock.heading">
+            <Setter Property="FontSize" Value="28" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+        </Style>
+
+        <Style Selector="TextBlock.label">
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,6,0,2" />
+        </Style>
+
+        <Style Selector="TextBlock.message">
+            <Setter Property="Margin" Value="0,8,0,0" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
     </Application.Styles>
 </Application>

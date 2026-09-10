@@ -8,11 +8,13 @@
     <StackPanel Margin="20" Spacing="15">
 
         <TextBlock
-            Text="Borrow Equipment"
-            FontSize="28"
-            FontWeight="Bold" />
+            Classes="heading"
+            Text="Borrow Equipment"/>
 
-        <TextBlock Text="Select Student" />
+
+        <TextBlock 
+            Classes="label"
+            Text="Select Student"/>
 
         <ComboBox
             ItemsSource="{Binding Students}"
@@ -28,7 +30,9 @@
 
         </ComboBox>
 
-        <TextBlock Text="Select Equipment" />
+        <TextBlock 
+            Classes="heading"
+            Text="Select Equipment"/>
 
         <ComboBox
             ItemsSource="{Binding Equipment}"
@@ -44,7 +48,9 @@
 
         </ComboBox>
 
-        <TextBlock Text="Expected Return Date" />
+        <TextBlock 
+            Classes="label"
+            Text="Expected Return Date"/>
 
         <DatePicker
             SelectedDate="{Binding ExpectedReturnDate}" />
@@ -57,8 +63,8 @@
         Padding="15,8" />
 
         <TextBlock
-            Text="{Binding Message}"
-            TextWrapping="Wrap" />
+            Classes="message"
+            Text="{Binding Message}"/>
 
     </StackPanel>
 

@@ -9,9 +9,8 @@
     <StackPanel Margin="20" Spacing="10">
 
         <TextBlock
-            Text="Equipment"
-            FontSize="28"
-            FontWeight="Bold" />
+           Classes="heading"
+           Text="Equipment"/>
 
         <ListBox ItemsSource="{Binding Equipment}">
 

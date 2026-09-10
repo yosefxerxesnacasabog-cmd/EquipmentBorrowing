@@ -37,16 +37,16 @@
 
 					<Button
 						Content="Equipment"
-						Padding="10"
+					
 						Command="{Binding ShowEquipmentCommand}" />
 
 					<Button
 						Content="Borrowings"
-						Padding="10"
+						
 						Command="{Binding ShowBorrowingsCommand}" />
 					<Button
 					Content="Borrow Equipment"
-					Padding="10"
+					
 					Command="{Binding ShowBorrowEquipmentCommand}"/>
 
 				</StackPanel>

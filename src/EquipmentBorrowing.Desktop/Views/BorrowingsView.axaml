@@ -9,9 +9,8 @@
     <StackPanel Margin="20" Spacing="10">
 
         <TextBlock
-            Text="Active Borrowings"
-            FontSize="28"
-            FontWeight="Bold" />
+            Classes="heading"
+            Text="Active Borrowings"/>
 
         <ListBox
             ItemsSource="{Binding Borrowings}"
@@ -59,8 +58,8 @@
             HorizontalAlignment="Left"
             Padding="15,8" />
         <TextBlock
-        Text="{Binding Message}"
-        TextWrapping="Wrap" />
+        Classes="message" 
+        Text="{Binding Message}"/>
 
 
     </StackPanel>
