@@ -2,6 +2,7 @@
 
 public class Borrowing
 {
+    public int Id { get; private set; }
     public Student Student { get; }
     public Equipment Equipment { get; }
     public DateTime DateBorrowed { get; }
