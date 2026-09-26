@@ -5,6 +5,9 @@ public class Borrowing
     public int Id { get; private set; }
     public Student Student { get; }
     public Equipment Equipment { get; }
+
+    public int StudentId => Student.Id;
+    public int EquipmentId => Equipment.Id;
     public DateTime DateBorrowed { get; }
     public DateTime ExpectedReturnDate { get; }
     public BorrowingStatus Status { get; private set; }
