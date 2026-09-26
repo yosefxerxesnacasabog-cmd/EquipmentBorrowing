@@ -3,14 +3,24 @@
 public class Borrowing
 {
     public int Id { get; private set; }
-    public Student Student { get; }
-    public Equipment Equipment { get; }
 
-    public int StudentId => Student.Id;
-    public int EquipmentId => Equipment.Id;
-    public DateTime DateBorrowed { get; }
-    public DateTime ExpectedReturnDate { get; }
+    public Student Student { get; private set; }
+
+    public Equipment Equipment { get; private set; }
+
+    public int StudentId { get; private set; }
+
+    public int EquipmentId { get; private set; }
+
+    public DateTime DateBorrowed { get; private set; }
+
+    public DateTime ExpectedReturnDate { get; private set; }
+
     public BorrowingStatus Status { get; private set; }
+
+    private Borrowing()
+    {
+    }
 
     public Borrowing(
         Student student,
@@ -20,6 +30,8 @@ public class Borrowing
     {
         Student = student;
         Equipment = equipment;
+        StudentId = student.Id;
+        EquipmentId = equipment.Id;
         DateBorrowed = dateBorrowed;
         ExpectedReturnDate = expectedReturnDate;
         Status = BorrowingStatus.Active;
