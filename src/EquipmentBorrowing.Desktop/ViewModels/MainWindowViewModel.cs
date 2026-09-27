@@ -8,9 +8,7 @@ namespace EquipmentBorrowing.Desktop.ViewModels;
 public partial class MainWindowViewModel : ViewModelBase
 {
     public EquipmentViewModel EquipmentViewModel { get; }
-
     public BorrowingsViewModel BorrowingsViewModel { get; }
-
     public BorrowEquipmentViewModel BorrowEquipmentViewModel { get; }
 
     [ObservableProperty]
@@ -26,11 +24,19 @@ public partial class MainWindowViewModel : ViewModelBase
         BorrowEquipmentViewModel = borrowEquipmentViewModel;
 
         BorrowingsViewModel.EquipmentReturned += OnEquipmentReturned;
+        BorrowEquipmentViewModel.EquipmentBorrowed += OnEquipmentBorrowed;
 
         currentView = EquipmentViewModel;
     }
 
     private async void OnEquipmentReturned(
+        object? sender,
+        EventArgs e)
+    {
+        await EquipmentViewModel.LoadEquipmentAsync();
+    }
+
+    private async void OnEquipmentBorrowed(
         object? sender,
         EventArgs e)
     {

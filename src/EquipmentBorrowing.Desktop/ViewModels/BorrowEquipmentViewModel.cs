@@ -1,5 +1,4 @@
-﻿
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EquipmentBorrowing.Application.Interfaces;
 using EquipmentBorrowing.Application.Services;
@@ -19,6 +18,8 @@ public partial class BorrowEquipmentViewModel : ViewModelBase
     public ObservableCollection<Student> Students { get; } = new();
 
     public ObservableCollection<Equipment> Equipment { get; } = new();
+
+    public event EventHandler? EquipmentBorrowed;
 
     [ObservableProperty]
     private Student? selectedStudent;
@@ -107,6 +108,8 @@ public partial class BorrowEquipmentViewModel : ViewModelBase
             SelectedStudent = null;
             SelectedEquipment = null;
             ExpectedReturnDate = null;
+
+            EquipmentBorrowed?.Invoke(this, EventArgs.Empty);
         }
         else
         {
