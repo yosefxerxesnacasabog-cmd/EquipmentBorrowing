@@ -12,6 +12,10 @@ public interface IBorrowingRepository
         Borrowing borrowing,
         CancellationToken cancellationToken = default);
 
+    Task UpdateAsync(
+        Borrowing borrowing,
+        CancellationToken cancellationToken = default);
+
     Task<IReadOnlyList<Borrowing>> GetActiveAsync(
         CancellationToken cancellationToken = default);
 

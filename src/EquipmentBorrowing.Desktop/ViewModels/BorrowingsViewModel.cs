@@ -1,10 +1,11 @@
+using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EquipmentBorrowing.Application.Interfaces;
 using EquipmentBorrowing.Application.Services;
 using EquipmentBorrowing.Domain;
-using System.Collections.ObjectModel;
 
 namespace EquipmentBorrowing.Desktop.ViewModels;
 
@@ -14,6 +15,8 @@ public partial class BorrowingsViewModel : ViewModelBase
     private readonly ReturnEquipmentService _returnEquipmentService;
 
     public ObservableCollection<Borrowing> Borrowings { get; } = new();
+
+    public event EventHandler? EquipmentReturned;
 
     [ObservableProperty]
     private Borrowing? selectedBorrowing;
@@ -58,8 +61,12 @@ public partial class BorrowingsViewModel : ViewModelBase
         if (success)
         {
             Message = "Equipment returned successfully.";
+
             await LoadBorrowingsAsync();
+
             SelectedBorrowing = null;
+
+            EquipmentReturned?.Invoke(this, EventArgs.Empty);
         }
         else
         {

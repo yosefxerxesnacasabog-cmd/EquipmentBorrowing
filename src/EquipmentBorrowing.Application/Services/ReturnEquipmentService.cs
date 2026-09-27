@@ -28,6 +28,10 @@ public class ReturnEquipmentService
 
         borrowing.MarkAsReturned();
 
+        await _borrowingRepository.UpdateAsync(
+            borrowing,
+            cancellationToken);
+
         return true;
     }
 }

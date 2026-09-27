@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Threading.Tasks;
 
 namespace EquipmentBorrowing.Desktop.ViewModels;
@@ -24,7 +25,16 @@ public partial class MainWindowViewModel : ViewModelBase
         BorrowingsViewModel = borrowingsViewModel;
         BorrowEquipmentViewModel = borrowEquipmentViewModel;
 
+        BorrowingsViewModel.EquipmentReturned += OnEquipmentReturned;
+
         currentView = EquipmentViewModel;
+    }
+
+    private async void OnEquipmentReturned(
+        object? sender,
+        EventArgs e)
+    {
+        await EquipmentViewModel.LoadEquipmentAsync();
     }
 
     [RelayCommand]

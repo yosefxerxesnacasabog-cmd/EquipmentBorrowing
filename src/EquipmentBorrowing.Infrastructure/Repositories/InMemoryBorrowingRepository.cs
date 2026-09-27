@@ -15,6 +15,13 @@ public class InMemoryBorrowingRepository : IBorrowingRepository
         return Task.CompletedTask;
     }
 
+    public Task UpdateAsync(
+        Borrowing borrowing,
+        CancellationToken cancellationToken = default)
+    {
+        return Task.CompletedTask;
+    }
+
     public Task<int> CountActiveByStudentIdAsync(
         int studentId,
         CancellationToken cancellationToken = default)

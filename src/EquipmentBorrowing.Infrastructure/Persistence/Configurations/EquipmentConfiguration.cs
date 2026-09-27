@@ -16,5 +16,25 @@ public class EquipmentConfiguration : IEntityTypeConfiguration<Equipment>
 
         builder.Property(equipment => equipment.IsAvailable)
             .IsRequired();
+
+        builder.HasData(
+            new
+            {
+                Id = 1,
+                Name = "Laptop",
+                IsAvailable = true
+            },
+            new
+            {
+                Id = 2,
+                Name = "Projector",
+                IsAvailable = true
+            },
+            new
+            {
+                Id = 3,
+                Name = "Microscope",
+                IsAvailable = false
+            });
     }
 }

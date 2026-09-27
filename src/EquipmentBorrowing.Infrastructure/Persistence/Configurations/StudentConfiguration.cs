@@ -16,5 +16,25 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
 
         builder.Property(student => student.IsAllowedToBorrow)
             .IsRequired();
+
+        builder.HasData(
+            new
+            {
+                Id = 1,
+                Name = "Juan Dela Cruz",
+                IsAllowedToBorrow = true
+            },
+            new
+            {
+                Id = 2,
+                Name = "Maria Santos",
+                IsAllowedToBorrow = true
+            },
+            new
+            {
+                Id = 3,
+                Name = "Pedro Reyes",
+                IsAllowedToBorrow = false
+            });
     }
 }
