@@ -31,4 +31,13 @@ public class EfEquipmentRepository : IEquipmentRepository
             .AsNoTracking()
             .ToListAsync(cancellationToken);
     }
+
+    public async Task<IReadOnlyList<Equipment>> GetAvailableAsync(
+        CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Equipment
+            .AsNoTracking()
+            .Where(equipment => equipment.IsAvailable)
+            .ToListAsync(cancellationToken);
+    }
 }

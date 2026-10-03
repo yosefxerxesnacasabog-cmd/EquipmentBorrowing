@@ -10,4 +10,7 @@ public interface IEquipmentRepository
 
     Task<IReadOnlyList<Equipment>> GetAllAsync(
         CancellationToken cancellationToken = default);
+
+    Task<IReadOnlyList<Equipment>> GetAvailableAsync(
+        CancellationToken cancellationToken = default);
 }

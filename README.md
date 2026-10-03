@@ -700,370 +700,444 @@ The complete solution builds successfully with `dotnet build`.
 ------------------------------------------------------------------------
 
 ------------------------------------------------------------------------
-
 # Laboratory Activity 3 -- From In-Memory Data to Persistent Storage
 
-## SQLite and Entity Framework Core
+## 1. Relational Database Design
 
-Laboratory Activity 3 extends the existing architecture from Activities 1 and 2 by replacing the in-memory repository implementations with database-backed repositories using Entity Framework Core and SQLite.
+The Equipment Borrowing System was extended from in-memory storage to a relational SQLite database. The database stores information about students, equipment, and borrowing transactions.
 
-The application now follows this architecture:
+### Database Diagram
+
+The relational database design is represented by:
 
 ```text
-Avalonia View
-    |
-    v
-ViewModel
-    |
-    v
-Application Service
-    |
-    v
-Repository Interface
-    |
-    v
-EF Core Repository
-    |
-    v
-EquipmentBorrowingDbContext
-    |
-    v
-SQLite Database
-````
-
-The Domain and Application layers remain separated from database-specific implementation details.
-
-## Relational Database Design
-
-The SQLite database contains three main tables:
-
-- `Students` 
-- `Equipment` 
-- `Borrowings` 
-
-The relationships are:
-
-```
-```
-
-```
 Students 1 -------- * Borrowings * -------- 1 Equipment
 ```
 
-Each borrowing references one student and one equipment item through foreign keys.
+The database diagram is available in:
 
-The database design is documented in:
-
-```
-```
-
-```
+```text
 docs/database-diagram.png
 ```
 
-The required SQL examples are documented in:
+### Tables
 
-```
+#### Students
+
+| Column            | Description                                                  |
+| ----------------- | ------------------------------------------------------------ |
+| Id                | Primary key identifying the student                          |
+| Name              | Student's name                                               |
+| IsAllowedToBorrow | Indicates whether the student is allowed to borrow equipment |
+
+#### Equipment
+
+| Column      | Description                                            |
+| ----------- | ------------------------------------------------------ |
+| Id          | Primary key identifying the equipment                  |
+| Name        | Name of the equipment                                  |
+| IsAvailable | Indicates whether the equipment is currently available |
+
+#### Borrowings
+
+| Column             | Description                                                     |
+| ------------------ | --------------------------------------------------------------- |
+| Id                 | Primary key identifying the borrowing transaction               |
+| StudentId          | Foreign key referencing `Students.Id`                           |
+| EquipmentId        | Foreign key referencing `Equipment.Id`                          |
+| DateBorrowed       | Date and time when the equipment was borrowed                   |
+| ExpectedReturnDate | Expected return date                                            |
+| Status             | Current status of the borrowing, such as `Active` or `Returned` |
+
+### Keys
+
+* `Students.Id` is the primary key of the `Students` table.
+* `Equipment.Id` is the primary key of the `Equipment` table.
+* `Borrowings.Id` is the primary key of the `Borrowings` table.
+* `Borrowings.StudentId` is a foreign key referencing `Students.Id`.
+* `Borrowings.EquipmentId` is a foreign key referencing `Equipment.Id`.
+
+### Relationships
+
+The database uses the following relationships:
+
+```text
+Students 1 -------- * Borrowings * -------- 1 Equipment
 ```
 
-```
-docs/database-queries.sql
+* One student can have many borrowing records.
+* One equipment item can appear in many borrowing records over time.
+* Each borrowing belongs to one student and one equipment item.
+
+### Important Constraints
+
+The database and EF Core configurations enforce important constraints:
+
+* Primary keys uniquely identify records.
+* Student and equipment names are required.
+* Student and equipment names have maximum lengths.
+* Equipment names are configured as unique values.
+* `StudentId` and `EquipmentId` are required foreign keys.
+* Foreign key relationships maintain referential integrity.
+* The borrowing `Status` enum is converted for database storage.
+* Equipment availability is represented by the `IsAvailable` property.
+* A student must be allowed to borrow equipment before a borrowing can be created.
+
+---
+
+## 2. SQLite and EF Core
+
+SQLite was introduced as the persistent database provider for the Equipment Borrowing System. Instead of storing records only in memory, the application now stores its data in an SQLite database file:
+
+```text
+equipmentborrowings.db
 ```
 
-## Entity Framework Core DbContext
+Entity Framework Core was added to provide an object-relational mapping layer between the C# application and the SQLite database.
 
-The Infrastructure project contains:
+EF Core allows the application to work with C# entities and LINQ queries while translating database operations into SQL statements that SQLite can execute.
 
-```
-```
+The SQLite and EF Core implementation is located in the Infrastructure project.
 
-```
+The application registers the `EquipmentBorrowingDbContext` through dependency injection and configures it to use SQLite.
+
+The resulting architecture is:
+
+```text
+Avalonia View
+      ↓
+ViewModel
+      ↓
+Application Service
+      ↓
+Repository Interface
+      ↓
+EF Core Repository
+      ↓
 EquipmentBorrowingDbContext
+      ↓
+SQLite Database
 ```
 
-The DbContext provides the following DbSets:
+This allows the application to use persistent storage without placing database-specific code inside the UI.
 
-```
-```
+---
 
-```
+## 3. DbContext
+
+`EquipmentBorrowingDbContext` is the main Entity Framework Core database context for the application.
+
+Its responsibilities include:
+
+* Providing access to database tables through `DbSet` properties.
+* Configuring the database model.
+* Applying entity configurations.
+* Managing relationships between entities.
+* Tracking changes to entities.
+* Saving changes to the SQLite database.
+* Providing the EF Core entry point for LINQ queries.
+
+The context contains the following `DbSet` properties:
+
+```text
 Students
 Equipment
 Borrowings
 ```
 
-Entity configurations are located under:
+The entity configurations define the primary keys, required properties, maximum lengths, unique constraints, foreign keys, relationships, indexes, and enum conversion.
 
-```
-```
+The `DbContext` is located in the Infrastructure layer so that the application and presentation layers do not need to directly depend on SQLite.
 
-```
-src/EquipmentBorrowing.Infrastructure/Persistence/Configurations
-```
+---
 
-The configurations define:
+## 4. Repository Transition
 
--  Primary keys 
--  Required properties 
--  Maximum string lengths 
--  Foreign keys 
--  Relationships 
--  Delete behavior 
--  Indexes 
--  Borrowing status enum conversion 
--  Initial seed data 
+In the previous laboratory activities, repository interfaces were connected to in-memory repository implementations.
 
-## EF Core Migrations
+The original structure was:
 
-The database schema is created and updated through EF Core migrations.
-
-The migration history includes:
-
-```
+```text
+Repository Interface
+        ↓
+In-Memory Repository
 ```
 
-```
-InitialCreate
-SeedInitialData
-```
+For Laboratory Activity 3, the repository implementations were replaced with EF Core repositories:
 
-The migrations create the required SQLite tables, foreign keys, indexes, and seed data.
-
-The SQLite database is not recreated every time the application starts. Existing data is preserved.
-
-## Database-Backed Repositories
-
-The Infrastructure project now uses:
-
-```
+```text
+Repository Interface
+        ↓
+EF Core Repository
+        ↓
+SQLite
 ```
 
-```
-EfStudentRepository
+The Infrastructure project now provides EF Core repository implementations such as:
+
+```text
 EfEquipmentRepository
+EfStudentRepository
 EfBorrowingRepository
 ```
 
-The existing repository abstractions are preserved for the Application layer. The `IBorrowingRepository` abstraction was extended with `UpdateAsync` to support the return workflow.
+The application services continue to depend on repository interfaces instead of directly depending on SQLite or EF Core.
 
-The repositories support the required workflows:
+This allowed the persistence implementation to change while keeping the application services and UI architecture largely unchanged.
 
--  Retrieving equipment 
--  Retrieving students 
--  Retrieving active borrowings 
--  Creating a borrowing 
--  Updating equipment state 
--  Returning equipment 
--  Saving changes 
+---
 
-EF Core asynchronous operations are used where appropriate, including:
+## 5. Migration Process
 
-```
-```
+EF Core migrations were used to create and update the SQLite database schema.
 
-```
-FirstOrDefaultAsync()
-ToListAsync()
-CountAsync()
-AddAsync()
-SaveChangesAsync()
+The migration was created using the EF Core command:
+
+```powershell
+dotnet ef migrations add SeedInitialData --project .\src\EquipmentBorrowing.Infrastructure --startup-project .\src\EquipmentBorrowing.Desktop
 ```
 
-## Persistence and Application Workflow
+The resulting migration is:
 
-The Avalonia application now uses SQLite data through Entity Framework Core.
-
-The application supports:
-
--  Viewing equipment 
--  Viewing students during borrowing 
--  Borrowing available equipment 
--  Preventing borrowing of unavailable equipment 
--  Preventing unauthorized students from borrowing 
--  Viewing active borrowings 
--  Returning equipment 
--  Persisting borrowing and return changes in SQLite 
-
-The application continues to use the Application services and repository abstractions. The Views and ViewModels do not directly access the DbContext or execute SQL.
-
-## LINQ Queries
-
-The EF Core repositories contain meaningful LINQ queries for retrieving and processing persistent data.
-
-### Query 1 -- Count Active Borrowings
-
-```
+```text
+20260927074226_SeedInitialData
 ```
 
-```
-await _dbContext.Borrowings
-    .CountAsync(
-        borrowing =>
-            borrowing.StudentId == studentId &&
-            borrowing.Status == BorrowingStatus.Active,
-        cancellationToken);
+The database was updated using:
+
+```powershell
+dotnet ef database update --project .\src\EquipmentBorrowing.Infrastructure --startup-project .\src\EquipmentBorrowing.Desktop
 ```
 
-This query counts the active borrowing records belonging to a particular student.
+The migration created the required database tables, relationships, constraints, and initial seed data.
 
-### Query 2 -- Retrieve Active Borrowings
+The application also applies pending migrations when it starts by using:
 
-```
+```text
+Database.Migrate()
 ```
 
+The database contains the following tables:
+
+```text
+Students
+Equipment
+Borrowings
+__EFMigrationsHistory
 ```
-await _dbContext.Borrowings
+
+The `__EFMigrationsHistory` table records the EF Core migrations that have already been applied to the database.
+
+---
+
+## 6. Generated SQL
+
+Three meaningful LINQ queries were implemented and tested against the SQLite database.
+
+### Query 1: Retrieve Available Equipment
+
+LINQ:
+
+```csharp
+var availableEquipment = await dbContext.Equipment
+    .AsNoTracking()
+    .Where(equipment => equipment.IsAvailable)
+    .ToListAsync();
+```
+
+This query retrieves equipment that is currently available for borrowing.
+
+Generated SQL:
+
+```sql
+SELECT "e"."Id", "e"."IsAvailable", "e"."Name"
+FROM "Equipment" AS "e"
+WHERE "e"."IsAvailable" = 1;
+```
+
+The LINQ `Where` condition is translated into the SQL `WHERE` clause. SQLite uses `1` to represent a true Boolean value.
+
+### Query 2: Retrieve Active Borrowings with Student and Equipment
+
+LINQ:
+
+```csharp
+var activeBorrowings = await dbContext.Borrowings
     .Include(borrowing => borrowing.Student)
     .Include(borrowing => borrowing.Equipment)
     .AsNoTracking()
     .Where(borrowing => borrowing.Status == BorrowingStatus.Active)
-    .ToListAsync(cancellationToken);
-```
-
-This query retrieves active borrowing records together with their related student and equipment information.
-
-### Query 3 -- Find Active Borrowing by Equipment
-
-```
-```
-
-```
-await _dbContext.Borrowings
-    .Include(borrowing => borrowing.Student)
-    .Include(borrowing => borrowing.Equipment)
-    .FirstOrDefaultAsync(
-        borrowing =>
-            borrowing.EquipmentId == equipmentId &&
-            borrowing.Status == BorrowingStatus.Active,
-        cancellationToken);
-```
-
-This query finds the active borrowing associated with a specific equipment item.
-
-## EF Core Generated SQL
-
-Two LINQ queries were inspected using EF Core's `ToQueryString()` to verify the SQL generated by Entity Framework Core.
-
-### Generated SQL Query 1 -- Active Borrowings
-
-LINQ:
-
-```
-```
-
-```
-var query1 = dbContext.Borrowings
-    .Include(borrowing => borrowing.Student)
-    .Include(borrowing => borrowing.Equipment)
-    .AsNoTracking()
-    .Where(borrowing => borrowing.Status == BorrowingStatus.Active);
+    .ToListAsync();
 ```
 
 Generated SQL:
 
-```
-```
-
-```
-SELECT "b"."Id", "b"."DateBorrowed", "b"."EquipmentId",
-       "b"."ExpectedReturnDate", "b"."Status", "b"."StudentId",
-       "s"."Id", "s"."IsAllowedToBorrow", "s"."Name",
-       "e"."Id", "e"."IsAvailable", "e"."Name"
+```sql
+SELECT "b"."Id",
+       "b"."DateBorrowed",
+       "b"."EquipmentId",
+       "b"."ExpectedReturnDate",
+       "b"."Status",
+       "b"."StudentId",
+       "s"."Id",
+       "s"."IsAllowedToBorrow",
+       "s"."Name",
+       "e"."Id",
+       "e"."IsAvailable",
+       "e"."Name"
 FROM "Borrowings" AS "b"
-INNER JOIN "Students" AS "s" ON "b"."StudentId" = "s"."Id"
-INNER JOIN "Equipment" AS "e" ON "b"."EquipmentId" = "e"."Id"
-WHERE "b"."Status" = 'Active'
+INNER JOIN "Students" AS "s"
+    ON "b"."StudentId" = "s"."Id"
+INNER JOIN "Equipment" AS "e"
+    ON "b"."EquipmentId" = "e"."Id"
+WHERE "b"."Status" = 'Active';
 ```
 
-The generated SQL joins the Borrowings table with Students and Equipment and filters the results to active borrowings.
+The `Include` operations cause EF Core to retrieve the related student and equipment information using SQL joins.
 
-### Generated SQL Query 2 -- Active Borrowing by Equipment
+### Query 3: Count Active Borrowings by Student
 
 LINQ:
 
-```
-```
-
-```
-var query2 = dbContext.Borrowings
-    .Include(borrowing => borrowing.Student)
-    .Include(borrowing => borrowing.Equipment)
-    .Where(borrowing =>
-        borrowing.EquipmentId == 1 &&
+```csharp
+var activeBorrowingCount = await dbContext.Borrowings
+    .CountAsync(borrowing =>
+        borrowing.StudentId == studentId &&
         borrowing.Status == BorrowingStatus.Active);
 ```
 
 Generated SQL:
 
-```
-```
-
-```
-SELECT "b"."Id", "b"."DateBorrowed", "b"."EquipmentId",
-       "b"."ExpectedReturnDate", "b"."Status", "b"."StudentId",
-       "s"."Id", "s"."IsAllowedToBorrow", "s"."Name",
-       "e"."Id", "e"."IsAvailable", "e"."Name"
+```sql
+SELECT COUNT(*)
 FROM "Borrowings" AS "b"
-INNER JOIN "Students" AS "s" ON "b"."StudentId" = "s"."Id"
-INNER JOIN "Equipment" AS "e" ON "b"."EquipmentId" = "e"."Id"
-WHERE "b"."EquipmentId" = 1 AND "b"."Status" = 'Active'
+WHERE "b"."StudentId" = @studentId
+  AND "b"."Status" = 'Active';
 ```
 
-The generated SQL joins the related Student and Equipment records and filters the result by equipment ID and active borrowing status.
+This query provides a meaningful summary by counting the number of active borrowing records belonging to a particular student.
 
-## Tracking and No-Tracking
-
-The repository uses tracking according to the purpose of each operation.
-
-Queries used for display-only data use:
-
-```
-```
-
-```
-AsNoTracking()
-```
-
-For example, retrieving all equipment and students does not require entity tracking because the data is only displayed by the UI.
-
-The active borrowing list also uses `AsNoTracking()` because it is used for display.
-
-Queries used when an entity must be modified use normal tracking. For example, borrowing retrieves the Student and Equipment as tracked entities so that changes such as marking equipment as borrowed can be saved through `SaveChangesAsync()`.
-
-The return workflow also retrieves the active borrowing as a tracked entity because the borrowing and equipment state are modified before saving.
-
-## Seed Data
-
-The database contains initial Student and Equipment records through EF Core seed data.
-
-The seed data includes:
-
--  Students who are allowed to borrow 
--  A student who is not allowed to borrow 
--  Available equipment 
--  Equipment that is initially unavailable 
-
-The seed data is applied through an EF Core migration and is not recreated on every application startup.
-
-## Persistence Verification
-
-The application uses the SQLite database rather than the previous in-memory repositories.
-
-Persistence should be verified by creating a borrowing, closing and reopening the application, and confirming that the borrowing remains stored in the SQLite database.
-
-A return operation changes the borrowing status to Returned and makes the equipment available again.
-
-## Activity 3 Evidence
-
-The Activity 3 submission includes evidence for:
-
--  SQLite database tables 
--  Stored Student, Equipment, and Borrowing data 
--  Successful borrowing 
--  Borrowing persistence after application restart 
--  Successful return 
--  Inspected EF Core generated SQL queries 
--  Successful .NET build 
+The generated SQL was inspected during testing to verify that EF Core was translating the LINQ queries into SQL and executing them against SQLite.
 
 ---
 
+## 7. Persistence Demonstration
+
+The pair verified that borrowing information survives after the application is closed and restarted.
+
+The persistence test was performed as follows:
+
+1. The application was started.
+2. An available Laptop was borrowed by a student.
+3. The Laptop became unavailable.
+4. The borrowing record appeared in the application.
+5. The application was closed.
+6. The application was started again.
+7. The borrowing record was still present.
+8. The Laptop remained unavailable.
+9. The Laptop was returned.
+10. The equipment became available again.
+11. The application was closed and restarted.
+12. The returned state remained stored.
+
+The SQLite database was also opened using DB Browser for SQLite. The `Students`, `Equipment`, and `Borrowings` tables were inspected to confirm that the records were actually stored in the database.
+
+This demonstrated that the application was no longer dependent on temporary in-memory data and could maintain its information between application sessions.
+
+---
+
+## 8. Architectural Reflection
+
+### 1. Why did the application not need to be completely rewritten when SQLite was introduced?
+
+The application did not need to be completely rewritten because it already used repository interfaces and application services. The services depended on abstractions instead of directly depending on the in-memory storage implementation.
+
+The Infrastructure layer could therefore replace the in-memory repository implementations with EF Core repository implementations while keeping the existing application and presentation layers.
+
+### 2. Why should the ViewModel not use DbContext directly?
+
+The ViewModel is responsible for presentation and user interaction, while database access belongs to the Infrastructure layer.
+
+If the ViewModel used `DbContext` directly, it would become tightly coupled to EF Core and SQLite. Keeping the database operations behind services and repository interfaces preserves separation of concerns.
+
+The intended flow remains:
+
+```text
+View
+ ↓
+ViewModel
+ ↓
+Application Service
+ ↓
+Repository Interface
+ ↓
+EF Core Repository
+ ↓
+DbContext
+ ↓
+SQLite
+```
+
+### 3. What responsibility does the repository implementation now perform?
+
+The repository implementation is responsible for communicating with the database through EF Core.
+
+It performs operations such as:
+
+* Retrieving students.
+* Retrieving equipment.
+* Finding available equipment.
+* Creating borrowing records.
+* Updating equipment availability.
+* Returning equipment.
+* Saving changes to the database.
+
+It hides the database-specific implementation from the application services.
+
+### 4. What is the purpose of an EF Core migration?
+
+An EF Core migration records changes to the application's database model and provides instructions for creating or updating the database schema.
+
+It allows the database structure to evolve together with the application's entity models in a controlled and repeatable way.
+
+### 5. Why are foreign keys important in the borrowing database?
+
+Foreign keys connect borrowing records to valid students and equipment.
+
+For example:
+
+```text
+Borrowings.StudentId  → Students.Id
+Borrowings.EquipmentId → Equipment.Id
+```
+
+They help maintain referential integrity and prevent borrowing records from referencing students or equipment that do not exist.
+
+### 6. Why can a read-only query benefit from `AsNoTracking()`?
+
+`AsNoTracking()` tells EF Core that the retrieved entities do not need to be tracked for later modification.
+
+This can reduce tracking overhead for read-only operations because EF Core does not need to maintain those entities in its change tracker.
+
+For example:
+
+```csharp
+dbContext.Equipment
+    .AsNoTracking()
+    .Where(equipment => equipment.IsAvailable)
+```
+
+For operations where an entity will be modified and saved, tracking can still be useful.
+
+### 7. What would happen to the rest of the application if the SQLite implementation were replaced later by another database provider?
+
+Most of the application could remain unchanged because the application services depend on repository interfaces rather than directly depending on SQLite.
+
+The main changes would occur in the Infrastructure layer, such as:
+
+* Changing the EF Core database provider.
+* Updating the connection configuration.
+* Adjusting database-specific configurations if necessary.
+* Creating and applying the appropriate migrations.
+
+The View, ViewModel, and application services could continue using the same repository abstractions.
