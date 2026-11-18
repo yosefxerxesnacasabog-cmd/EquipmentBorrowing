@@ -76,6 +76,8 @@ public sealed class PostgresOperations(IDbContextFactory<EquipmentBorrowingDbCon
             new(false, "An item already has an active borrowing. Review the refreshed availability.", true),
         PostgresErrorCodes.UniqueViolation when exception.ConstraintName == "IX_Students_NormalizedStudentNumber" =>
             new(false, "That institutional student number is already registered."),
+        PostgresErrorCodes.UniqueViolation when exception.ConstraintName == "IX_Equipment_NormalizedIdentifier" =>
+            new(false, "That equipment identifier is already registered."),
         _ => new(false, "PostgreSQL rejected the changes. Review the record and try again.")
     };
 }

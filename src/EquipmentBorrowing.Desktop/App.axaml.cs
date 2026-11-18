@@ -27,7 +27,11 @@ public partial class App : Avalonia.Application
             services.AddSingleton<IStudentManagementRepository>(provider => provider.GetRequiredService<EfStudentRepository>());
             services.AddSingleton<StudentManagementService>();
             services.AddTransient<StudentsViewModel>();
-            services.AddSingleton<IEquipmentRepository, EfEquipmentRepository>();
+            services.AddSingleton<EfEquipmentRepository>();
+            services.AddSingleton<IEquipmentRepository>(provider => provider.GetRequiredService<EfEquipmentRepository>());
+            services.AddSingleton<IEquipmentManagementRepository>(provider => provider.GetRequiredService<EfEquipmentRepository>());
+            services.AddSingleton<EquipmentManagementService>();
+            services.AddTransient<EquipmentManagementViewModel>();
             services.AddSingleton<ILendingRepository, EfBorrowingRepository>();
             services.AddSingleton<CatalogService>();
             services.AddSingleton<LendingService>();
