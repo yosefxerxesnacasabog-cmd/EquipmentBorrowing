@@ -1,12 +1,12 @@
-﻿namespace EquipmentBorrowing.Domain;
+namespace EquipmentBorrowing.Domain;
 
 public class Borrowing
 {
     public int Id { get; private set; }
 
-    public Student Student { get; private set; }
+    public Student Student { get; private set; } = null!;
 
-    public Equipment Equipment { get; private set; }
+    public Equipment Equipment { get; private set; } = null!;
 
     public int StudentId { get; private set; }
 
@@ -16,6 +16,7 @@ public class Borrowing
 
     public DateTime ExpectedReturnDate { get; private set; }
 
+    public DateTime? ActualReturnDate { get; private set; }
     public BorrowingStatus Status { get; private set; }
 
     private Borrowing()
@@ -37,8 +38,9 @@ public class Borrowing
         Status = BorrowingStatus.Active;
     }
 
-    public void MarkAsReturned()
+    public void MarkAsReturned(DateTime? returnDate = null)
     {
+        ActualReturnDate = (returnDate ?? DateTime.Today).Date;
         Status = BorrowingStatus.Returned;
         Equipment.MarkAsAvailable();
     }

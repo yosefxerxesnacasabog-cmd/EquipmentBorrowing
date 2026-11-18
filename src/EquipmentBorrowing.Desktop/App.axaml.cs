@@ -26,8 +26,8 @@ public partial class App : Avalonia.Application
     {
         var services = new ServiceCollection();
 
-        services.AddDbContext<EquipmentBorrowingDbContext>(options =>
-            options.UseSqlite("Data Source=equipmentborrowings.db"));
+        services.AddDbContext<EquipmentBorrowingDbContext>(PostgreSqlConfiguration.Configure);
+
 
         services.AddScoped<IStudentRepository, EfStudentRepository>();
         services.AddScoped<IEquipmentRepository, EfEquipmentRepository>();
@@ -43,11 +43,6 @@ public partial class App : Avalonia.Application
 
         _serviceProvider = services.BuildServiceProvider();
         _serviceScope = _serviceProvider.CreateScope();
-
-        var dbContext =
-            _serviceScope.ServiceProvider.GetRequiredService<EquipmentBorrowingDbContext>();
-
-        dbContext.Database.Migrate();
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {

@@ -10,12 +10,21 @@ public class BorrowingConfiguration : IEntityTypeConfiguration<Borrowing>
     {
         builder.HasKey(borrowing => borrowing.Id);
 
-        builder.Property(borrowing => borrowing.DateBorrowed)
+        builder.Property(borrowing => borrowing.DateBorrowed).HasColumnType("date")
             .IsRequired();
 
-        builder.Property(borrowing => borrowing.ExpectedReturnDate)
+        builder.Property(borrowing => borrowing.ExpectedReturnDate).HasColumnType("date")
             .IsRequired();
 
+        builder.Property(borrowing => borrowing.ActualReturnDate).HasColumnType("date");
+        builder.ToTable(table =>
+        {
+            table.HasCheckConstraint("CK_Borrowings_ExpectedAfterCheckout", "\"ExpectedReturnDate\" > \"DateBorrowed\"");
+            table.HasCheckConstraint("CK_Borrowings_ReturnStatus", """
+                ("Status" = 'Active' AND "ActualReturnDate" IS NULL) OR
+                ("Status" = 'Returned' AND "ActualReturnDate" IS NOT NULL AND "ActualReturnDate" >= "DateBorrowed")
+                """);
+        });
         builder.Property(borrowing => borrowing.Status)
             .IsRequired()
             .HasConversion<string>()
@@ -32,6 +41,9 @@ public class BorrowingConfiguration : IEntityTypeConfiguration<Borrowing>
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasIndex(borrowing => borrowing.StudentId);
+        builder.HasIndex(borrowing => borrowing.EquipmentId, "IX_Borrowings_ActiveEquipment")
+            .IsUnique()
+            .HasFilter("\"Status\" = 'Active'");
         builder.HasIndex(borrowing => borrowing.EquipmentId);
     }
 }

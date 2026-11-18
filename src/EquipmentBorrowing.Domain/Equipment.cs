@@ -1,28 +1,35 @@
-﻿namespace EquipmentBorrowing.Domain;
+namespace EquipmentBorrowing.Domain;
 
 public class Equipment
 {
-    public int Id { get; }
-    public string Name { get; }
+    public int Id { get; private set; }
+    public string Identifier { get; private set; } = null!;
+    public string Name { get; private set; } = null!;
+    public string? Description { get; private set; }
     public bool IsAvailable { get; private set; }
 
-    public Equipment(
-        int id,
-        string name,
-        bool isAvailable = true)
+    private Equipment() { }
+
+    public Equipment(int id, string name, bool isAvailable = true)
+        : this($"EQ-{id:000}", name, null)
     {
         Id = id;
-        Name = name;
         IsAvailable = isAvailable;
     }
 
-    public void MarkAsBorrowed()
+    public Equipment(string identifier, string name, string? description)
     {
-        IsAvailable = false;
-    }
-
-    public void MarkAsAvailable()
-    {
+        UpdateInformation(identifier, name, description);
         IsAvailable = true;
     }
+
+    public void UpdateInformation(string identifier, string name, string? description)
+    {
+        Identifier = identifier;
+        Name = name;
+        Description = description;
+    }
+
+    public void MarkAsBorrowed() => IsAvailable = false;
+    public void MarkAsAvailable() => IsAvailable = true;
 }

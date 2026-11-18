@@ -9,7 +9,7 @@ public class EquipmentBorrowingDbContextFactory : IDesignTimeDbContextFactory<Eq
     {
         var optionsBuilder = new DbContextOptionsBuilder<EquipmentBorrowingDbContext>();
 
-        optionsBuilder.UseSqlite("Data Source=equipmentborrowings.db");
+        PostgreSqlConfiguration.Configure(optionsBuilder);
 
         return new EquipmentBorrowingDbContext(optionsBuilder.Options);
     }
