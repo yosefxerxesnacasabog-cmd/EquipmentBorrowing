@@ -32,7 +32,11 @@ public partial class App : Avalonia.Application
             services.AddSingleton<IEquipmentManagementRepository>(provider => provider.GetRequiredService<EfEquipmentRepository>());
             services.AddSingleton<EquipmentManagementService>();
             services.AddTransient<EquipmentManagementViewModel>();
-            services.AddSingleton<ILendingRepository, EfBorrowingRepository>();
+            services.AddSingleton<EfBorrowingRepository>();
+            services.AddSingleton<ILendingRepository>(provider => provider.GetRequiredService<EfBorrowingRepository>());
+            services.AddSingleton<IBorrowingReviewRepository>(provider => provider.GetRequiredService<EfBorrowingRepository>());
+            services.AddSingleton<BorrowingReviewService>();
+            services.AddTransient<BorrowingReviewViewModel>();
             services.AddSingleton<CatalogService>();
             services.AddSingleton<LendingService>();
             services.AddTransient<EquipmentViewModel>();

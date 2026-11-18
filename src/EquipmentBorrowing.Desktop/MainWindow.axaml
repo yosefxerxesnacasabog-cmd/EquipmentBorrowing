@@ -51,6 +51,7 @@
 
                     <Button Content="Students" Command="{Binding ShowStudentsCommand}" />
                     <Button Content="Manage Equipment" Command="{Binding ShowEquipmentManagementCommand}" />
+                    <Button Content="History &amp; Search" Command="{Binding ShowBorrowingReviewCommand}" />
 				</StackPanel>
 
 			</Border>

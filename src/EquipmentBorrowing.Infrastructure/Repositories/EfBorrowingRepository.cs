@@ -5,15 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EquipmentBorrowing.Infrastructure.Repositories;
 
-public sealed class EfBorrowingRepository(PostgresOperations operations) : ILendingRepository
+public sealed partial class EfBorrowingRepository(PostgresOperations operations) : ILendingRepository
 {
     public Task<IReadOnlyList<Borrowing>> GetActiveAsync() =>
-        operations.ReadAsync<IReadOnlyList<Borrowing>>(async db => await db.Borrowings.AsNoTracking()
-            .Include(loan => loan.Student)
-            .Include(loan => loan.Equipment)
-            .Where(loan => loan.Status == BorrowingStatus.Active)
-            .OrderByDescending(loan => loan.DateBorrowed).ThenBy(loan => loan.Id)
-            .ToListAsync());
+        operations.ReadAsync<IReadOnlyList<Borrowing>>(async db =>
+            await ByRecentCheckout(WithDetails(db).Where(loan => loan.Status == BorrowingStatus.Active)).ToListAsync());
 
     public Task<WriteResult> CheckoutAsync(int studentId, IReadOnlyList<int> equipmentIds, DateTime expectedReturnDate) =>
         operations.WriteAsync(async db =>
