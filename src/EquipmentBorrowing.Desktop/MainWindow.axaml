@@ -49,6 +49,7 @@
 					
 					Command="{Binding ShowBorrowEquipmentCommand}"/>
 
+                    <Button Content="Students" Command="{Binding ShowStudentsCommand}" />
 				</StackPanel>
 
 			</Border>

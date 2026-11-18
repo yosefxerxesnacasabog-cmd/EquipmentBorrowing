@@ -22,7 +22,11 @@ public partial class App : Avalonia.Application
 
             services.AddDbContextFactory<EquipmentBorrowingDbContext>(PostgreSqlConfiguration.Configure);
             services.AddSingleton<PostgresOperations>();
-            services.AddSingleton<IStudentRepository, EfStudentRepository>();
+            services.AddSingleton<EfStudentRepository>();
+            services.AddSingleton<IStudentRepository>(provider => provider.GetRequiredService<EfStudentRepository>());
+            services.AddSingleton<IStudentManagementRepository>(provider => provider.GetRequiredService<EfStudentRepository>());
+            services.AddSingleton<StudentManagementService>();
+            services.AddTransient<StudentsViewModel>();
             services.AddSingleton<IEquipmentRepository, EfEquipmentRepository>();
             services.AddSingleton<ILendingRepository, EfBorrowingRepository>();
             services.AddSingleton<CatalogService>();

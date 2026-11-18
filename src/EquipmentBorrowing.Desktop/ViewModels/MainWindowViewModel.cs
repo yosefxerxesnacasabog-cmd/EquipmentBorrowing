@@ -7,7 +7,8 @@ namespace EquipmentBorrowing.Desktop.ViewModels;
 public partial class MainWindowViewModel(
     EquipmentViewModel equipment,
     BorrowingsViewModel borrowings,
-    BorrowEquipmentViewModel checkout) : ViewModelBase
+    BorrowEquipmentViewModel checkout,
+    StudentsViewModel students) : ViewModelBase
 {
     public EquipmentViewModel EquipmentViewModel { get; } = equipment;
 
@@ -32,5 +33,11 @@ public partial class MainWindowViewModel(
     {
         CurrentView = checkout;
         await checkout.LoadDataAsync();
+    }
+    [RelayCommand]
+    private async Task ShowStudentsAsync()
+    {
+        CurrentView = students;
+        await students.LoadStudentsAsync();
     }
 }

@@ -74,6 +74,8 @@ public sealed class PostgresOperations(IDbContextFactory<EquipmentBorrowingDbCon
         PostgresErrorCodes.SerializationFailure or PostgresErrorCodes.DeadlockDetected => Conflict(),
         PostgresErrorCodes.UniqueViolation when exception.ConstraintName == "IX_Borrowings_ActiveEquipment" =>
             new(false, "An item already has an active borrowing. Review the refreshed availability.", true),
+        PostgresErrorCodes.UniqueViolation when exception.ConstraintName == "IX_Students_NormalizedStudentNumber" =>
+            new(false, "That institutional student number is already registered."),
         _ => new(false, "PostgreSQL rejected the changes. Review the record and try again.")
     };
 }
