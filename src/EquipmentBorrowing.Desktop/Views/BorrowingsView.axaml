@@ -1,67 +1,30 @@
-<UserControl
-    xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:vm="using:EquipmentBorrowing.Desktop.ViewModels"
-    xmlns:domain="using:EquipmentBorrowing.Domain"
-    x:Class="EquipmentBorrowing.Desktop.Views.BorrowingsView"
-    x:DataType="vm:BorrowingsViewModel">
-
-    <StackPanel Margin="20" Spacing="10">
-
-        <TextBlock
-            Classes="heading"
-            Text="Active Borrowings"/>
-
-        <ListBox
-            ItemsSource="{Binding Borrowings}"
-            SelectedItem="{Binding SelectedBorrowing}">
-
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:EquipmentBorrowing.Desktop.ViewModels"
+             xmlns:domain="using:EquipmentBorrowing.Domain"
+             x:Class="EquipmentBorrowing.Desktop.Views.BorrowingsView"
+             x:DataType="vm:BorrowingsViewModel">
+    <Grid Margin="20" RowDefinitions="Auto,Auto,*,Auto,Auto" RowSpacing="10">
+        <StackPanel Orientation="Horizontal" Spacing="10">
+            <TextBlock Classes="heading" Text="Active borrowings" />
+            <Button Content="Refresh / retry" Command="{Binding LoadBorrowingsCommand}" />
+        </StackPanel>
+        <TextBlock Grid.Row="1" Text="{Binding LoadStatus}" TextWrapping="Wrap" />
+        <ListBox Grid.Row="2" ItemsSource="{Binding Borrowings}" SelectedItem="{Binding SelectedBorrowing}">
             <ListBox.ItemTemplate>
                 <DataTemplate x:DataType="domain:Borrowing">
-
-                    <Border
-                        BorderThickness="1"
-                        Padding="10"
-                        Margin="0,5">
-
-                        <StackPanel Spacing="5">
-
-                            <TextBlock
-                                Text="{Binding Equipment.Name}"
-                                FontSize="18"
-                                FontWeight="Bold" />
-
-                            <TextBlock
-                                Text="{Binding Equipment.Id, StringFormat='Equipment ID: {0}'}" />
-
-                            <TextBlock
-                                Text="{Binding Student.Name, StringFormat='Borrowed by: {0}'}" />
-
-                            <TextBlock
-                                Text="{Binding DateBorrowed, StringFormat='Date Borrowed: {0:yyyy-MM-dd}'}" />
-
-                            <TextBlock
-                                Text="{Binding ExpectedReturnDate, StringFormat='Expected Return: {0:yyyy-MM-dd}'}" />
-
-                        </StackPanel>
-
-                    </Border>
-
+                    <StackPanel Spacing="4" Margin="0,5">
+                        <TextBlock Text="{Binding Equipment.Name}" FontWeight="Bold" />
+                        <TextBlock Text="{Binding Equipment.Identifier, StringFormat='Equipment ID: {0}'}" />
+                        <TextBlock Text="{Binding Student.Name, StringFormat='Borrowed by: {0}'}" />
+                        <TextBlock Text="{Binding Student.StudentNumber, StringFormat='Student number: {0}'}" />
+                        <TextBlock Text="{Binding DateBorrowed, StringFormat='Checkout: {0:yyyy-MM-dd}'}" />
+                        <TextBlock Text="{Binding ExpectedReturnDate, StringFormat='Expected return: {0:yyyy-MM-dd}'}" />
+                    </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-
         </ListBox>
-
-        <Button
-            Content="Return Selected Equipment"
-            Command="{Binding ReturnEquipmentCommand}"
-            HorizontalAlignment="Left"
-            Padding="15,8" />
-        <TextBlock
-        Classes="message" 
-        Text="{Binding Message}"/>
-
-
-    </StackPanel>
-
+        <Button Grid.Row="3" Content="Confirm return of selected borrowing" Command="{Binding ReturnEquipmentCommand}" />
+        <TextBlock Grid.Row="4" Classes="message" Text="{Binding Message}" TextWrapping="Wrap" />
+    </Grid>
 </UserControl>

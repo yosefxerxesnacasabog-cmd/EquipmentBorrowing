@@ -1,5 +1,6 @@
 using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -9,68 +10,43 @@ using EquipmentBorrowing.Domain;
 
 namespace EquipmentBorrowing.Desktop.ViewModels;
 
-public partial class BorrowingsViewModel : ViewModelBase
+public partial class BorrowingsViewModel(LendingService lending) : ViewModelBase
 {
-    private readonly IBorrowingRepository _borrowingRepository;
-    private readonly ReturnEquipmentService _returnEquipmentService;
+    [ObservableProperty] private IReadOnlyList<Borrowing> borrowings = Array.Empty<Borrowing>();
+    [ObservableProperty] private Borrowing? selectedBorrowing;
+    [ObservableProperty] private string message = string.Empty;
+    [ObservableProperty] private string loadStatus = string.Empty;
+    [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(ReturnEquipmentCommand))] private bool isReady;
 
-    public ObservableCollection<Borrowing> Borrowings { get; } = new();
-
-    public event EventHandler? EquipmentReturned;
-
-    [ObservableProperty]
-    private Borrowing? selectedBorrowing;
-
-    [ObservableProperty]
-    private string message = string.Empty;
-
-    public BorrowingsViewModel(
-        IBorrowingRepository borrowingRepository,
-        ReturnEquipmentService returnEquipmentService)
-    {
-        _borrowingRepository = borrowingRepository;
-        _returnEquipmentService = returnEquipmentService;
-    }
-
-    public async Task LoadBorrowingsAsync()
-    {
-        var borrowings = await _borrowingRepository.GetActiveAsync();
-
-        Borrowings.Clear();
-
-        foreach (var borrowing in borrowings)
-        {
-            Borrowings.Add(borrowing);
-        }
-    }
+    private bool CanReturn() => IsReady;
 
     [RelayCommand]
+    public async Task LoadBorrowingsAsync()
+    {
+        IsReady = false;
+        LoadStatus = "Loading active borrowings...";
+        var selectedId = SelectedBorrowing?.Id;
+        try
+        {
+            var borrowings = await lending.GetActiveAsync();
+            Borrowings = borrowings;
+            SelectedBorrowing = borrowings.FirstOrDefault(loan => loan.Id == selectedId);
+            IsReady = borrowings.Count > 0;
+            LoadStatus = IsReady ? string.Empty : "There are no active borrowings.";
+        }
+        catch (StorageException error)
+        {
+            Borrowings = Array.Empty<Borrowing>();
+            LoadStatus = error.Message;
+        }
+    }
+
+    [RelayCommand(CanExecute = nameof(CanReturn))]
     private async Task ReturnEquipmentAsync()
     {
-        Message = string.Empty;
-
-        if (SelectedBorrowing is null)
-        {
-            Message = "Please select a borrowing.";
-            return;
-        }
-
-        var success = await _returnEquipmentService.ReturnEquipmentAsync(
-            SelectedBorrowing.Equipment.Id);
-
-        if (success)
-        {
-            Message = "Equipment returned successfully.";
-
+        var result = await lending.ReturnAsync(SelectedBorrowing?.Id);
+        Message = result.Message;
+        if (result.Succeeded || result.RefreshRequired)
             await LoadBorrowingsAsync();
-
-            SelectedBorrowing = null;
-
-            EquipmentReturned?.Invoke(this, EventArgs.Empty);
-        }
-        else
-        {
-            Message = "Unable to return equipment.";
-        }
     }
 }

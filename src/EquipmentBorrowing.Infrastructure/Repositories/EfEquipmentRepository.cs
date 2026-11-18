@@ -5,39 +5,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EquipmentBorrowing.Infrastructure.Repositories;
 
-public class EfEquipmentRepository : IEquipmentRepository
+public sealed class EfEquipmentRepository(PostgresOperations operations) : IEquipmentRepository
 {
-    private readonly EquipmentBorrowingDbContext _dbContext;
+    public Task<Equipment?> GetByIdAsync(int id, CancellationToken cancellationToken = default) =>
+        operations.ReadAsync(db => db.Equipment.AsNoTracking()
+            .SingleOrDefaultAsync(item => item.Id == id, cancellationToken));
 
-    public EfEquipmentRepository(EquipmentBorrowingDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    public Task<IReadOnlyList<Equipment>> GetAllAsync(CancellationToken cancellationToken = default) =>
+        GetEquipmentAsync(false, cancellationToken);
 
-    public async Task<Equipment?> GetByIdAsync(
-        int id,
-        CancellationToken cancellationToken = default)
-    {
-        return await _dbContext.Equipment
-            .FirstOrDefaultAsync(
-                equipment => equipment.Id == id,
-                cancellationToken);
-    }
+    public Task<IReadOnlyList<Equipment>> GetAvailableAsync(CancellationToken cancellationToken = default) =>
+        GetEquipmentAsync(true, cancellationToken);
 
-    public async Task<IReadOnlyList<Equipment>> GetAllAsync(
-        CancellationToken cancellationToken = default)
-    {
-        return await _dbContext.Equipment
-            .AsNoTracking()
-            .ToListAsync(cancellationToken);
-    }
-
-    public async Task<IReadOnlyList<Equipment>> GetAvailableAsync(
-        CancellationToken cancellationToken = default)
-    {
-        return await _dbContext.Equipment
-            .AsNoTracking()
-            .Where(equipment => equipment.IsAvailable)
-            .ToListAsync(cancellationToken);
-    }
+    private Task<IReadOnlyList<Equipment>> GetEquipmentAsync(bool availableOnly, CancellationToken cancellationToken) =>
+        operations.ReadAsync<IReadOnlyList<Equipment>>(async db => await db.Equipment.AsNoTracking()
+            .Where(item => !availableOnly || item.IsAvailable)
+            .OrderBy(item => item.Name).ThenBy(item => item.Id)
+            .ToListAsync(cancellationToken));
 }

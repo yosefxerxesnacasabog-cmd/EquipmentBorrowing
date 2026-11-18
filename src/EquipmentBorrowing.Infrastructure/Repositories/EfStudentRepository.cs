@@ -5,30 +5,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EquipmentBorrowing.Infrastructure.Repositories;
 
-public class EfStudentRepository : IStudentRepository
+public sealed class EfStudentRepository(PostgresOperations operations) : IStudentRepository
 {
-    private readonly EquipmentBorrowingDbContext _dbContext;
+    public Task<Student?> GetByIdAsync(int id, CancellationToken cancellationToken = default) =>
+        operations.ReadAsync(db => db.Students.AsNoTracking()
+            .SingleOrDefaultAsync(student => student.Id == id, cancellationToken));
 
-    public EfStudentRepository(EquipmentBorrowingDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
-
-    public async Task<Student?> GetByIdAsync(
-        int id,
-        CancellationToken cancellationToken = default)
-    {
-        return await _dbContext.Students
-            .FirstOrDefaultAsync(
-                student => student.Id == id,
-                cancellationToken);
-    }
-
-    public async Task<IReadOnlyList<Student>> GetAllAsync(
-        CancellationToken cancellationToken = default)
-    {
-        return await _dbContext.Students
-            .AsNoTracking()
-            .ToListAsync(cancellationToken);
-    }
+    public Task<IReadOnlyList<Student>> GetAllAsync(CancellationToken cancellationToken = default) =>
+        operations.ReadAsync<IReadOnlyList<Student>>(async db => await db.Students.AsNoTracking()
+            .OrderBy(student => student.Name).ThenBy(student => student.Id)
+            .ToListAsync(cancellationToken));
 }
