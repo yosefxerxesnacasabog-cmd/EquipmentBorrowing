@@ -1,0 +1,41 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:EquipmentBorrowing.Desktop.ViewModels"
+             xmlns:domain="using:EquipmentBorrowing.Domain"
+             x:Class="EquipmentBorrowing.Desktop.Views.EquipmentManagementView"
+             x:DataType="vm:EquipmentManagementViewModel">
+    <Grid Margin="20" RowDefinitions="Auto,Auto,Auto,*,Auto" RowSpacing="10">
+        <TextBlock Classes="heading" Text="Manage equipment" />
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="8">
+            <TextBox Width="235" PlaceholderText="Find by name or identifier" Text="{Binding Search}" />
+            <Button Content="Refresh / retry" Command="{Binding LoadItemsCommand}" IsEnabled="{Binding !IsBusy}" />
+            <Button Content="New equipment" Command="{Binding NewItemCommand}" IsEnabled="{Binding !IsBusy}" />
+        </StackPanel>
+        <TextBlock Grid.Row="2" Text="{Binding LoadStatus}" TextWrapping="Wrap" />
+        <Grid Grid.Row="3" ColumnDefinitions="*,*" ColumnSpacing="14">
+            <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" IsEnabled="{Binding !IsBusy}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="domain:Equipment">
+                        <StackPanel Spacing="4" Margin="0,5">
+                            <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                            <TextBlock Text="{Binding Identifier}" />
+                            <TextBlock Text="{Binding IsAvailable, StringFormat='Available: {0}'}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <ScrollViewer Grid.Column="1">
+                <StackPanel Spacing="8" IsEnabled="{Binding IsLoaded}">
+                    <TextBlock Text="Equipment identifier" />
+                    <TextBox Text="{Binding Identifier}" />
+                    <TextBlock Text="Equipment name" />
+                    <TextBox Text="{Binding ItemName}" />
+                    <TextBlock Text="Description (optional)" />
+                    <TextBox Text="{Binding Description}" />
+                    <Button Content="Save equipment" Command="{Binding SaveItemCommand}" />
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+        <TextBlock Grid.Row="4" Classes="message" Text="{Binding Message}" TextWrapping="Wrap" />
+    </Grid>
+</UserControl>

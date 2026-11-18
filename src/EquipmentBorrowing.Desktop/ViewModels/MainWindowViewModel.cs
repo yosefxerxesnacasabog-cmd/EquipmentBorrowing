@@ -8,7 +8,8 @@ public partial class MainWindowViewModel(
     EquipmentViewModel equipment,
     BorrowingsViewModel borrowings,
     BorrowEquipmentViewModel checkout,
-    StudentsViewModel students) : ViewModelBase
+    StudentsViewModel students,
+    EquipmentManagementViewModel equipmentManagement) : ViewModelBase
 {
     public EquipmentViewModel EquipmentViewModel { get; } = equipment;
 
@@ -39,5 +40,12 @@ public partial class MainWindowViewModel(
     {
         CurrentView = students;
         await students.LoadStudentsAsync();
+    }
+
+    [RelayCommand]
+    private async Task ShowEquipmentManagementAsync()
+    {
+        CurrentView = equipmentManagement;
+        await equipmentManagement.LoadItemsAsync();
     }
 }

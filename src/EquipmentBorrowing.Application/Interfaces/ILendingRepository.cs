@@ -5,7 +5,7 @@ namespace EquipmentBorrowing.Application.Interfaces;
 public interface ILendingRepository
 {
     Task<IReadOnlyList<Borrowing>> GetActiveAsync();
-    Task<WriteResult> CheckoutAsync(int studentId, int equipmentId, DateTime expectedReturnDate);
+    Task<WriteResult> CheckoutAsync(int studentId, IReadOnlyList<int> equipmentIds, DateTime expectedReturnDate);
     Task<WriteResult> ReturnAsync(int borrowingId);
 }
 

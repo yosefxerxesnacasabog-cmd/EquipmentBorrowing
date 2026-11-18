@@ -15,7 +15,7 @@ public sealed class EfBorrowingRepository(PostgresOperations operations) : ILend
             .OrderByDescending(loan => loan.DateBorrowed).ThenBy(loan => loan.Id)
             .ToListAsync());
 
-    public Task<WriteResult> CheckoutAsync(int studentId, int equipmentId, DateTime expectedReturnDate) =>
+    public Task<WriteResult> CheckoutAsync(int studentId, IReadOnlyList<int> equipmentIds, DateTime expectedReturnDate) =>
         operations.WriteAsync(async db =>
         {
             var student = await db.Students.FindAsync(studentId);
@@ -28,21 +28,26 @@ public sealed class EfBorrowingRepository(PostgresOperations operations) : ILend
             if (expectedReturnDate <= today)
                 return new(false, "Select an expected return date after today.");
 
-            var item = await db.Equipment.FindAsync(equipmentId);
-            if (item is null)
-                return new(false, "The selected item no longer exists.", true);
-            if (!item.IsAvailable || await db.Borrowings.AnyAsync(loan =>
-                    loan.EquipmentId == equipmentId && loan.Status == BorrowingStatus.Active))
-                return new(false, "The selected item is no longer available.", true);
+            var items = await db.Equipment.Where(item => equipmentIds.Contains(item.Id))
+                .OrderBy(item => item.Id).ToListAsync();
+            if (items.Count != equipmentIds.Count)
+                return new(false, "One or more selected items no longer exist.", true);
+            if (items.Any(item => !item.IsAvailable) || await db.Borrowings.AnyAsync(loan =>
+                    equipmentIds.Contains(loan.EquipmentId) && loan.Status == BorrowingStatus.Active))
+                return new(false, "One or more selected items are no longer available.", true);
 
             var active = await db.Borrowings.CountAsync(loan =>
                 loan.StudentId == studentId && loan.Status == BorrowingStatus.Active);
-            if (active >= 3)
-                return new(false, "This student already has three active items.", true);
+            if (active + items.Count > 3)
+                return new(false, $"This checkout would exceed the three-item limit. The student has {active} active item(s).", true);
 
-            item.MarkAsBorrowed();
-            db.Borrowings.Add(new Borrowing(student, item, today, expectedReturnDate));
-            return new(true, "Equipment borrowed successfully.");
+            foreach (var item in items)
+            {
+                item.MarkAsBorrowed();
+                db.Borrowings.Add(new Borrowing(student, item, today, expectedReturnDate));
+            }
+
+            return new(true, items.Count == 1 ? "Equipment borrowed successfully." : $"{items.Count} items borrowed successfully.");
         });
 
     public Task<WriteResult> ReturnAsync(int borrowingId) =>

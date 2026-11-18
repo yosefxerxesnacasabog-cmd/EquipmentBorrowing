@@ -20,8 +20,10 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+            <CheckBox Content="Check out multiple items" IsChecked="{Binding MultipleItems}" />
             <TextBlock Classes="label" Text="Available equipment" />
-            <ComboBox ItemsSource="{Binding Equipment}" SelectedItem="{Binding SelectedEquipment}" HorizontalAlignment="Stretch">
+            <ComboBox ItemsSource="{Binding Equipment}" SelectedItem="{Binding SelectedEquipment}"
+                      IsVisible="{Binding !MultipleItems}" HorizontalAlignment="Stretch">
                 <ComboBox.ItemTemplate>
                     <DataTemplate x:DataType="domain:Equipment">
                         <StackPanel Orientation="Horizontal" Spacing="8">
@@ -31,6 +33,18 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+            <ItemsControl ItemsSource="{Binding CheckoutItems}" IsVisible="{Binding MultipleItems}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:CheckoutItemViewModel">
+                        <CheckBox IsChecked="{Binding IsSelected}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <TextBlock Text="{Binding Item.Identifier}" />
+                                <TextBlock Text="{Binding Item.Name}" />
+                            </StackPanel>
+                        </CheckBox>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
             <TextBlock Classes="label" Text="Expected return date" />
             <DatePicker SelectedDate="{Binding ExpectedReturnDate}" />
             <Button Content="Borrow equipment" Command="{Binding BorrowEquipmentCommand}" />

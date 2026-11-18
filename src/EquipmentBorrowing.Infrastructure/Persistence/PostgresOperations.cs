@@ -19,7 +19,7 @@ public sealed class PostgresOperations(IDbContextFactory<EquipmentBorrowingDbCon
 
             return await read(db);
         }
-        catch (Exception exception) when (exception is NpgsqlException or TimeoutException or ArgumentException)
+        catch (Exception exception) when (IsStorageFailure(exception))
         {
             throw new StorageException("Could not load records from PostgreSQL. Check the connection and retry.");
         }
@@ -47,24 +47,35 @@ public sealed class PostgresOperations(IDbContextFactory<EquipmentBorrowingDbCon
         {
             return Conflict();
         }
-        catch (DbUpdateException exception) when (exception.InnerException is PostgresException postgres)
+        catch (Exception exception) when (IsStorageFailure(exception))
         {
-            return DatabaseRejection(postgres);
-        }
-        catch (PostgresException exception) when (
-            !committing || exception.SqlState is PostgresErrorCodes.SerializationFailure
-                or PostgresErrorCodes.DeadlockDetected or PostgresErrorCodes.UniqueViolation
-                or PostgresErrorCodes.CheckViolation or PostgresErrorCodes.ForeignKeyViolation)
-        {
-            return DatabaseRejection(exception);
-        }
-        catch (Exception exception) when (exception is DbUpdateException or NpgsqlException or TimeoutException or ArgumentException)
-        {
+            var postgres = GetPostgresError(exception);
+            if (postgres is not null && (!committing || ConfirmsRejection(postgres)))
+                return DatabaseRejection(postgres);
+
             return committing
                 ? new(false, "The commit outcome is unknown. Reconnect and check the current records before retrying.", true)
                 : new(false, "PostgreSQL could not save the changes. Check the connection and retry.");
         }
     }
+
+    private static bool IsStorageFailure(Exception error) => error switch
+    {
+        NpgsqlException or TimeoutException or ArgumentException or DbUpdateException => true,
+        InvalidOperationException { InnerException: { } cause } => IsStorageFailure(cause),
+        _ => false
+    };
+
+    private static PostgresException? GetPostgresError(Exception error) => error switch
+    {
+        PostgresException postgres => postgres,
+        DbUpdateException or InvalidOperationException when error.InnerException is { } cause => GetPostgresError(cause),
+        _ => null
+    };
+
+    private static bool ConfirmsRejection(PostgresException error) =>
+        error.SqlState is PostgresErrorCodes.SerializationFailure or PostgresErrorCodes.DeadlockDetected
+            or PostgresErrorCodes.UniqueViolation or PostgresErrorCodes.CheckViolation or PostgresErrorCodes.ForeignKeyViolation;
 
     private static WriteResult Conflict() =>
         new(false, "Another operation changed these records. Review the refreshed data and try again.", true);
@@ -76,6 +87,8 @@ public sealed class PostgresOperations(IDbContextFactory<EquipmentBorrowingDbCon
             new(false, "An item already has an active borrowing. Review the refreshed availability.", true),
         PostgresErrorCodes.UniqueViolation when exception.ConstraintName == "IX_Students_NormalizedStudentNumber" =>
             new(false, "That institutional student number is already registered."),
+        PostgresErrorCodes.UniqueViolation when exception.ConstraintName == "IX_Equipment_NormalizedIdentifier" =>
+            new(false, "That equipment identifier is already registered."),
         _ => new(false, "PostgreSQL rejected the changes. Review the record and try again.")
     };
 }
