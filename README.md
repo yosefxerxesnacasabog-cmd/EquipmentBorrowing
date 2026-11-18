@@ -13,6 +13,8 @@ dotnet run --project src/EquipmentBorrowing.Desktop
 
 Apply pending migrations before launching the app. The initial migration creates the schema and inserts sample students and equipment once. Keep the actual connection string private. Lab 4 stores the workstation's local calendar dates as PostgreSQL `date` values.
 
+The Avalonia ViewModels call application services, which depend on repository interfaces. The PostgreSQL repositories use a fresh EF Core context per operation. A checkout or return revalidates current records and commits loan and availability changes in one serializable transaction. PostgreSQL enforces unique normalized identifiers and a unique active loan per item. If the connection drops during commit, the app prompts staff to reconnect and review the records before deciding whether to retry.
+
 # Campus Equipment Borrowing System
 
 ## Laboratory Activity 1
