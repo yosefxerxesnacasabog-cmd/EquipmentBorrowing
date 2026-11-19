@@ -1,64 +1,59 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System;
 using System.Threading.Tasks;
 
 namespace EquipmentBorrowing.Desktop.ViewModels;
 
-public partial class MainWindowViewModel : ViewModelBase
+public partial class MainWindowViewModel(
+    EquipmentViewModel equipment,
+    BorrowingsViewModel borrowings,
+    BorrowEquipmentViewModel checkout,
+    StudentsViewModel students,
+    EquipmentManagementViewModel equipmentManagement,
+    BorrowingReviewViewModel borrowingReview) : ViewModelBase
 {
-    public EquipmentViewModel EquipmentViewModel { get; }
-    public BorrowingsViewModel BorrowingsViewModel { get; }
-    public BorrowEquipmentViewModel BorrowEquipmentViewModel { get; }
+    public EquipmentViewModel EquipmentViewModel { get; } = equipment;
 
-    [ObservableProperty]
-    private ViewModelBase currentView;
-
-    public MainWindowViewModel(
-        EquipmentViewModel equipmentViewModel,
-        BorrowingsViewModel borrowingsViewModel,
-        BorrowEquipmentViewModel borrowEquipmentViewModel)
-    {
-        EquipmentViewModel = equipmentViewModel;
-        BorrowingsViewModel = borrowingsViewModel;
-        BorrowEquipmentViewModel = borrowEquipmentViewModel;
-
-        BorrowingsViewModel.EquipmentReturned += OnEquipmentReturned;
-        BorrowEquipmentViewModel.EquipmentBorrowed += OnEquipmentBorrowed;
-
-        currentView = EquipmentViewModel;
-    }
-
-    private async void OnEquipmentReturned(
-        object? sender,
-        EventArgs e)
-    {
-        await EquipmentViewModel.LoadEquipmentAsync();
-    }
-
-    private async void OnEquipmentBorrowed(
-        object? sender,
-        EventArgs e)
-    {
-        await EquipmentViewModel.LoadEquipmentAsync();
-    }
+    [ObservableProperty] private ViewModelBase currentView = equipment;
 
     [RelayCommand]
-    private void ShowEquipment()
+    private async Task ShowEquipmentAsync()
     {
         CurrentView = EquipmentViewModel;
+        await EquipmentViewModel.LoadEquipmentAsync();
     }
 
     [RelayCommand]
-    private async Task ShowBorrowings()
+    private async Task ShowBorrowingsAsync()
     {
-        await BorrowingsViewModel.LoadBorrowingsAsync();
-        CurrentView = BorrowingsViewModel;
+        CurrentView = borrowings;
+        await borrowings.LoadBorrowingsAsync();
     }
 
     [RelayCommand]
-    private void ShowBorrowEquipment()
+    private async Task ShowBorrowEquipmentAsync()
     {
-        CurrentView = BorrowEquipmentViewModel;
+        CurrentView = checkout;
+        await checkout.LoadDataAsync();
+    }
+    [RelayCommand]
+    private async Task ShowStudentsAsync()
+    {
+        CurrentView = students;
+        await students.LoadStudentsAsync();
+    }
+
+    [RelayCommand]
+    private async Task ShowEquipmentManagementAsync()
+    {
+        CurrentView = equipmentManagement;
+        await equipmentManagement.LoadItemsAsync();
+    }
+
+    [RelayCommand]
+    private async Task ShowBorrowingReviewAsync()
+    {
+        CurrentView = borrowingReview;
+        await borrowingReview.RefreshAsync();
     }
 }

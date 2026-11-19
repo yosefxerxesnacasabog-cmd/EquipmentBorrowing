@@ -1,0 +1,100 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:EquipmentBorrowing.Desktop.ViewModels"
+             xmlns:domain="using:EquipmentBorrowing.Domain"
+             xmlns:converters="using:Avalonia.Data.Converters"
+             x:Class="EquipmentBorrowing.Desktop.Views.BorrowingReviewView"
+             x:DataType="vm:BorrowingReviewViewModel">
+    <Grid Margin="20" RowDefinitions="Auto,Auto,Auto,Auto,*" RowSpacing="10">
+        <TextBlock Classes="heading" Text="Borrowing history and search" />
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="8">
+            <ComboBox ItemsSource="{Binding Scopes}" SelectedItem="{Binding SelectedScope}" AutomationProperties.Name="Borrowing view">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="vm:BorrowingScopeOption">
+                        <TextBlock Text="{Binding Label}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button Content="Refresh / retry" Command="{Binding RefreshCommand}" />
+        </StackPanel>
+
+        <Panel Grid.Row="2">
+            <StackPanel IsVisible="{Binding IsSearch}" Spacing="8">
+                <TextBox Text="{Binding SearchText}" PlaceholderText="Student name, student number, or equipment name"
+                         AutomationProperties.Name="Search borrowings" />
+                <WrapPanel>
+                    <ComboBox ItemsSource="{Binding Statuses}" SelectedItem="{Binding SelectedStatus}"
+                              AutomationProperties.Name="Borrowing status" Margin="0,0,8,6">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="vm:BorrowingStatusOption">
+                                <TextBlock Text="{Binding Label}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <ComboBox ItemsSource="{Binding Orders}" SelectedItem="{Binding SelectedOrder}"
+                              AutomationProperties.Name="Borrowing sort order" Margin="0,0,8,6">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="vm:BorrowingOrderOption">
+                                <TextBlock Text="{Binding Label}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button Content="Search" Command="{Binding ApplyFiltersCommand}" Margin="0,0,8,6" />
+                    <Button Content="Clear filters" Command="{Binding ClearFiltersCommand}" Margin="0,0,0,6" />
+                </WrapPanel>
+            </StackPanel>
+
+            <ComboBox IsVisible="{Binding IsStudentHistory}" ItemsSource="{Binding Students}"
+                      SelectedItem="{Binding SelectedStudent}" PlaceholderText="Select a student"
+                      AutomationProperties.Name="Student" HorizontalAlignment="Stretch">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="domain:Student">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="{Binding StudentNumber}" />
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <ComboBox IsVisible="{Binding IsEquipmentHistory}" ItemsSource="{Binding Equipment}"
+                      SelectedItem="{Binding SelectedEquipment}" PlaceholderText="Select equipment"
+                      AutomationProperties.Name="Equipment" HorizontalAlignment="Stretch">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="domain:Equipment">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="{Binding Identifier}" />
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Panel>
+
+        <StackPanel Grid.Row="3" Spacing="6">
+            <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}" />
+            <TextBlock Text="{Binding Message}" TextWrapping="Wrap" />
+        </StackPanel>
+        <ListBox Grid.Row="4" ItemsSource="{Binding Results}" AutomationProperties.Name="Borrowing results">
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="domain:Borrowing">
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,4">
+                        <StackPanel Spacing="3">
+                            <TextBlock Text="{Binding Equipment.Name}" FontWeight="Bold" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding Equipment.Identifier}" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding Student.Name}" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding Student.StudentNumber}" TextWrapping="Wrap" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Spacing="3">
+                            <TextBlock Text="{Binding Status}" FontWeight="SemiBold" />
+                            <TextBlock Text="{Binding DateBorrowed, StringFormat='Checkout: {0:yyyy-MM-dd}'}" />
+                            <TextBlock Text="{Binding ExpectedReturnDate, StringFormat='Expected return: {0:yyyy-MM-dd}'}" />
+                            <TextBlock Text="{Binding ActualReturnDate, StringFormat='Returned: {0:yyyy-MM-dd}'}"
+                                       IsVisible="{Binding ActualReturnDate, Converter={x:Static converters:ObjectConverters.IsNotNull}, FallbackValue=False}" />
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>

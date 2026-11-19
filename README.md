@@ -1,3 +1,28 @@
+# Laboratory Activity 4 — PostgreSQL setup
+
+Install .NET SDK 10, Git, and PostgreSQL. Create an empty **dedicated** PostgreSQL database for Lab 4 and a local user that can create objects in it. The SQLite documentation below records Laboratory Activity 3.
+
+In PowerShell from the repository root, set the connection for your current session. Replace the sample values locally.
+
+```powershell
+$env:EQUIPMENT_BORROWING_CONNECTION = 'Host=localhost;Port=5432;Database=equipment_borrowing_lab4;Username=YOUR_LOCAL_USER;Password=YOUR_LOCAL_PASSWORD'
+dotnet restore EquipmentBorrowing.slnx
+dotnet tool install --global dotnet-ef --version 10.0.12
+dotnet ef database update --project src/EquipmentBorrowing.Infrastructure --startup-project src/EquipmentBorrowing.Infrastructure
+dotnet run --project src/EquipmentBorrowing.Desktop
+```
+
+Apply pending migrations before launching the app. The initial migration creates the schema and inserts sample students and equipment once. Keep the actual connection string private. Lab 4 stores the workstation's local calendar dates as PostgreSQL `date` values.
+
+The Avalonia ViewModels call application services, which depend on repository interfaces. The PostgreSQL repositories use a fresh EF Core context per operation. A checkout or return revalidates current records and commits loan and availability changes in one serializable transaction. PostgreSQL enforces unique normalized identifiers and a unique active loan per item. If the connection drops during commit, the app prompts staff to reconnect and review the records before deciding whether to retry.
+
+## Lab 4 submission documents
+
+- [Use-case diagram and catalog](docs/lab4-use-case-catalog.md)
+- [Adapted use-case suite](docs/lab4-use-case-suite.md)
+- [Acceptance and traceability matrix](docs/lab4-acceptance-matrix.md)
+- [Integration and restart verification](docs/lab4-integration-verification.md)
+
 # Campus Equipment Borrowing System
 
 ## Laboratory Activity 1

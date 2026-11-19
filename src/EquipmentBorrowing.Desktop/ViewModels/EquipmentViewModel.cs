@@ -1,34 +1,58 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using EquipmentBorrowing.Application.Interfaces;
+using EquipmentBorrowing.Application.Services;
 using EquipmentBorrowing.Domain;
-using System.Collections.ObjectModel;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EquipmentBorrowing.Desktop.ViewModels;
 
-public partial class EquipmentViewModel : ViewModelBase
+public partial class EquipmentViewModel(CatalogService catalog) : ViewModelBase
 {
-    private readonly IEquipmentRepository _equipmentRepository;
+    [ObservableProperty] private IReadOnlyList<Equipment> equipment = Array.Empty<Equipment>();
+    [ObservableProperty] private string loadStatus = string.Empty;
 
-    public ObservableCollection<Equipment> Equipment { get; } = new();
+    private bool availableOnly;
+    private int loadVersion;
 
-    public EquipmentViewModel(
-        IEquipmentRepository equipmentRepository)
+    [RelayCommand]
+    private Task ShowAllAsync()
     {
-        _equipmentRepository = equipmentRepository;
-
-        _ = LoadEquipmentAsync();
+        availableOnly = false;
+        return LoadEquipmentAsync();
     }
 
+    [RelayCommand]
+    private Task ShowAvailableAsync()
+    {
+        availableOnly = true;
+        return LoadEquipmentAsync();
+    }
+
+    [RelayCommand]
     public async Task LoadEquipmentAsync()
     {
-        var equipment = await _equipmentRepository.GetAllAsync();
-
-        Equipment.Clear();
-
-        foreach (var item in equipment)
+        var version = ++loadVersion;
+        var onlyAvailable = availableOnly;
+        LoadStatus = "Loading equipment...";
+        try
         {
-            Equipment.Add(item);
+            var items = await catalog.GetEquipmentAsync(onlyAvailable);
+            if (version != loadVersion)
+                return;
+            Equipment = items;
+            LoadStatus = items.Count > 0
+                ? (onlyAvailable ? "Showing available equipment." : "Showing all equipment.")
+                : (onlyAvailable ? "No equipment is currently available." : "The equipment catalog is empty.");
+        }
+        catch (StorageException error)
+        {
+            if (version != loadVersion)
+                return;
+            Equipment = Array.Empty<Equipment>();
+            LoadStatus = error.Message;
         }
     }
 }
