@@ -1,3 +1,22 @@
+# Laboratory Activity 5 — API development
+
+Lab 5 continues from the Lab 4 submission revision `f4fd4e2de5783aab4e22e05211785e590ad549fa`. The initial API uses the Lab 4 PostgreSQL migration and catalog services.
+
+Configure the PostgreSQL environment variable and apply the migration using the setup below. From the same terminal, start the API.
+
+```powershell
+dotnet run --project src/EquipmentBorrowing.Api -- --urls http://127.0.0.1:5185
+```
+
+From another terminal, make independent HTTP requests.
+
+```powershell
+Invoke-RestMethod 'http://127.0.0.1:5185/api/v1/equipment?available=true'
+Invoke-RestMethod 'http://127.0.0.1:5185/api/v1/students'
+```
+
+The first phase covers API-01, API-02, API-03, and API-07. Avalonia still uses the Lab 4 data path at this stage.
+
 # Laboratory Activity 4 — PostgreSQL setup
 
 Install .NET SDK 10, Git, and PostgreSQL. Create an empty **dedicated** PostgreSQL database for Lab 4 and a local user that can create objects in it. The SQLite documentation below records Laboratory Activity 3.

@@ -11,4 +11,10 @@ public sealed class CatalogService(IStudentRepository students, IEquipmentReposi
     public Task<IReadOnlyList<Equipment>> GetEquipmentAsync(
         bool availableOnly = false, CancellationToken cancellationToken = default) =>
         availableOnly ? equipment.GetAvailableAsync(cancellationToken) : equipment.GetAllAsync(cancellationToken);
+
+    public Task<Student?> GetStudentAsync(int id, CancellationToken cancellationToken = default) =>
+        students.GetByIdAsync(id, cancellationToken);
+
+    public Task<Equipment?> GetEquipmentItemAsync(int id, CancellationToken cancellationToken = default) =>
+        equipment.GetByIdAsync(id, cancellationToken);
 }
