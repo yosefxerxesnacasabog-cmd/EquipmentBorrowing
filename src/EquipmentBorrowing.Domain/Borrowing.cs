@@ -44,4 +44,13 @@ public class Borrowing
         Status = BorrowingStatus.Returned;
         Equipment.MarkAsAvailable();
     }
+
+    public static Borrowing FromSnapshot(int id, Student student, Equipment equipment,
+        DateTime borrowedDate, DateTime expectedReturnDate, DateTime? returnedDate, BorrowingStatus status) =>
+        new(student, equipment, borrowedDate, expectedReturnDate)
+        {
+            Id = id,
+            ActualReturnDate = returnedDate,
+            Status = status
+        };
 }

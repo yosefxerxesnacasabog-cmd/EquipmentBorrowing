@@ -23,7 +23,16 @@ Borrowing lists default to all statuses, ascending checkout date and ascending b
 
 Errors contain `code` and `message`. Invalid requests return 400, missing resources 404, business conflicts 409, and database/server failures 500. Error code `outcome_unknown` means the commit acknowledgement was lost. Refresh persisted state before deciding whether to retry. Mutations reuse the serializable PostgreSQL transaction and database constraints from Lab 4.
 
-Avalonia still uses the Lab 4 data path until the Phase 3 HTTP client migration. The consolidated T01–T08 acceptance record is completed in Phase 4.
+Start the API first using the database configuration above. In a separate PowerShell window, configure and start the desktop HTTP client.
+
+```powershell
+$env:EQUIPMENT_BORROWING_API_URL = 'http://127.0.0.1:5185/api/v1/'
+dotnet run --project src/EquipmentBorrowing.Desktop
+```
+
+The desktop uses HTTP adapters behind the existing catalog, management, lending and review services. Its project references the application layer and has no EF Core or PostgreSQL infrastructure dependency. Each navigation loads fresh API data. Mutations refresh affected screens after success or conflicts. A read connection failure displays an API connection message. A received server failure displays the API error. Connection loss during a mutation reports an unknown outcome and requires a successful fresh read before another mutation.
+
+The consolidated T01–T08 acceptance record and desktop walkthrough are completed in Phase 4.
 
 # Laboratory Activity 4 — PostgreSQL setup
 
