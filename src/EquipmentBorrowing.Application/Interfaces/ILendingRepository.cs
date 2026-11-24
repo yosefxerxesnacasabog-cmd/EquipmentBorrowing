@@ -9,4 +9,6 @@ public interface ILendingRepository
     Task<WriteResult> ReturnAsync(int borrowingId);
 }
 
-public sealed record WriteResult(bool Succeeded, string Message, bool RefreshRequired = false);
+public enum WriteFailure { Invalid, Missing, Conflict, Server, Unknown }
+public sealed record WriteResult(bool Succeeded, string Message, bool RefreshRequired = false,
+    WriteFailure Failure = WriteFailure.Invalid, object? Value = null);

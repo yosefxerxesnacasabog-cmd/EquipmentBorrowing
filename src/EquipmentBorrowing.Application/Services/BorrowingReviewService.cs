@@ -5,6 +5,9 @@ namespace EquipmentBorrowing.Application.Services;
 
 public sealed class BorrowingReviewService(IBorrowingReviewRepository repository)
 {
+    public Task<Borrowing?> GetByIdAsync(int id, CancellationToken cancellationToken = default) =>
+        repository.GetByIdAsync(id, cancellationToken);
+
     public Task<IReadOnlyList<Borrowing>> SearchAsync(BorrowingSearch search, CancellationToken cancellationToken = default) =>
         repository.SearchAsync(search with { Text = search.Text?.Trim() }, cancellationToken);
 

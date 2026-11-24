@@ -15,7 +15,15 @@ Invoke-RestMethod 'http://127.0.0.1:5185/api/v1/equipment?available=true'
 Invoke-RestMethod 'http://127.0.0.1:5185/api/v1/students'
 ```
 
-The first phase covers API-01, API-02, API-03, and API-07. Avalonia still uses the Lab 4 data path at this stage.
+Phase 2 exposes all API-01–16 routes. Retrieve the machine-readable OpenAPI 3.0 contract at `http://127.0.0.1:5185/openapi/v1.json`. The same document is checked into `src/EquipmentBorrowing.Api/openapi.json` and copied into build and publish output.
+
+Requests and responses use camel-case JSON and local calendar dates in `YYYY-MM-DD` format. The API supplies checkout and actual return dates. Create responses include the saved resource and a Location header for student, equipment and single-borrowing creation. Student and equipment updates send all editable fields, including null for a cleared contact or description. Unknown mutation fields are rejected.
+
+Borrowing lists default to all statuses, ascending checkout date and ascending borrowing ID for ties. Supported query parameters are `search`, `status=All|Active|Returned`, `sort=borrowedDate|expectedReturnDate`, and `direction=asc|desc`.
+
+Errors contain `code` and `message`. Invalid requests return 400, missing resources 404, business conflicts 409, and database/server failures 500. Error code `outcome_unknown` means the commit acknowledgement was lost. Refresh persisted state before deciding whether to retry. Mutations reuse the serializable PostgreSQL transaction and database constraints from Lab 4.
+
+Avalonia still uses the Lab 4 data path until the Phase 3 HTTP client migration. The consolidated T01–T08 acceptance record is completed in Phase 4.
 
 # Laboratory Activity 4 — PostgreSQL setup
 

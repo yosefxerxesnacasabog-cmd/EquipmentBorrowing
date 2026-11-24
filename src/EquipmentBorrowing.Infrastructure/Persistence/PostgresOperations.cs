@@ -32,7 +32,7 @@ public sealed class PostgresOperations(IDbContextFactory<EquipmentBorrowingDbCon
         {
             await using var db = await contextFactory.CreateDbContextAsync();
             if (string.IsNullOrWhiteSpace(db.Database.GetConnectionString()))
-                return new(false, MissingConnection);
+                return new(false, "The database connection is not configured.", Failure: WriteFailure.Server);
             await using var transaction = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);
             var result = await write(db);
             if (!result.Succeeded)
@@ -54,8 +54,8 @@ public sealed class PostgresOperations(IDbContextFactory<EquipmentBorrowingDbCon
                 return DatabaseRejection(postgres);
 
             return committing
-                ? new(false, "The commit outcome is unknown. Reconnect and check the current records before retrying.", true)
-                : new(false, "PostgreSQL could not save the changes. Check the connection and retry.");
+                ? new(false, "The commit outcome is unknown. Reconnect and check the current records before retrying.", true, WriteFailure.Unknown)
+                : new(false, "PostgreSQL could not save the changes. Check the connection and retry.", Failure: WriteFailure.Server);
         }
     }
 
@@ -78,17 +78,17 @@ public sealed class PostgresOperations(IDbContextFactory<EquipmentBorrowingDbCon
             or PostgresErrorCodes.UniqueViolation or PostgresErrorCodes.CheckViolation or PostgresErrorCodes.ForeignKeyViolation;
 
     private static WriteResult Conflict() =>
-        new(false, "Another operation changed these records. Review the refreshed data and try again.", true);
+        new(false, "Another operation changed these records. Review the refreshed data and try again.", true, WriteFailure.Conflict);
 
     private static WriteResult DatabaseRejection(PostgresException exception) => exception.SqlState switch
     {
         PostgresErrorCodes.SerializationFailure or PostgresErrorCodes.DeadlockDetected => Conflict(),
         PostgresErrorCodes.UniqueViolation when exception.ConstraintName == "IX_Borrowings_ActiveEquipment" =>
-            new(false, "An item already has an active borrowing. Review the refreshed availability.", true),
+            new(false, "An item already has an active borrowing. Review the refreshed availability.", true, WriteFailure.Conflict),
         PostgresErrorCodes.UniqueViolation when exception.ConstraintName == "IX_Students_NormalizedStudentNumber" =>
-            new(false, "That institutional student number is already registered."),
+            new(false, "That institutional student number is already registered.", Failure: WriteFailure.Conflict),
         PostgresErrorCodes.UniqueViolation when exception.ConstraintName == "IX_Equipment_NormalizedIdentifier" =>
-            new(false, "That equipment identifier is already registered."),
-        _ => new(false, "PostgreSQL rejected the changes. Review the record and try again.")
+            new(false, "That equipment identifier is already registered.", Failure: WriteFailure.Conflict),
+        _ => new(false, "PostgreSQL rejected the changes. Review the record and try again.", Failure: WriteFailure.Server)
     };
 }

@@ -8,4 +8,7 @@
     <ProjectReference Include="../EquipmentBorrowing.Application/EquipmentBorrowing.Application.csproj" />
     <ProjectReference Include="../EquipmentBorrowing.Infrastructure/EquipmentBorrowing.Infrastructure.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Update="openapi.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>

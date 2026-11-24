@@ -4,6 +4,7 @@ namespace EquipmentBorrowing.Application.Interfaces;
 
 public interface IBorrowingReviewRepository
 {
+    Task<Borrowing?> GetByIdAsync(int id, CancellationToken cancellationToken);
     Task<IReadOnlyList<Borrowing>> SearchAsync(BorrowingSearch search, CancellationToken cancellationToken);
     Task<IReadOnlyList<Borrowing>?> GetStudentHistoryAsync(int studentId, CancellationToken cancellationToken);
     Task<IReadOnlyList<Borrowing>?> GetEquipmentHistoryAsync(int equipmentId, CancellationToken cancellationToken);

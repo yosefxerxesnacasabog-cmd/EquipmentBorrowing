@@ -27,7 +27,7 @@ public sealed class EfEquipmentRepository(PostgresOperations operations) : IEqui
         operations.WriteAsync(db =>
         {
             db.Equipment.Add(equipment);
-            return Task.FromResult(new WriteResult(true, "Equipment registered as available."));
+            return Task.FromResult(new WriteResult(true, "Equipment registered as available.", Value: equipment));
         });
 
     public Task<WriteResult> UpdateAsync(Equipment original, string identifier, string name, string? description) =>
@@ -35,12 +35,12 @@ public sealed class EfEquipmentRepository(PostgresOperations operations) : IEqui
         {
             var current = await db.Equipment.FindAsync(original.Id);
             if (current is null)
-                return new(false, "This item no longer exists.", true);
+                return new(false, "This item no longer exists.", true, WriteFailure.Missing);
             if (current.Identifier != original.Identifier || current.Name != original.Name ||
                 current.Description != original.Description)
-                return new(false, "This item's information changed. Review the refreshed record and try again.", true);
+                return new(false, "This item's information changed. Review the refreshed record and try again.", true, WriteFailure.Conflict);
 
             current.UpdateInformation(identifier, name, description);
-            return new(true, "Equipment information updated.");
+            return new(true, "Equipment information updated.", Value: current);
         });
 }

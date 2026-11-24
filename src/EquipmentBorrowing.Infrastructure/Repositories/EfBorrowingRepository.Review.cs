@@ -7,6 +7,9 @@ namespace EquipmentBorrowing.Infrastructure.Repositories;
 
 public sealed partial class EfBorrowingRepository : IBorrowingReviewRepository
 {
+    public Task<Borrowing?> GetByIdAsync(int id, CancellationToken cancellationToken) =>
+        operations.ReadAsync(db => WithDetails(db).SingleOrDefaultAsync(loan => loan.Id == id, cancellationToken));
+
     public Task<IReadOnlyList<Borrowing>> SearchAsync(BorrowingSearch search, CancellationToken cancellationToken) =>
         operations.ReadAsync<IReadOnlyList<Borrowing>>(async db =>
         {

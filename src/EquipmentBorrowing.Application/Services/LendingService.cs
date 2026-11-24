@@ -23,7 +23,7 @@ public sealed class LendingService(ILendingRepository repository)
         if (equipmentIds.Count < minimumItems)
             return new(false, minimumItems == 1 ? "Select equipment." : "Select at least two distinct items.");
         if (equipmentIds.Count > 3)
-            return new(false, "A student may have at most three active items.");
+            return new(false, "A student may have at most three active items.", Failure: WriteFailure.Conflict);
         if (expectedReturnDate is null || expectedReturnDate.Value.Date <= DateTime.Today)
             return new(false, "Select an expected return date after today.");
 

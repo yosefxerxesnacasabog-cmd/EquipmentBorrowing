@@ -10,6 +10,14 @@ builder.Services.AddDbContextFactory<EquipmentBorrowingDbContext>(PostgreSqlConf
 builder.Services.AddSingleton<PostgresOperations>();
 builder.Services.AddSingleton<IStudentRepository, EfStudentRepository>();
 builder.Services.AddSingleton<IEquipmentRepository, EfEquipmentRepository>();
+builder.Services.AddSingleton<IStudentManagementRepository, EfStudentRepository>();
+builder.Services.AddSingleton<IEquipmentManagementRepository, EfEquipmentRepository>();
+builder.Services.AddSingleton<ILendingRepository, EfBorrowingRepository>();
+builder.Services.AddSingleton<IBorrowingReviewRepository, EfBorrowingRepository>();
+builder.Services.AddSingleton<StudentManagementService>();
+builder.Services.AddSingleton<EquipmentManagementService>();
+builder.Services.AddSingleton<LendingService>();
+builder.Services.AddSingleton<BorrowingReviewService>();
 builder.Services.AddSingleton<CatalogService>();
 builder.Services.Configure<RouteHandlerOptions>(options => options.ThrowOnBadRequest = true);
 
@@ -23,4 +31,6 @@ app.UseStatusCodePages(async context =>
 });
 
 app.MapGroup("/api/v1").MapCatalogEndpoints();
+app.MapGroup("/api/v1").MapWorkflowEndpoints();
+app.MapGet("/openapi/v1.json", () => Results.File(Path.Combine(app.Environment.ContentRootPath, "openapi.json"), "application/json"));
 app.Run();
