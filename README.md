@@ -1,40 +1,160 @@
-# Laboratory Activity 5 — API development
+# Laboratory Activity 5 — API integration and acceptance
 
-Lab 5 continues from the Lab 4 submission revision `f4fd4e2de5783aab4e22e05211785e590ad549fa`. The initial API uses the Lab 4 PostgreSQL migration and catalog services.
+This continues the Lab 4 submission `f4fd4e2de5783aab4e22e05211785e590ad549fa`.
+The same fourteen workflows now run through an independently hosted ASP.NET Core
+API. PostgreSQL schema and earlier documentation/history are preserved.
 
-Configure the PostgreSQL environment variable and apply the migration using the setup below. From the same terminal, start the API.
+## Local setup
+
+Prerequisites: .NET SDK 10 (including the .NET 10 desktop/runtime components),
+PostgreSQL, Git; Python 3 only for the optional repeatable acceptance runner.
+Run commands from this repository's root. Use a locally owned PostgreSQL database;
+the PostgreSQL service must be running. `dotnet-ef` 10.0.12 matches EF packages.
+
+Create an empty database `equipment_borrowing_lab5` in pgAdmin, owned by your local
+PostgreSQL user. In PowerShell window 1, set the connection for this session only.
+Replace placeholders locally; do not commit real credentials or connection files.
 
 ```powershell
+$env:EQUIPMENT_BORROWING_CONNECTION = 'Host=localhost;Port=5432;Database=equipment_borrowing_lab5;Username=YOUR_LOCAL_USER;Password=YOUR_LOCAL_PASSWORD'
+dotnet restore EquipmentBorrowing.slnx
+dotnet tool install --global dotnet-ef --version 10.0.12
+dotnet ef database update --project src/EquipmentBorrowing.Infrastructure --startup-project src/EquipmentBorrowing.Infrastructure
+dotnet build EquipmentBorrowing.slnx
 dotnet run --project src/EquipmentBorrowing.Api -- --urls http://127.0.0.1:5185
 ```
 
-From another terminal, make independent HTTP requests.
+If the tool is already installed at another version, use
+`dotnet tool update --global dotnet-ef --version 10.0.12`.
+The preserved migration creates schema, sample students STU-001–003 and items
+EQ-001–004 once. Repeated application does not reseed or clear existing loans.
+The acceptance dataset below is separate from this ordinary initial data.
+
+Leave window 1 running. In PowerShell window 2, use the repository directory for
+`dotnet` commands (plain HTTP requests work from any directory):
 
 ```powershell
 Invoke-RestMethod 'http://127.0.0.1:5185/api/v1/equipment?available=true'
 Invoke-RestMethod 'http://127.0.0.1:5185/api/v1/students'
-```
-
-Phase 2 exposes all API-01–16 routes. Retrieve the machine-readable OpenAPI 3.0 contract at `http://127.0.0.1:5185/openapi/v1.json`. The same document is checked into `src/EquipmentBorrowing.Api/openapi.json` and copied into build and publish output.
-
-Requests and responses use camel-case JSON and local calendar dates in `YYYY-MM-DD` format. The API supplies checkout and actual return dates. Create responses include the saved resource and a Location header for student, equipment and single-borrowing creation. Student and equipment updates send all editable fields, including null for a cleared contact or description. Unknown mutation fields are rejected.
-
-Borrowing lists default to all statuses, ascending checkout date and ascending borrowing ID for ties. Supported query parameters are `search`, `status=All|Active|Returned`, `sort=borrowedDate|expectedReturnDate`, and `direction=asc|desc`.
-
-Errors contain `code` and `message`. Invalid requests return 400, missing resources 404, business conflicts 409, and database/server failures 500. Error code `outcome_unknown` means the commit acknowledgement was lost. Refresh persisted state before deciding whether to retry. Mutations reuse the serializable PostgreSQL transaction and database constraints from Lab 4.
-
-Start the API first using the database configuration above. In a separate PowerShell window, configure and start the desktop HTTP client.
-
-```powershell
 $env:EQUIPMENT_BORROWING_API_URL = 'http://127.0.0.1:5185/api/v1/'
 dotnet run --project src/EquipmentBorrowing.Desktop
 ```
 
-The desktop uses HTTP adapters behind the existing catalog, management, lending and review services. Its project references the application layer and has no EF Core or PostgreSQL infrastructure dependency. Each navigation loads fresh API data. Mutations refresh affected screens after success or conflicts. A read connection failure displays an API connection message. A received server failure displays the API error. Connection loss during a mutation reports an unknown outcome and requires a successful fresh read before another mutation.
+The desktop needs only the API address; its default is the local URL above.
+Keep the trailing `/api/v1/`. Database configuration belongs to API window 1.
+Closing/stopping that API makes the desktop show a connection error. Restart API
+with the same database and use Refresh/retry. Stop API with Ctrl+C when finished.
+A Windows Application Control block must be handled by the device owner/admin;
+do not disable security controls to run this project.
 
-The consolidated T01–T08 acceptance record and desktop walkthrough are completed in Phase 4.
+## Endpoint contract
+
+Retrieve [the checked-in OpenAPI 3.0.3 contract](src/EquipmentBorrowing.Api/openapi.json)
+from `http://127.0.0.1:5185/openapi/v1.json`. It includes request/response schemas,
+required/null fields, query parameters, status codes and Location headers and is
+copied into build/publish output. Routes are prefixed `/api/v1`.
+
+| ID | Method | Resource route |
+| --- | --- | --- |
+| API-01 | GET | `/equipment` (`available=true` supported) |
+| API-02 | GET | `/students` (`search` supported) |
+| API-03 | GET | `/students/{id}` |
+| API-04 | POST | `/students` |
+| API-05 | PUT | `/students/{id}` |
+| API-06 | PATCH | `/students/{id}/eligibility` |
+| API-07 | GET | `/equipment/{id}` |
+| API-08 | POST | `/equipment` |
+| API-09 | PUT | `/equipment/{id}` |
+| API-10 | POST | `/borrowings` |
+| API-11 | POST | `/checkout-requests` |
+| API-12 | POST | `/borrowings/{id}/return` (body `{}`) |
+| API-13 | GET | `/borrowings/{id}` |
+| API-14 | GET | `/borrowings` |
+| API-15 | GET | `/students/{id}/borrowings` |
+| API-16 | GET | `/equipment/{id}/borrowings` |
+
+JSON uses camelCase and local calendar dates `YYYY-MM-DD`. Resolve opaque IDs
+from API lists; do not assume sample numeric IDs. Server supplies checkout/actual
+return dates. Create returns 201 and the saved record; student/equipment/single
+borrowing include Location. Batch returns `{ "borrowings": [...] }`.
+PUT sends all editable fields, including null to clear contact/description.
+Eligibility requires Boolean `isEligible`. Unknown/protected mutation fields
+are rejected; clients cannot directly set availability, loan status or dates.
+
+Borrowing lists default to all statuses, checkout date ascending, then ID ascending
+for ties. Parameters: `search`, `status=All|Active|Returned`,
+`sort=borrowedDate|expectedReturnDate`, `direction=asc|desc`. Search matches partial
+student name/number or equipment name without case sensitivity. Histories preserve
+active and returned records; an existing subject with no loans returns `[]`.
+
+Errors are `{ "code": "...", "message": "..." }`: 400 invalid request,
+404 missing, 405 unsupported method, 409 business conflict, 500 safe server/database
+failure. No HTTP response means a transport failure. `outcome_unknown` means commit
+acknowledgement was lost: reconnect, read the relevant persisted history, then
+staff decide whether another write is needed. No automatic mutation retry occurs.
+
+## Architecture and decisions
+
+Desktop views/ViewModels call application services and HTTP adapters asynchronously.
+Only the API hosts EF/PostgreSQL repositories. The desktop project has no
+Infrastructure/EF/Npgsql reference. API repositories create/dispose a fresh context
+per operation. Checkout/return revalidate current state and update borrowing and
+availability together in one serializable transaction. Constraints enforce
+normalized identifier uniqueness, FK/date integrity and one active loan per item.
+See [baseline and architecture](docs/lab5-baseline-and-architecture.md) for the
+boundary diagram, context lifetime and unknown-outcome decisions.
+
+## Controlled acceptance data and evidence
+
+Use a separate disposable database named **equipment_borrowing_lab5_test**.
+Stop any manually started API before the runner uses port 5185. Create the test DB,
+set `EQUIPMENT_BORROWING_CONNECTION` to it, and apply the same migration.
+Configure matching `psql` environment locally (credentials remain outside Git):
+
+```powershell
+$env:PGHOST = 'localhost'
+$env:PGPORT = '5432'
+$env:PGUSER = 'YOUR_LOCAL_USER'
+$env:PGDATABASE = 'equipment_borrowing_lab5_test'
+$env:PGPASSWORD = 'YOUR_LOCAL_PASSWORD'
+$env:EQUIPMENT_BORROWING_CONNECTION = 'Host=localhost;Port=5432;Database=equipment_borrowing_lab5_test;Username=YOUR_LOCAL_USER;Password=YOUR_LOCAL_PASSWORD'
+dotnet ef database update --project src/EquipmentBorrowing.Infrastructure --startup-project src/EquipmentBorrowing.Infrastructure
+psql -X -v ON_ERROR_STOP=1 -f scripts/lab5/reset.sql
+python scripts/lab5/acceptance.py
+```
+
+If `psql` is absent from PATH, set `$env:PSQL` to its full executable path before
+running Python; use that full path for the standalone reset command too.
+`reset.sql` **replaces all test application rows** and refuses other database names.
+It seeds Ada/Ben/Cara/Dani, seven equipment items and four related loan records,
+using the reference's date offsets relative to the observed local date. It is not
+a production startup seed. Runner creates/removes a temporary T05 failure trigger
+only in this disposable DB. [Tool instructions](scripts/lab5/README.md) explain it.
+
+```powershell
+dotnet run --project scripts/lab5/ClientCheck
+```
+
+Run the client check with a healthy API on port 5185; it adds CLIENT-001/CLIENT-EQ
+test records. Restore the disposable dataset before repeating it. Actual desktop
+checks are separate from this console adapter check.
+
+- [Consolidated T01–T08 execution, diagnostics and retests](docs/lab5-test-results.md)
+- [HTTP, PostgreSQL and UI evidence](docs/evidence/lab5)
+- [Fourteen-use-case/API/acceptance traceability](docs/lab5-traceability.md)
+- [Authentic baseline and final revision record](docs/lab5-baseline-and-architecture.md)
+- [Preserved Lab 4 use-case suite](docs/lab4-use-case-suite.md)
+
+After integration, resolve the completed revision using
+`git rev-parse lab5-submitted^{commit}`. Keep meaningful prior development history.
+Each partner submits individually and privately supplies both partners' full names
+and student IDs; both may link this repository. Do not publish student IDs or
+local database credentials in source/evidence.
 
 # Laboratory Activity 4 — PostgreSQL setup
+
+Historical setup below records the Lab 4 baseline. For this Lab 5 checkout,
+use the separate API/desktop launch instructions above.
 
 Install .NET SDK 10, Git, and PostgreSQL. Create an empty **dedicated** PostgreSQL database for Lab 4 and a local user that can create objects in it. The SQLite documentation below records Laboratory Activity 3.
 
