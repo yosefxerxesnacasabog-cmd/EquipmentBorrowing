@@ -1,6 +1,6 @@
 # Lab 4 student management verification
 
-Codex ran the student application-service checks against disposable PostgreSQL and verified persisted records with fresh contexts.
+With ChatGPT assistance, the student application-service checks were run against disposable PostgreSQL and persisted records were verified with fresh contexts.
 
 | Check | Observed result |
 | --- | --- |

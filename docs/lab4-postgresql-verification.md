@@ -1,6 +1,6 @@
 # Lab 4 PostgreSQL migration verification
 
-Codex ran the initial migration on a fresh, disposable PostgreSQL 18 database. A separate PostgreSQL client then read the migration history and counted the records.
+With ChatGPT assistance, the initial migration was run on a fresh, disposable PostgreSQL 18 database. A separate PostgreSQL client then read the migration history and counted the records.
 
 | Check | Expected | Observed |
 | --- | --- | --- |

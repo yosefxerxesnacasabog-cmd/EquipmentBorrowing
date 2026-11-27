@@ -4,6 +4,14 @@ This continues the Lab 4 submission `f4fd4e2de5783aab4e22e05211785e590ad549fa`.
 The same fourteen workflows now run through an independently hosted ASP.NET Core
 API. PostgreSQL schema and earlier documentation/history are preserved.
 
+## AI acknowledgement
+
+ChatGPT was used as a coding guide and assistant for implementation and
+refactoring, debugging, test preparation and execution, and documentation.
+AI-assisted verification and manual walkthroughs are identified in the
+[consolidated test results](docs/lab5-test-results.md). The authors remain
+responsible for understanding, reviewing, and explaining the submitted work.
+
 ## Local setup
 
 Prerequisites: .NET SDK 10 (including the .NET 10 desktop/runtime components),

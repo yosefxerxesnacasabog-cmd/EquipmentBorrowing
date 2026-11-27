@@ -1,6 +1,6 @@
 # Lab 4 catalog, checkout, and return verification
 
-Codex ran these application-service checks against a disposable PostgreSQL database and used fresh connections to verify the persisted results.
+With ChatGPT assistance, these application-service checks were run against a disposable PostgreSQL database and fresh connections were used to verify the persisted results.
 
 | Check | Observed result |
 | --- | --- |
