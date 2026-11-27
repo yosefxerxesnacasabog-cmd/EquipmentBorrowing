@@ -1,5 +1,12 @@
 # Laboratory Activity 5 — API integration and acceptance
 
+**Prepared by:**
+
+- Yosef Xerxes S. Nacasabog
+- Jazz Dwight W. Salac
+
+**Section:** BSIT-3Cx
+
 This continues the Lab 4 submission `f4fd4e2de5783aab4e22e05211785e590ad549fa`.
 The same fourteen workflows now run through an independently hosted ASP.NET Core
 API. PostgreSQL schema and earlier documentation/history are preserved.
