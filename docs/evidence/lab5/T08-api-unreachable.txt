@@ -1,0 +1,43 @@
+Window: "Campus Equipment Borrowing System", App: EquipmentBorrowing.Desktop.exe.
+	0 window Campus Equipment Borrowing System Secondary Actions: Raise
+		1 title bar (settable, string) Value: Campus Equipment Borrowing System
+			2 menu bar System ID: MenuBar
+				3 menu item System
+			4 button Minimize
+			5 button Maximize
+			6 button Close
+		7 group WindowChrome ID: AvaloniaWindowChrome
+		8 text Campus Equipment Borrowing System
+		9 button Equipment
+		10 button Borrowings
+		11 button Borrow Equipment
+		12 button Students
+		13 button Manage Equipment
+		14 button History & Search
+		48 custom
+			49 text Students
+			50 text field (edit) (settable, string) Description: Find by name or number
+			51 button Refresh / retry
+			52 button New student
+			53 text Cannot reach the API. Start the API and check its address, then retry.
+			54 list
+			77 pane (scroll viewer)
+				78 text (disabled) Student number
+				79 text field (edit) (disabled, settable, string)
+				80 text (disabled) Full name
+				81 text field (edit) (disabled, settable, string)
+				82 text (disabled) Contact (optional)
+				83 text field (edit) (disabled, settable, string)
+				84 button (disabled) Save student
+				85 button (disabled) Permit borrowing
+				86 button (disabled) Restrict borrowing
+			87 text
+
+Document text: ```
+Students
+Find by name or number
+Cannot reach the API. Start the API and check its address, then retry.
+Student number
+Full name
+Contact (optional)
+```

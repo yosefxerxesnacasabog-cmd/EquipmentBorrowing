@@ -1,0 +1,48 @@
+Window: "Campus Equipment Borrowing System", App: EquipmentBorrowing.Desktop.exe.
+	0 window Campus Equipment Borrowing System Secondary Actions: Raise
+		1 title bar (settable, string) Value: Campus Equipment Borrowing System
+			2 menu bar System ID: MenuBar
+				3 menu item System
+			4 button Minimize
+			5 button Maximize
+			6 button Close
+		7 group WindowChrome ID: AvaloniaWindowChrome
+		8 text Campus Equipment Borrowing System
+		9 button Equipment
+		10 button Borrowings
+		11 button Borrow Equipment
+		12 button Students
+		13 button Manage Equipment
+		14 button History & Search
+		176 custom
+			177 pane (scroll viewer)
+				178 text Borrow equipment
+				179 text
+				180 button Refresh / retry
+				181 text Student
+				182 combo box
+				183 checkbox (check box) Check out multiple items
+				184 text Available equipment
+				185 combo box
+				186 text Expected return date
+				187 custom (settable, string)
+					188 button Avalonia.Controls.Grid ID: PART_FlyoutButton
+				189 button Borrow equipment
+				190 text Changes saved successfully.
+				191 scroll bar (settable, float) Value: 0 ID: PART_VerticalScrollBar
+					192 button Line up ID: PART_LineUpButton
+					193 button Page up ID: PART_PageUpButton
+					194 button Page down ID: PART_PageDownButton
+					195 thumb Position
+					196 button Line down ID: PART_LineDownButton
+
+Document text: ```
+Borrow equipment
+Student
+Available equipment
+Expected return date
+day
+month
+year
+Changes saved successfully.
+```

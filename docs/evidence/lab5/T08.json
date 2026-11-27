@@ -1,0 +1,1071 @@
+{
+  "test": "T08",
+  "localDate": "2026-11-27",
+  "status": "PASSED",
+  "captures": [
+    {
+      "method": "GET",
+      "route": "/api/v1/students",
+      "request": null,
+      "expectedStatus": 200,
+      "observedStatus": 200,
+      "location": null,
+      "response": [
+        {
+          "id": 1,
+          "studentNumber": "ST-100",
+          "fullName": "Ada Cruz",
+          "contact": null,
+          "isEligible": true
+        },
+        {
+          "id": 2,
+          "studentNumber": "ST-200",
+          "fullName": "Ben Diaz",
+          "contact": null,
+          "isEligible": false
+        },
+        {
+          "id": 3,
+          "studentNumber": "ST-300",
+          "fullName": "Cara Lim",
+          "contact": null,
+          "isEligible": true
+        },
+        {
+          "id": 4,
+          "studentNumber": "ST-400",
+          "fullName": "Dani Ong",
+          "contact": null,
+          "isEligible": true
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/equipment",
+      "request": null,
+      "expectedStatus": 200,
+      "observedStatus": 200,
+      "location": null,
+      "response": [
+        {
+          "id": 1,
+          "equipmentCode": "EQ-001",
+          "name": "Camera",
+          "description": null,
+          "isAvailable": false
+        },
+        {
+          "id": 2,
+          "equipmentCode": "EQ-002",
+          "name": "Laptop",
+          "description": null,
+          "isAvailable": true
+        },
+        {
+          "id": 5,
+          "equipmentCode": "EQ-005",
+          "name": "Microphone",
+          "description": null,
+          "isAvailable": false
+        },
+        {
+          "id": 3,
+          "equipmentCode": "EQ-003",
+          "name": "Projector",
+          "description": null,
+          "isAvailable": true
+        },
+        {
+          "id": 7,
+          "equipmentCode": "EQ-007",
+          "name": "Speaker",
+          "description": null,
+          "isAvailable": true
+        },
+        {
+          "id": 4,
+          "equipmentCode": "EQ-004",
+          "name": "Tablet",
+          "description": null,
+          "isAvailable": false
+        },
+        {
+          "id": 6,
+          "equipmentCode": "EQ-006",
+          "name": "Tripod",
+          "description": null,
+          "isAvailable": true
+        }
+      ]
+    },
+    {
+      "reset": true,
+      "freshPostgreSQL": {
+        "students": [
+          {
+            "Id": 1,
+            "StudentNumber": "ST-100",
+            "Name": "Ada Cruz",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-100"
+          },
+          {
+            "Id": 2,
+            "StudentNumber": "ST-200",
+            "Name": "Ben Diaz",
+            "Contact": null,
+            "IsAllowedToBorrow": false,
+            "NormalizedStudentNumber": "st-200"
+          },
+          {
+            "Id": 3,
+            "StudentNumber": "ST-300",
+            "Name": "Cara Lim",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-300"
+          },
+          {
+            "Id": 4,
+            "StudentNumber": "ST-400",
+            "Name": "Dani Ong",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-400"
+          }
+        ],
+        "equipment": [
+          {
+            "Id": 1,
+            "Identifier": "EQ-001",
+            "Name": "Camera",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-001"
+          },
+          {
+            "Id": 2,
+            "Identifier": "EQ-002",
+            "Name": "Laptop",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-002"
+          },
+          {
+            "Id": 3,
+            "Identifier": "EQ-003",
+            "Name": "Projector",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-003"
+          },
+          {
+            "Id": 4,
+            "Identifier": "EQ-004",
+            "Name": "Tablet",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-004"
+          },
+          {
+            "Id": 5,
+            "Identifier": "EQ-005",
+            "Name": "Microphone",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-005"
+          },
+          {
+            "Id": 6,
+            "Identifier": "EQ-006",
+            "Name": "Tripod",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-006"
+          },
+          {
+            "Id": 7,
+            "Identifier": "EQ-007",
+            "Name": "Speaker",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-007"
+          }
+        ],
+        "borrowings": [
+          {
+            "Id": 1,
+            "StudentId": 1,
+            "EquipmentId": 1,
+            "DateBorrowed": "2026-11-18",
+            "ExpectedReturnDate": "2026-11-26",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          },
+          {
+            "Id": 2,
+            "StudentId": 1,
+            "EquipmentId": 3,
+            "DateBorrowed": "2026-11-19",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": "2026-11-25",
+            "Status": "Returned"
+          },
+          {
+            "Id": 3,
+            "StudentId": 3,
+            "EquipmentId": 4,
+            "DateBorrowed": "2026-11-20",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          },
+          {
+            "Id": 4,
+            "StudentId": 3,
+            "EquipmentId": 5,
+            "DateBorrowed": "2026-11-20",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/api/v1/borrowings",
+      "request": {
+        "studentId": 4,
+        "equipmentId": 2,
+        "expectedReturnDate": "2026-11-29"
+      },
+      "expectedStatus": 201,
+      "observedStatus": 201,
+      "location": "/api/v1/borrowings/5",
+      "response": {
+        "id": 5,
+        "studentId": 4,
+        "equipmentId": 2,
+        "borrowedDate": "2026-11-27",
+        "expectedReturnDate": "2026-11-29",
+        "returnedDate": null,
+        "status": "Active",
+        "student": {
+          "id": 4,
+          "studentNumber": "ST-400",
+          "fullName": "Dani Ong",
+          "contact": null,
+          "isEligible": true
+        },
+        "equipment": {
+          "id": 2,
+          "equipmentCode": "EQ-002",
+          "name": "Laptop",
+          "description": null,
+          "isAvailable": false
+        }
+      },
+      "before": {
+        "students": [
+          {
+            "Id": 1,
+            "StudentNumber": "ST-100",
+            "Name": "Ada Cruz",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-100"
+          },
+          {
+            "Id": 2,
+            "StudentNumber": "ST-200",
+            "Name": "Ben Diaz",
+            "Contact": null,
+            "IsAllowedToBorrow": false,
+            "NormalizedStudentNumber": "st-200"
+          },
+          {
+            "Id": 3,
+            "StudentNumber": "ST-300",
+            "Name": "Cara Lim",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-300"
+          },
+          {
+            "Id": 4,
+            "StudentNumber": "ST-400",
+            "Name": "Dani Ong",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-400"
+          }
+        ],
+        "equipment": [
+          {
+            "Id": 1,
+            "Identifier": "EQ-001",
+            "Name": "Camera",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-001"
+          },
+          {
+            "Id": 2,
+            "Identifier": "EQ-002",
+            "Name": "Laptop",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-002"
+          },
+          {
+            "Id": 3,
+            "Identifier": "EQ-003",
+            "Name": "Projector",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-003"
+          },
+          {
+            "Id": 4,
+            "Identifier": "EQ-004",
+            "Name": "Tablet",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-004"
+          },
+          {
+            "Id": 5,
+            "Identifier": "EQ-005",
+            "Name": "Microphone",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-005"
+          },
+          {
+            "Id": 6,
+            "Identifier": "EQ-006",
+            "Name": "Tripod",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-006"
+          },
+          {
+            "Id": 7,
+            "Identifier": "EQ-007",
+            "Name": "Speaker",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-007"
+          }
+        ],
+        "borrowings": [
+          {
+            "Id": 1,
+            "StudentId": 1,
+            "EquipmentId": 1,
+            "DateBorrowed": "2026-11-18",
+            "ExpectedReturnDate": "2026-11-26",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          },
+          {
+            "Id": 2,
+            "StudentId": 1,
+            "EquipmentId": 3,
+            "DateBorrowed": "2026-11-19",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": "2026-11-25",
+            "Status": "Returned"
+          },
+          {
+            "Id": 3,
+            "StudentId": 3,
+            "EquipmentId": 4,
+            "DateBorrowed": "2026-11-20",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          },
+          {
+            "Id": 4,
+            "StudentId": 3,
+            "EquipmentId": 5,
+            "DateBorrowed": "2026-11-20",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          }
+        ]
+      },
+      "after": {
+        "students": [
+          {
+            "Id": 1,
+            "StudentNumber": "ST-100",
+            "Name": "Ada Cruz",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-100"
+          },
+          {
+            "Id": 2,
+            "StudentNumber": "ST-200",
+            "Name": "Ben Diaz",
+            "Contact": null,
+            "IsAllowedToBorrow": false,
+            "NormalizedStudentNumber": "st-200"
+          },
+          {
+            "Id": 3,
+            "StudentNumber": "ST-300",
+            "Name": "Cara Lim",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-300"
+          },
+          {
+            "Id": 4,
+            "StudentNumber": "ST-400",
+            "Name": "Dani Ong",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-400"
+          }
+        ],
+        "equipment": [
+          {
+            "Id": 1,
+            "Identifier": "EQ-001",
+            "Name": "Camera",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-001"
+          },
+          {
+            "Id": 2,
+            "Identifier": "EQ-002",
+            "Name": "Laptop",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-002"
+          },
+          {
+            "Id": 3,
+            "Identifier": "EQ-003",
+            "Name": "Projector",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-003"
+          },
+          {
+            "Id": 4,
+            "Identifier": "EQ-004",
+            "Name": "Tablet",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-004"
+          },
+          {
+            "Id": 5,
+            "Identifier": "EQ-005",
+            "Name": "Microphone",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-005"
+          },
+          {
+            "Id": 6,
+            "Identifier": "EQ-006",
+            "Name": "Tripod",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-006"
+          },
+          {
+            "Id": 7,
+            "Identifier": "EQ-007",
+            "Name": "Speaker",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-007"
+          }
+        ],
+        "borrowings": [
+          {
+            "Id": 1,
+            "StudentId": 1,
+            "EquipmentId": 1,
+            "DateBorrowed": "2026-11-18",
+            "ExpectedReturnDate": "2026-11-26",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          },
+          {
+            "Id": 2,
+            "StudentId": 1,
+            "EquipmentId": 3,
+            "DateBorrowed": "2026-11-19",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": "2026-11-25",
+            "Status": "Returned"
+          },
+          {
+            "Id": 3,
+            "StudentId": 3,
+            "EquipmentId": 4,
+            "DateBorrowed": "2026-11-20",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          },
+          {
+            "Id": 4,
+            "StudentId": 3,
+            "EquipmentId": 5,
+            "DateBorrowed": "2026-11-20",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          },
+          {
+            "Id": 5,
+            "StudentId": 4,
+            "EquipmentId": 2,
+            "DateBorrowed": "2026-11-27",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          }
+        ]
+      }
+    },
+    {
+      "transportFailure": "API stopped: connection refused, no HTTP response or status"
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/equipment",
+      "request": null,
+      "expectedStatus": 500,
+      "observedStatus": 500,
+      "location": null,
+      "response": {
+        "code": "database_error",
+        "message": "The server could not load records from the database. Try again later."
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/api/v1/students",
+      "request": {
+        "studentNumber": "FAIL-001",
+        "fullName": "Must Not Persist"
+      },
+      "expectedStatus": 500,
+      "observedStatus": 500,
+      "location": null,
+      "response": {
+        "code": "database_error",
+        "message": "PostgreSQL could not save the changes. Check the connection and retry."
+      },
+      "before": {
+        "students": [
+          {
+            "Id": 1,
+            "StudentNumber": "ST-100",
+            "Name": "Ada Cruz",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-100"
+          },
+          {
+            "Id": 2,
+            "StudentNumber": "ST-200",
+            "Name": "Ben Diaz",
+            "Contact": null,
+            "IsAllowedToBorrow": false,
+            "NormalizedStudentNumber": "st-200"
+          },
+          {
+            "Id": 3,
+            "StudentNumber": "ST-300",
+            "Name": "Cara Lim",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-300"
+          },
+          {
+            "Id": 4,
+            "StudentNumber": "ST-400",
+            "Name": "Dani Ong",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-400"
+          }
+        ],
+        "equipment": [
+          {
+            "Id": 1,
+            "Identifier": "EQ-001",
+            "Name": "Camera",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-001"
+          },
+          {
+            "Id": 2,
+            "Identifier": "EQ-002",
+            "Name": "Laptop",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-002"
+          },
+          {
+            "Id": 3,
+            "Identifier": "EQ-003",
+            "Name": "Projector",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-003"
+          },
+          {
+            "Id": 4,
+            "Identifier": "EQ-004",
+            "Name": "Tablet",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-004"
+          },
+          {
+            "Id": 5,
+            "Identifier": "EQ-005",
+            "Name": "Microphone",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-005"
+          },
+          {
+            "Id": 6,
+            "Identifier": "EQ-006",
+            "Name": "Tripod",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-006"
+          },
+          {
+            "Id": 7,
+            "Identifier": "EQ-007",
+            "Name": "Speaker",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-007"
+          }
+        ],
+        "borrowings": [
+          {
+            "Id": 1,
+            "StudentId": 1,
+            "EquipmentId": 1,
+            "DateBorrowed": "2026-11-18",
+            "ExpectedReturnDate": "2026-11-26",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          },
+          {
+            "Id": 2,
+            "StudentId": 1,
+            "EquipmentId": 3,
+            "DateBorrowed": "2026-11-19",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": "2026-11-25",
+            "Status": "Returned"
+          },
+          {
+            "Id": 3,
+            "StudentId": 3,
+            "EquipmentId": 4,
+            "DateBorrowed": "2026-11-20",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          },
+          {
+            "Id": 4,
+            "StudentId": 3,
+            "EquipmentId": 5,
+            "DateBorrowed": "2026-11-20",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          },
+          {
+            "Id": 5,
+            "StudentId": 4,
+            "EquipmentId": 2,
+            "DateBorrowed": "2026-11-27",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          }
+        ]
+      },
+      "after": {
+        "students": [
+          {
+            "Id": 1,
+            "StudentNumber": "ST-100",
+            "Name": "Ada Cruz",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-100"
+          },
+          {
+            "Id": 2,
+            "StudentNumber": "ST-200",
+            "Name": "Ben Diaz",
+            "Contact": null,
+            "IsAllowedToBorrow": false,
+            "NormalizedStudentNumber": "st-200"
+          },
+          {
+            "Id": 3,
+            "StudentNumber": "ST-300",
+            "Name": "Cara Lim",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-300"
+          },
+          {
+            "Id": 4,
+            "StudentNumber": "ST-400",
+            "Name": "Dani Ong",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-400"
+          }
+        ],
+        "equipment": [
+          {
+            "Id": 1,
+            "Identifier": "EQ-001",
+            "Name": "Camera",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-001"
+          },
+          {
+            "Id": 2,
+            "Identifier": "EQ-002",
+            "Name": "Laptop",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-002"
+          },
+          {
+            "Id": 3,
+            "Identifier": "EQ-003",
+            "Name": "Projector",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-003"
+          },
+          {
+            "Id": 4,
+            "Identifier": "EQ-004",
+            "Name": "Tablet",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-004"
+          },
+          {
+            "Id": 5,
+            "Identifier": "EQ-005",
+            "Name": "Microphone",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-005"
+          },
+          {
+            "Id": 6,
+            "Identifier": "EQ-006",
+            "Name": "Tripod",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-006"
+          },
+          {
+            "Id": 7,
+            "Identifier": "EQ-007",
+            "Name": "Speaker",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-007"
+          }
+        ],
+        "borrowings": [
+          {
+            "Id": 1,
+            "StudentId": 1,
+            "EquipmentId": 1,
+            "DateBorrowed": "2026-11-18",
+            "ExpectedReturnDate": "2026-11-26",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          },
+          {
+            "Id": 2,
+            "StudentId": 1,
+            "EquipmentId": 3,
+            "DateBorrowed": "2026-11-19",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": "2026-11-25",
+            "Status": "Returned"
+          },
+          {
+            "Id": 3,
+            "StudentId": 3,
+            "EquipmentId": 4,
+            "DateBorrowed": "2026-11-20",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          },
+          {
+            "Id": 4,
+            "StudentId": 3,
+            "EquipmentId": 5,
+            "DateBorrowed": "2026-11-20",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          },
+          {
+            "Id": 5,
+            "StudentId": 4,
+            "EquipmentId": 2,
+            "DateBorrowed": "2026-11-27",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          }
+        ]
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/borrowings/5",
+      "request": null,
+      "expectedStatus": 200,
+      "observedStatus": 200,
+      "location": null,
+      "response": {
+        "id": 5,
+        "studentId": 4,
+        "equipmentId": 2,
+        "borrowedDate": "2026-11-27",
+        "expectedReturnDate": "2026-11-29",
+        "returnedDate": null,
+        "status": "Active",
+        "student": {
+          "id": 4,
+          "studentNumber": "ST-400",
+          "fullName": "Dani Ong",
+          "contact": null,
+          "isEligible": true
+        },
+        "equipment": {
+          "id": 2,
+          "equipmentCode": "EQ-002",
+          "name": "Laptop",
+          "description": null,
+          "isAvailable": false
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/students",
+      "request": null,
+      "expectedStatus": 200,
+      "observedStatus": 200,
+      "location": null,
+      "response": [
+        {
+          "id": 1,
+          "studentNumber": "ST-100",
+          "fullName": "Ada Cruz",
+          "contact": null,
+          "isEligible": true
+        },
+        {
+          "id": 2,
+          "studentNumber": "ST-200",
+          "fullName": "Ben Diaz",
+          "contact": null,
+          "isEligible": false
+        },
+        {
+          "id": 3,
+          "studentNumber": "ST-300",
+          "fullName": "Cara Lim",
+          "contact": null,
+          "isEligible": true
+        },
+        {
+          "id": 4,
+          "studentNumber": "ST-400",
+          "fullName": "Dani Ong",
+          "contact": null,
+          "isEligible": true
+        }
+      ]
+    },
+    {
+      "recoveredAfterRestart": {
+        "students": [
+          {
+            "Id": 1,
+            "StudentNumber": "ST-100",
+            "Name": "Ada Cruz",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-100"
+          },
+          {
+            "Id": 2,
+            "StudentNumber": "ST-200",
+            "Name": "Ben Diaz",
+            "Contact": null,
+            "IsAllowedToBorrow": false,
+            "NormalizedStudentNumber": "st-200"
+          },
+          {
+            "Id": 3,
+            "StudentNumber": "ST-300",
+            "Name": "Cara Lim",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-300"
+          },
+          {
+            "Id": 4,
+            "StudentNumber": "ST-400",
+            "Name": "Dani Ong",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-400"
+          }
+        ],
+        "equipment": [
+          {
+            "Id": 1,
+            "Identifier": "EQ-001",
+            "Name": "Camera",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-001"
+          },
+          {
+            "Id": 2,
+            "Identifier": "EQ-002",
+            "Name": "Laptop",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-002"
+          },
+          {
+            "Id": 3,
+            "Identifier": "EQ-003",
+            "Name": "Projector",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-003"
+          },
+          {
+            "Id": 4,
+            "Identifier": "EQ-004",
+            "Name": "Tablet",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-004"
+          },
+          {
+            "Id": 5,
+            "Identifier": "EQ-005",
+            "Name": "Microphone",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-005"
+          },
+          {
+            "Id": 6,
+            "Identifier": "EQ-006",
+            "Name": "Tripod",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-006"
+          },
+          {
+            "Id": 7,
+            "Identifier": "EQ-007",
+            "Name": "Speaker",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-007"
+          }
+        ],
+        "borrowings": [
+          {
+            "Id": 1,
+            "StudentId": 1,
+            "EquipmentId": 1,
+            "DateBorrowed": "2026-11-18",
+            "ExpectedReturnDate": "2026-11-26",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          },
+          {
+            "Id": 2,
+            "StudentId": 1,
+            "EquipmentId": 3,
+            "DateBorrowed": "2026-11-19",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": "2026-11-25",
+            "Status": "Returned"
+          },
+          {
+            "Id": 3,
+            "StudentId": 3,
+            "EquipmentId": 4,
+            "DateBorrowed": "2026-11-20",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          },
+          {
+            "Id": 4,
+            "StudentId": 3,
+            "EquipmentId": 5,
+            "DateBorrowed": "2026-11-20",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          },
+          {
+            "Id": 5,
+            "StudentId": 4,
+            "EquipmentId": 2,
+            "DateBorrowed": "2026-11-27",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          }
+        ]
+      }
+    }
+  ]
+}

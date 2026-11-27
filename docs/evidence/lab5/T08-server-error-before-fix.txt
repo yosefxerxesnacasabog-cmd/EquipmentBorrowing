@@ -1,0 +1,44 @@
+Window: "Campus Equipment Borrowing System", App: EquipmentBorrowing.Desktop.exe.
+	0 window Campus Equipment Borrowing System Secondary Actions: Raise
+		1 title bar (settable, string) Value: Campus Equipment Borrowing System
+			2 menu bar System ID: MenuBar
+				3 menu item System
+			4 button Minimize
+			5 button Maximize
+			6 button Close
+		7 group WindowChrome ID: AvaloniaWindowChrome
+		8 text Campus Equipment Borrowing System
+		9 button Equipment
+		10 button Borrowings
+		11 button Borrow Equipment
+		12 button Students
+		13 button Manage Equipment
+		14 button History & Search
+		315 custom
+			316 text Students
+			317 text field (edit) (settable, string) Description: Find by name or number
+			318 button (disabled) Refresh / retry
+			319 button New student
+			320 text Loading students...
+			321 list
+			344 pane (scroll viewer)
+				345 text (disabled) Student number
+				346 text field (edit) (disabled, settable, string)
+				347 text (disabled) Full name
+				348 text field (edit) (disabled, settable, string)
+				349 text (disabled) Contact (optional)
+				350 text field (edit) (disabled, settable, string)
+				351 button (disabled) Save student
+				352 button (disabled) Permit borrowing
+				353 button (disabled) Restrict borrowing
+			354 text Changes saved successfully.
+
+Document text: ```
+Students
+Find by name or number
+Loading students...
+Student number
+Full name
+Contact (optional)
+Changes saved successfully.
+```

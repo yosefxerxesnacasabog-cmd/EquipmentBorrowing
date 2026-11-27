@@ -1,0 +1,75 @@
+Window: "Campus Equipment Borrowing System", App: EquipmentBorrowing.Desktop.exe.
+	0 window Campus Equipment Borrowing System Secondary Actions: Raise
+		1 title bar (settable, string) Value: Campus Equipment Borrowing System
+			2 menu bar System ID: MenuBar
+				3 menu item System
+			4 button Minimize
+			5 button Maximize
+			6 button Close
+		7 group WindowChrome ID: AvaloniaWindowChrome
+		8 text Campus Equipment Borrowing System
+		9 button Equipment
+		10 button Borrowings
+		11 button Borrow Equipment
+		12 button Students
+		13 button Manage Equipment
+		14 button History & Search
+		48 custom
+			49 text Students
+			50 text field (edit) (settable, string) Description: Find by name or number
+			51 button Refresh / retry
+			52 button New student
+			53 text
+			54 list
+				88 list item (selectable) EquipmentBorrowing.Domain.Student
+					101 text Ben Diaz
+					102 text ST-200
+					103 text Eligible: False
+				67 list item (selectable) EquipmentBorrowing.Domain.Student
+					104 text Cara Lim
+					105 text ST-300
+					106 text Eligible: True
+				63 list item (selectable) EquipmentBorrowing.Domain.Student
+					107 text Dani Ong
+					108 text ST-400
+					109 text Eligible: True
+				59 list item (selectable) EquipmentBorrowing.Domain.Student
+					110 text UI Student Edited
+					111 text UI-500
+					112 text Eligible: True
+				71 scroll bar (settable, float) Value: 152 ID: PART_VerticalScrollBar
+					72 button Line up ID: PART_LineUpButton
+					73 button Page up ID: PART_PageUpButton
+					74 button Page down ID: PART_PageDownButton
+					75 thumb Position
+					76 button Line down ID: PART_LineDownButton
+			77 pane (scroll viewer)
+				78 text Student number
+				79 text field (edit) (settable, string) Value: UI-500
+				80 text Full name
+				81 text field (edit) (settable, string) Value: UI Student Edited
+				82 text Contact (optional)
+				83 text field (edit) (settable, string)
+				84 button Save student
+				85 button Permit borrowing
+				86 button Restrict borrowing
+			87 text Changes saved successfully.
+
+Document text: ```
+Students
+Find by name or number
+Ben Diaz
+ST-200
+Eligible: False
+Cara Lim
+ST-300
+Eligible: True
+Dani Ong
+ST-400
+UI Student Edited
+UI-500
+Student number
+Full name
+Contact (optional)
+Changes saved successfully.
+```

@@ -1,0 +1,73 @@
+Window: "Campus Equipment Borrowing System", App: EquipmentBorrowing.Desktop.exe.
+	0 window Campus Equipment Borrowing System Secondary Actions: Raise
+		1 title bar (settable, string) Value: Campus Equipment Borrowing System
+			2 menu bar System ID: MenuBar
+				3 menu item System
+			4 button Minimize
+			5 button Maximize
+			6 button Close
+		7 group WindowChrome ID: AvaloniaWindowChrome
+		8 text Campus Equipment Borrowing System
+		9 button Equipment
+		10 button Borrowings
+		11 button Borrow Equipment
+		12 button Students
+		13 button Manage Equipment
+		14 button History & Search
+		113 custom
+			114 text Manage equipment
+			115 text field (edit) (settable, string) Description: Find by name or identifier
+			116 button Refresh / retry
+			117 button New equipment
+			118 text
+			119 list
+				151 list item (selectable) EquipmentBorrowing.Domain.Equipment
+					164 text Speaker
+					165 text EQ-007
+					166 text Available: True
+				132 list item (selectable) EquipmentBorrowing.Domain.Equipment
+					167 text Tablet
+					168 text EQ-004
+					169 text Available: False
+				128 list item (selectable) EquipmentBorrowing.Domain.Equipment
+					170 text Tripod
+					171 text EQ-006
+					172 text Available: True
+				124 list item (selectable) EquipmentBorrowing.Domain.Equipment
+					173 text UI Item Edited
+					174 text UI-EQ
+					175 text Available: True
+				136 scroll bar (settable, float) Value: 425.6 ID: PART_VerticalScrollBar
+					137 button Line up ID: PART_LineUpButton
+					138 button Page up ID: PART_PageUpButton
+					139 button Page down ID: PART_PageDownButton
+					140 thumb Position
+					141 button Line down ID: PART_LineDownButton
+			142 pane (scroll viewer)
+				143 text Equipment identifier
+				144 text field (edit) (settable, string) Value: UI-EQ
+				145 text Equipment name
+				146 text field (edit) (settable, string) Value: UI Item Edited
+				147 text Description (optional)
+				148 text field (edit) (settable, string)
+				149 button Save equipment
+			150 text Changes saved successfully.
+
+Document text: ```
+Manage equipment
+Find by name or identifier
+Speaker
+EQ-007
+Available: True
+Tablet
+EQ-004
+Available: False
+Tripod
+EQ-006
+UI Item Edited
+UI-EQ
+Equipment identifier
+Equipment name
+Description (optional)
+Changes saved successfully.
+```

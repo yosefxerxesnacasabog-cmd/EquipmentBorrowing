@@ -26,7 +26,13 @@ public partial class BorrowEquipmentViewModel(CatalogService catalog, LendingSer
     private bool CanBorrow() => IsReady;
 
     [RelayCommand]
-    public async Task LoadDataAsync()
+    public Task LoadDataAsync()
+    {
+        Message = string.Empty;
+        return ReloadAsync();
+    }
+
+    private async Task ReloadAsync()
     {
         IsReady = false;
         LoadStatus = "Loading students and equipment...";
@@ -74,6 +80,6 @@ public partial class BorrowEquipmentViewModel(CatalogService catalog, LendingSer
         }
 
         if (result.Succeeded || result.RefreshRequired)
-            await LoadDataAsync();
+            await ReloadAsync();
     }
 }

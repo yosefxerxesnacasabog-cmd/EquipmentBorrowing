@@ -1,0 +1,86 @@
+Window: "Campus Equipment Borrowing System", App: EquipmentBorrowing.Desktop.exe.
+	0 window Campus Equipment Borrowing System Secondary Actions: Raise
+		1 title bar (settable, string) Value: Campus Equipment Borrowing System
+			2 menu bar System ID: MenuBar
+				3 menu item System
+			4 button Minimize
+			5 button Maximize
+			6 button Close
+		7 group WindowChrome ID: AvaloniaWindowChrome
+		8 text Campus Equipment Borrowing System
+		9 button Equipment
+		10 button Borrowings
+		11 button Borrow Equipment
+		12 button Students
+		13 button Manage Equipment
+		14 button History & Search
+		270 custom
+			271 text Borrowing history and search
+			272 combo box Borrowing view Value: BorrowingScopeOption { Label = All borrowings, Scope = All }
+				273 text All borrowings
+			274 button Refresh / retry
+			275 text field (edit) (settable, string) Search borrowings Description: Student name, student number, or equipment name
+			276 combo box Borrowing status Value: BorrowingStatusOption { Label = All statuses, Status = }
+				277 text All statuses
+			278 combo box Borrowing sort order Value: BorrowingOrderOption { Label = Checkout date (newest first), Field = CheckoutDate, Descending = True }
+				279 text Checkout date (newest first)
+			280 button Search
+			281 button Clear filters
+			282 text 5 borrowing records.
+			283 list Borrowing results
+				284 list item (selectable) EquipmentBorrowing.Domain.Borrowing
+					285 text UI Item Edited
+					286 text UI-EQ
+					287 text UI Student Edited
+					288 text UI-500
+					289 text Returned
+					290 text Checkout: 2026-11-27
+					291 text Expected return: 2026-11-29
+					292 text Returned: 2026-11-27
+				293 list item (selectable) EquipmentBorrowing.Domain.Borrowing
+					294 text Tablet
+					295 text EQ-004
+					296 text Cara Lim
+					297 text ST-300
+					298 text Active
+					299 text Checkout: 2026-11-20
+					300 text Expected return: 2026-11-29
+				301 list item (selectable) EquipmentBorrowing.Domain.Borrowing
+					302 text Microphone
+					303 text EQ-005
+					304 text Cara Lim
+					305 text ST-300
+					306 text Active
+					307 text Checkout: 2026-11-20
+					308 text Expected return: 2026-11-29
+				309 scroll bar (settable, float) Value: 0 ID: PART_VerticalScrollBar
+					310 button Line up ID: PART_LineUpButton
+					311 button Page up ID: PART_PageUpButton
+					312 button Page down ID: PART_PageDownButton
+					313 thumb Position
+					314 button Line down ID: PART_LineDownButton
+
+Document text: ```
+Borrowing history and search
+All borrowings
+Student name, student number, or equipment name
+All statuses
+Checkout date (newest first)
+5 borrowing records.
+UI Item Edited
+UI-EQ
+UI Student Edited
+UI-500
+Returned
+Checkout: 2026-11-27
+Expected return: 2026-11-29
+Returned: 2026-11-27
+Tablet
+EQ-004
+Cara Lim
+ST-300
+Active
+Checkout: 2026-11-20
+Microphone
+EQ-005
+```

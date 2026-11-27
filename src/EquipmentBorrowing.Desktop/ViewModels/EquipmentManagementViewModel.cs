@@ -44,9 +44,12 @@ public partial class EquipmentManagementViewModel(CatalogService catalog, Equipm
     }
 
     [RelayCommand]
-    public Task LoadItemsAsync() =>
-        IsBusy || loading
-            ? Task.CompletedTask : ReloadAsync(SelectedItem?.Id, null);
+    public Task LoadItemsAsync()
+    {
+        if (IsBusy || loading) return Task.CompletedTask;
+        Message = string.Empty;
+        return ReloadAsync(SelectedItem?.Id, null);
+    }
 
     private async Task ReloadAsync(int? id, string? code)
     {

@@ -18,3 +18,9 @@ Thumbs.db
 
 SQLite database
 *.db
+
+# Acceptance server diagnostics stay local; publish only sanitized captures.
+docs/evidence/lab5/*.log
+docs/evidence/lab5/.serve-command
+__pycache__/
+*.pyc

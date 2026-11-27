@@ -1,0 +1,2438 @@
+{
+  "test": "T01",
+  "localDate": "2026-11-27",
+  "status": "PASSED",
+  "captures": [
+    {
+      "method": "GET",
+      "route": "/api/v1/students",
+      "request": null,
+      "expectedStatus": 200,
+      "observedStatus": 200,
+      "location": null,
+      "response": [
+        {
+          "id": 1,
+          "studentNumber": "ST-100",
+          "fullName": "Ada Cruz",
+          "contact": null,
+          "isEligible": true
+        },
+        {
+          "id": 2,
+          "studentNumber": "ST-200",
+          "fullName": "Ben Diaz",
+          "contact": null,
+          "isEligible": false
+        },
+        {
+          "id": 3,
+          "studentNumber": "ST-300",
+          "fullName": "Cara Lim",
+          "contact": null,
+          "isEligible": true
+        },
+        {
+          "id": 4,
+          "studentNumber": "ST-400",
+          "fullName": "Dani Ong",
+          "contact": null,
+          "isEligible": true
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/equipment",
+      "request": null,
+      "expectedStatus": 200,
+      "observedStatus": 200,
+      "location": null,
+      "response": [
+        {
+          "id": 1,
+          "equipmentCode": "EQ-001",
+          "name": "Camera",
+          "description": null,
+          "isAvailable": false
+        },
+        {
+          "id": 2,
+          "equipmentCode": "EQ-002",
+          "name": "Laptop",
+          "description": null,
+          "isAvailable": true
+        },
+        {
+          "id": 5,
+          "equipmentCode": "EQ-005",
+          "name": "Microphone",
+          "description": null,
+          "isAvailable": false
+        },
+        {
+          "id": 3,
+          "equipmentCode": "EQ-003",
+          "name": "Projector",
+          "description": null,
+          "isAvailable": true
+        },
+        {
+          "id": 7,
+          "equipmentCode": "EQ-007",
+          "name": "Speaker",
+          "description": null,
+          "isAvailable": true
+        },
+        {
+          "id": 4,
+          "equipmentCode": "EQ-004",
+          "name": "Tablet",
+          "description": null,
+          "isAvailable": false
+        },
+        {
+          "id": 6,
+          "equipmentCode": "EQ-006",
+          "name": "Tripod",
+          "description": null,
+          "isAvailable": true
+        }
+      ]
+    },
+    {
+      "reset": true,
+      "freshPostgreSQL": {
+        "students": [
+          {
+            "Id": 1,
+            "StudentNumber": "ST-100",
+            "Name": "Ada Cruz",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-100"
+          },
+          {
+            "Id": 2,
+            "StudentNumber": "ST-200",
+            "Name": "Ben Diaz",
+            "Contact": null,
+            "IsAllowedToBorrow": false,
+            "NormalizedStudentNumber": "st-200"
+          },
+          {
+            "Id": 3,
+            "StudentNumber": "ST-300",
+            "Name": "Cara Lim",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-300"
+          },
+          {
+            "Id": 4,
+            "StudentNumber": "ST-400",
+            "Name": "Dani Ong",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-400"
+          }
+        ],
+        "equipment": [
+          {
+            "Id": 1,
+            "Identifier": "EQ-001",
+            "Name": "Camera",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-001"
+          },
+          {
+            "Id": 2,
+            "Identifier": "EQ-002",
+            "Name": "Laptop",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-002"
+          },
+          {
+            "Id": 3,
+            "Identifier": "EQ-003",
+            "Name": "Projector",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-003"
+          },
+          {
+            "Id": 4,
+            "Identifier": "EQ-004",
+            "Name": "Tablet",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-004"
+          },
+          {
+            "Id": 5,
+            "Identifier": "EQ-005",
+            "Name": "Microphone",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-005"
+          },
+          {
+            "Id": 6,
+            "Identifier": "EQ-006",
+            "Name": "Tripod",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-006"
+          },
+          {
+            "Id": 7,
+            "Identifier": "EQ-007",
+            "Name": "Speaker",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-007"
+          }
+        ],
+        "borrowings": [
+          {
+            "Id": 1,
+            "StudentId": 1,
+            "EquipmentId": 1,
+            "DateBorrowed": "2026-11-18",
+            "ExpectedReturnDate": "2026-11-26",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          },
+          {
+            "Id": 2,
+            "StudentId": 1,
+            "EquipmentId": 3,
+            "DateBorrowed": "2026-11-19",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": "2026-11-25",
+            "Status": "Returned"
+          },
+          {
+            "Id": 3,
+            "StudentId": 3,
+            "EquipmentId": 4,
+            "DateBorrowed": "2026-11-20",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          },
+          {
+            "Id": 4,
+            "StudentId": 3,
+            "EquipmentId": 5,
+            "DateBorrowed": "2026-11-20",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          }
+        ]
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/equipment",
+      "request": null,
+      "expectedStatus": 200,
+      "observedStatus": 200,
+      "location": null,
+      "response": [
+        {
+          "id": 1,
+          "equipmentCode": "EQ-001",
+          "name": "Camera",
+          "description": null,
+          "isAvailable": false
+        },
+        {
+          "id": 2,
+          "equipmentCode": "EQ-002",
+          "name": "Laptop",
+          "description": null,
+          "isAvailable": true
+        },
+        {
+          "id": 5,
+          "equipmentCode": "EQ-005",
+          "name": "Microphone",
+          "description": null,
+          "isAvailable": false
+        },
+        {
+          "id": 3,
+          "equipmentCode": "EQ-003",
+          "name": "Projector",
+          "description": null,
+          "isAvailable": true
+        },
+        {
+          "id": 7,
+          "equipmentCode": "EQ-007",
+          "name": "Speaker",
+          "description": null,
+          "isAvailable": true
+        },
+        {
+          "id": 4,
+          "equipmentCode": "EQ-004",
+          "name": "Tablet",
+          "description": null,
+          "isAvailable": false
+        },
+        {
+          "id": 6,
+          "equipmentCode": "EQ-006",
+          "name": "Tripod",
+          "description": null,
+          "isAvailable": true
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/students",
+      "request": null,
+      "expectedStatus": 200,
+      "observedStatus": 200,
+      "location": null,
+      "response": [
+        {
+          "id": 1,
+          "studentNumber": "ST-100",
+          "fullName": "Ada Cruz",
+          "contact": null,
+          "isEligible": true
+        },
+        {
+          "id": 2,
+          "studentNumber": "ST-200",
+          "fullName": "Ben Diaz",
+          "contact": null,
+          "isEligible": false
+        },
+        {
+          "id": 3,
+          "studentNumber": "ST-300",
+          "fullName": "Cara Lim",
+          "contact": null,
+          "isEligible": true
+        },
+        {
+          "id": 4,
+          "studentNumber": "ST-400",
+          "fullName": "Dani Ong",
+          "contact": null,
+          "isEligible": true
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/equipment?available=true",
+      "request": null,
+      "expectedStatus": 200,
+      "observedStatus": 200,
+      "location": null,
+      "response": [
+        {
+          "id": 2,
+          "equipmentCode": "EQ-002",
+          "name": "Laptop",
+          "description": null,
+          "isAvailable": true
+        },
+        {
+          "id": 3,
+          "equipmentCode": "EQ-003",
+          "name": "Projector",
+          "description": null,
+          "isAvailable": true
+        },
+        {
+          "id": 7,
+          "equipmentCode": "EQ-007",
+          "name": "Speaker",
+          "description": null,
+          "isAvailable": true
+        },
+        {
+          "id": 6,
+          "equipmentCode": "EQ-006",
+          "name": "Tripod",
+          "description": null,
+          "isAvailable": true
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/students/1",
+      "request": null,
+      "expectedStatus": 200,
+      "observedStatus": 200,
+      "location": null,
+      "response": {
+        "id": 1,
+        "studentNumber": "ST-100",
+        "fullName": "Ada Cruz",
+        "contact": null,
+        "isEligible": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/equipment/1",
+      "request": null,
+      "expectedStatus": 200,
+      "observedStatus": 200,
+      "location": null,
+      "response": {
+        "id": 1,
+        "equipmentCode": "EQ-001",
+        "name": "Camera",
+        "description": null,
+        "isAvailable": false
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/students/1/borrowings",
+      "request": null,
+      "expectedStatus": 200,
+      "observedStatus": 200,
+      "location": null,
+      "response": [
+        {
+          "id": 2,
+          "studentId": 1,
+          "equipmentId": 3,
+          "borrowedDate": "2026-11-19",
+          "expectedReturnDate": "2026-11-29",
+          "returnedDate": "2026-11-25",
+          "status": "Returned",
+          "student": {
+            "id": 1,
+            "studentNumber": "ST-100",
+            "fullName": "Ada Cruz",
+            "contact": null,
+            "isEligible": true
+          },
+          "equipment": {
+            "id": 3,
+            "equipmentCode": "EQ-003",
+            "name": "Projector",
+            "description": null,
+            "isAvailable": true
+          }
+        },
+        {
+          "id": 1,
+          "studentId": 1,
+          "equipmentId": 1,
+          "borrowedDate": "2026-11-18",
+          "expectedReturnDate": "2026-11-26",
+          "returnedDate": null,
+          "status": "Active",
+          "student": {
+            "id": 1,
+            "studentNumber": "ST-100",
+            "fullName": "Ada Cruz",
+            "contact": null,
+            "isEligible": true
+          },
+          "equipment": {
+            "id": 1,
+            "equipmentCode": "EQ-001",
+            "name": "Camera",
+            "description": null,
+            "isAvailable": false
+          }
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/equipment/1/borrowings",
+      "request": null,
+      "expectedStatus": 200,
+      "observedStatus": 200,
+      "location": null,
+      "response": [
+        {
+          "id": 1,
+          "studentId": 1,
+          "equipmentId": 1,
+          "borrowedDate": "2026-11-18",
+          "expectedReturnDate": "2026-11-26",
+          "returnedDate": null,
+          "status": "Active",
+          "student": {
+            "id": 1,
+            "studentNumber": "ST-100",
+            "fullName": "Ada Cruz",
+            "contact": null,
+            "isEligible": true
+          },
+          "equipment": {
+            "id": 1,
+            "equipmentCode": "EQ-001",
+            "name": "Camera",
+            "description": null,
+            "isAvailable": false
+          }
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/borrowings?status=Active",
+      "request": null,
+      "expectedStatus": 200,
+      "observedStatus": 200,
+      "location": null,
+      "response": [
+        {
+          "id": 1,
+          "studentId": 1,
+          "equipmentId": 1,
+          "borrowedDate": "2026-11-18",
+          "expectedReturnDate": "2026-11-26",
+          "returnedDate": null,
+          "status": "Active",
+          "student": {
+            "id": 1,
+            "studentNumber": "ST-100",
+            "fullName": "Ada Cruz",
+            "contact": null,
+            "isEligible": true
+          },
+          "equipment": {
+            "id": 1,
+            "equipmentCode": "EQ-001",
+            "name": "Camera",
+            "description": null,
+            "isAvailable": false
+          }
+        },
+        {
+          "id": 3,
+          "studentId": 3,
+          "equipmentId": 4,
+          "borrowedDate": "2026-11-20",
+          "expectedReturnDate": "2026-11-29",
+          "returnedDate": null,
+          "status": "Active",
+          "student": {
+            "id": 3,
+            "studentNumber": "ST-300",
+            "fullName": "Cara Lim",
+            "contact": null,
+            "isEligible": true
+          },
+          "equipment": {
+            "id": 4,
+            "equipmentCode": "EQ-004",
+            "name": "Tablet",
+            "description": null,
+            "isAvailable": false
+          }
+        },
+        {
+          "id": 4,
+          "studentId": 3,
+          "equipmentId": 5,
+          "borrowedDate": "2026-11-20",
+          "expectedReturnDate": "2026-11-29",
+          "returnedDate": null,
+          "status": "Active",
+          "student": {
+            "id": 3,
+            "studentNumber": "ST-300",
+            "fullName": "Cara Lim",
+            "contact": null,
+            "isEligible": true
+          },
+          "equipment": {
+            "id": 5,
+            "equipmentCode": "EQ-005",
+            "name": "Microphone",
+            "description": null,
+            "isAvailable": false
+          }
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/students/4/borrowings",
+      "request": null,
+      "expectedStatus": 200,
+      "observedStatus": 200,
+      "location": null,
+      "response": []
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/borrowings/2",
+      "request": null,
+      "expectedStatus": 200,
+      "observedStatus": 200,
+      "location": null,
+      "response": {
+        "id": 2,
+        "studentId": 1,
+        "equipmentId": 3,
+        "borrowedDate": "2026-11-19",
+        "expectedReturnDate": "2026-11-29",
+        "returnedDate": "2026-11-25",
+        "status": "Returned",
+        "student": {
+          "id": 1,
+          "studentNumber": "ST-100",
+          "fullName": "Ada Cruz",
+          "contact": null,
+          "isEligible": true
+        },
+        "equipment": {
+          "id": 3,
+          "equipmentCode": "EQ-003",
+          "name": "Projector",
+          "description": null,
+          "isAvailable": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/students/999999",
+      "request": null,
+      "expectedStatus": 404,
+      "observedStatus": 404,
+      "location": null,
+      "response": {
+        "code": "not_found",
+        "message": "The requested resource was not found."
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/equipment/999999",
+      "request": null,
+      "expectedStatus": 404,
+      "observedStatus": 404,
+      "location": null,
+      "response": {
+        "code": "not_found",
+        "message": "The requested resource was not found."
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/borrowings/999999",
+      "request": null,
+      "expectedStatus": 404,
+      "observedStatus": 404,
+      "location": null,
+      "response": {
+        "code": "not_found",
+        "message": "The requested resource was not found."
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/missing-route",
+      "request": null,
+      "expectedStatus": 404,
+      "observedStatus": 404,
+      "location": null,
+      "response": {
+        "code": "not_found",
+        "message": "The requested resource was not found."
+      }
+    },
+    {
+      "method": "DELETE",
+      "route": "/api/v1/equipment",
+      "request": null,
+      "expectedStatus": 405,
+      "observedStatus": 405,
+      "location": null,
+      "response": {
+        "code": "method_not_allowed",
+        "message": "This HTTP method is not supported for the requested route."
+      },
+      "before": {
+        "students": [
+          {
+            "Id": 1,
+            "StudentNumber": "ST-100",
+            "Name": "Ada Cruz",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-100"
+          },
+          {
+            "Id": 2,
+            "StudentNumber": "ST-200",
+            "Name": "Ben Diaz",
+            "Contact": null,
+            "IsAllowedToBorrow": false,
+            "NormalizedStudentNumber": "st-200"
+          },
+          {
+            "Id": 3,
+            "StudentNumber": "ST-300",
+            "Name": "Cara Lim",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-300"
+          },
+          {
+            "Id": 4,
+            "StudentNumber": "ST-400",
+            "Name": "Dani Ong",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-400"
+          }
+        ],
+        "equipment": [
+          {
+            "Id": 1,
+            "Identifier": "EQ-001",
+            "Name": "Camera",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-001"
+          },
+          {
+            "Id": 2,
+            "Identifier": "EQ-002",
+            "Name": "Laptop",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-002"
+          },
+          {
+            "Id": 3,
+            "Identifier": "EQ-003",
+            "Name": "Projector",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-003"
+          },
+          {
+            "Id": 4,
+            "Identifier": "EQ-004",
+            "Name": "Tablet",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-004"
+          },
+          {
+            "Id": 5,
+            "Identifier": "EQ-005",
+            "Name": "Microphone",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-005"
+          },
+          {
+            "Id": 6,
+            "Identifier": "EQ-006",
+            "Name": "Tripod",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-006"
+          },
+          {
+            "Id": 7,
+            "Identifier": "EQ-007",
+            "Name": "Speaker",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-007"
+          }
+        ],
+        "borrowings": [
+          {
+            "Id": 1,
+            "StudentId": 1,
+            "EquipmentId": 1,
+            "DateBorrowed": "2026-11-18",
+            "ExpectedReturnDate": "2026-11-26",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          },
+          {
+            "Id": 2,
+            "StudentId": 1,
+            "EquipmentId": 3,
+            "DateBorrowed": "2026-11-19",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": "2026-11-25",
+            "Status": "Returned"
+          },
+          {
+            "Id": 3,
+            "StudentId": 3,
+            "EquipmentId": 4,
+            "DateBorrowed": "2026-11-20",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          },
+          {
+            "Id": 4,
+            "StudentId": 3,
+            "EquipmentId": 5,
+            "DateBorrowed": "2026-11-20",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          }
+        ]
+      },
+      "after": {
+        "students": [
+          {
+            "Id": 1,
+            "StudentNumber": "ST-100",
+            "Name": "Ada Cruz",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-100"
+          },
+          {
+            "Id": 2,
+            "StudentNumber": "ST-200",
+            "Name": "Ben Diaz",
+            "Contact": null,
+            "IsAllowedToBorrow": false,
+            "NormalizedStudentNumber": "st-200"
+          },
+          {
+            "Id": 3,
+            "StudentNumber": "ST-300",
+            "Name": "Cara Lim",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-300"
+          },
+          {
+            "Id": 4,
+            "StudentNumber": "ST-400",
+            "Name": "Dani Ong",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-400"
+          }
+        ],
+        "equipment": [
+          {
+            "Id": 1,
+            "Identifier": "EQ-001",
+            "Name": "Camera",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-001"
+          },
+          {
+            "Id": 2,
+            "Identifier": "EQ-002",
+            "Name": "Laptop",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-002"
+          },
+          {
+            "Id": 3,
+            "Identifier": "EQ-003",
+            "Name": "Projector",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-003"
+          },
+          {
+            "Id": 4,
+            "Identifier": "EQ-004",
+            "Name": "Tablet",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-004"
+          },
+          {
+            "Id": 5,
+            "Identifier": "EQ-005",
+            "Name": "Microphone",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-005"
+          },
+          {
+            "Id": 6,
+            "Identifier": "EQ-006",
+            "Name": "Tripod",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-006"
+          },
+          {
+            "Id": 7,
+            "Identifier": "EQ-007",
+            "Name": "Speaker",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-007"
+          }
+        ],
+        "borrowings": [
+          {
+            "Id": 1,
+            "StudentId": 1,
+            "EquipmentId": 1,
+            "DateBorrowed": "2026-11-18",
+            "ExpectedReturnDate": "2026-11-26",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          },
+          {
+            "Id": 2,
+            "StudentId": 1,
+            "EquipmentId": 3,
+            "DateBorrowed": "2026-11-19",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": "2026-11-25",
+            "Status": "Returned"
+          },
+          {
+            "Id": 3,
+            "StudentId": 3,
+            "EquipmentId": 4,
+            "DateBorrowed": "2026-11-20",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          },
+          {
+            "Id": 4,
+            "StudentId": 3,
+            "EquipmentId": 5,
+            "DateBorrowed": "2026-11-20",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          }
+        ]
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/openapi/v1.json",
+      "request": null,
+      "expectedStatus": 200,
+      "observedStatus": 200,
+      "location": null,
+      "response": {
+        "openapi": "3.0.3",
+        "info": {
+          "title": "Equipment Borrowing API",
+          "version": "v1",
+          "description": "Local calendar dates. Read endpoints are independent of Avalonia. Transport failure has no HTTP status. Error code outcome_unknown requires fresh readback before deciding to retry."
+        },
+        "paths": {
+          "/api/v1/equipment": {
+            "get": {
+              "operationId": "API-01",
+              "responses": {
+                "200": {
+                  "description": "Success",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/Equipment"
+                        }
+                      }
+                    }
+                  }
+                },
+                "400": {
+                  "description": "Invalid request",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "500": {
+                  "description": "Server failure or unknown commit outcome",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                }
+              },
+              "parameters": [
+                {
+                  "name": "available",
+                  "in": "query",
+                  "required": false,
+                  "schema": {
+                    "type": "boolean"
+                  }
+                }
+              ]
+            },
+            "post": {
+              "operationId": "API-08",
+              "responses": {
+                "201": {
+                  "description": "Created",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Equipment"
+                      }
+                    }
+                  },
+                  "headers": {
+                    "Location": {
+                      "description": "URL of the created resource",
+                      "schema": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "400": {
+                  "description": "Invalid request",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "409": {
+                  "description": "Business conflict",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "500": {
+                  "description": "Server failure or unknown commit outcome",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                }
+              },
+              "requestBody": {
+                "required": true,
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/EquipmentCreate"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/api/v1/students": {
+            "get": {
+              "operationId": "API-02",
+              "responses": {
+                "200": {
+                  "description": "Success",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/Student"
+                        }
+                      }
+                    }
+                  }
+                },
+                "400": {
+                  "description": "Invalid request",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "500": {
+                  "description": "Server failure or unknown commit outcome",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                }
+              },
+              "parameters": [
+                {
+                  "name": "search",
+                  "in": "query",
+                  "required": false,
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
+            "post": {
+              "operationId": "API-04",
+              "responses": {
+                "201": {
+                  "description": "Created",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Student"
+                      }
+                    }
+                  },
+                  "headers": {
+                    "Location": {
+                      "description": "URL of the created resource",
+                      "schema": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "400": {
+                  "description": "Invalid request",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "409": {
+                  "description": "Business conflict",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "500": {
+                  "description": "Server failure or unknown commit outcome",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                }
+              },
+              "requestBody": {
+                "required": true,
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/StudentCreate"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/api/v1/students/{id}": {
+            "get": {
+              "operationId": "API-03",
+              "responses": {
+                "200": {
+                  "description": "Success",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Student"
+                      }
+                    }
+                  }
+                },
+                "400": {
+                  "description": "Invalid request",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "404": {
+                  "description": "Resource not found",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "500": {
+                  "description": "Server failure or unknown commit outcome",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                }
+              },
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              ]
+            },
+            "put": {
+              "operationId": "API-05",
+              "responses": {
+                "200": {
+                  "description": "Success",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Student"
+                      }
+                    }
+                  }
+                },
+                "400": {
+                  "description": "Invalid request",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "404": {
+                  "description": "Resource not found",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "409": {
+                  "description": "Business conflict",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "500": {
+                  "description": "Server failure or unknown commit outcome",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                }
+              },
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              ],
+              "requestBody": {
+                "required": true,
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/StudentUpdate"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/api/v1/students/{id}/eligibility": {
+            "patch": {
+              "operationId": "API-06",
+              "responses": {
+                "200": {
+                  "description": "Success",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Student"
+                      }
+                    }
+                  }
+                },
+                "400": {
+                  "description": "Invalid request",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "404": {
+                  "description": "Resource not found",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "500": {
+                  "description": "Server failure or unknown commit outcome",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                }
+              },
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              ],
+              "requestBody": {
+                "required": true,
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Eligibility"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/api/v1/equipment/{id}": {
+            "get": {
+              "operationId": "API-07",
+              "responses": {
+                "200": {
+                  "description": "Success",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Equipment"
+                      }
+                    }
+                  }
+                },
+                "400": {
+                  "description": "Invalid request",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "404": {
+                  "description": "Resource not found",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "500": {
+                  "description": "Server failure or unknown commit outcome",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                }
+              },
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              ]
+            },
+            "put": {
+              "operationId": "API-09",
+              "responses": {
+                "200": {
+                  "description": "Success",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Equipment"
+                      }
+                    }
+                  }
+                },
+                "400": {
+                  "description": "Invalid request",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "404": {
+                  "description": "Resource not found",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "409": {
+                  "description": "Business conflict",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "500": {
+                  "description": "Server failure or unknown commit outcome",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                }
+              },
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              ],
+              "requestBody": {
+                "required": true,
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/EquipmentUpdate"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/api/v1/borrowings": {
+            "post": {
+              "operationId": "API-10",
+              "responses": {
+                "201": {
+                  "description": "Created",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Borrowing"
+                      }
+                    }
+                  },
+                  "headers": {
+                    "Location": {
+                      "description": "URL of the created resource",
+                      "schema": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "400": {
+                  "description": "Invalid request",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "404": {
+                  "description": "Resource not found",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "409": {
+                  "description": "Business conflict",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "500": {
+                  "description": "Server failure or unknown commit outcome",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                }
+              },
+              "requestBody": {
+                "required": true,
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Checkout"
+                    }
+                  }
+                }
+              }
+            },
+            "get": {
+              "operationId": "API-14",
+              "responses": {
+                "200": {
+                  "description": "Success",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/Borrowing"
+                        }
+                      }
+                    }
+                  }
+                },
+                "400": {
+                  "description": "Invalid request",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "500": {
+                  "description": "Server failure or unknown commit outcome",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                }
+              },
+              "parameters": [
+                {
+                  "name": "search",
+                  "in": "query",
+                  "required": false,
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "name": "status",
+                  "in": "query",
+                  "required": false,
+                  "schema": {
+                    "type": "string",
+                    "enum": [
+                      "All",
+                      "Active",
+                      "Returned"
+                    ],
+                    "default": "All"
+                  }
+                },
+                {
+                  "name": "sort",
+                  "in": "query",
+                  "required": false,
+                  "schema": {
+                    "type": "string",
+                    "enum": [
+                      "borrowedDate",
+                      "expectedReturnDate"
+                    ],
+                    "default": "borrowedDate"
+                  }
+                },
+                {
+                  "name": "direction",
+                  "in": "query",
+                  "required": false,
+                  "schema": {
+                    "type": "string",
+                    "enum": [
+                      "asc",
+                      "desc"
+                    ],
+                    "default": "asc"
+                  }
+                }
+              ]
+            }
+          },
+          "/api/v1/checkout-requests": {
+            "post": {
+              "operationId": "API-11",
+              "responses": {
+                "201": {
+                  "description": "Created",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/BatchResult"
+                      }
+                    }
+                  }
+                },
+                "400": {
+                  "description": "Invalid request",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "404": {
+                  "description": "Resource not found",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "409": {
+                  "description": "Business conflict",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "500": {
+                  "description": "Server failure or unknown commit outcome",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                }
+              },
+              "requestBody": {
+                "required": true,
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Batch"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/api/v1/borrowings/{id}/return": {
+            "post": {
+              "operationId": "API-12",
+              "responses": {
+                "200": {
+                  "description": "Success",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Borrowing"
+                      }
+                    }
+                  }
+                },
+                "400": {
+                  "description": "Invalid request",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "404": {
+                  "description": "Resource not found",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "409": {
+                  "description": "Business conflict",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "500": {
+                  "description": "Server failure or unknown commit outcome",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                }
+              },
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              ],
+              "requestBody": {
+                "required": true,
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Return"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/api/v1/borrowings/{id}": {
+            "get": {
+              "operationId": "API-13",
+              "responses": {
+                "200": {
+                  "description": "Success",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Borrowing"
+                      }
+                    }
+                  }
+                },
+                "400": {
+                  "description": "Invalid request",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "404": {
+                  "description": "Resource not found",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "500": {
+                  "description": "Server failure or unknown commit outcome",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                }
+              },
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              ]
+            }
+          },
+          "/api/v1/students/{id}/borrowings": {
+            "get": {
+              "operationId": "API-15",
+              "responses": {
+                "200": {
+                  "description": "Success",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/Borrowing"
+                        }
+                      }
+                    }
+                  }
+                },
+                "400": {
+                  "description": "Invalid request",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "404": {
+                  "description": "Resource not found",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "500": {
+                  "description": "Server failure or unknown commit outcome",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                }
+              },
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              ]
+            }
+          },
+          "/api/v1/equipment/{id}/borrowings": {
+            "get": {
+              "operationId": "API-16",
+              "responses": {
+                "200": {
+                  "description": "Success",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/Borrowing"
+                        }
+                      }
+                    }
+                  }
+                },
+                "400": {
+                  "description": "Invalid request",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "404": {
+                  "description": "Resource not found",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "500": {
+                  "description": "Server failure or unknown commit outcome",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                }
+              },
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "components": {
+          "schemas": {
+            "Error": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "code",
+                "message"
+              ],
+              "additionalProperties": false
+            },
+            "Student": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "studentNumber": {
+                  "type": "string"
+                },
+                "fullName": {
+                  "type": "string"
+                },
+                "contact": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "isEligible": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "id",
+                "studentNumber",
+                "fullName",
+                "isEligible"
+              ],
+              "additionalProperties": false
+            },
+            "Equipment": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "equipmentCode": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "isAvailable": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "id",
+                "equipmentCode",
+                "name",
+                "isAvailable"
+              ],
+              "additionalProperties": false
+            },
+            "Borrowing": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "studentId": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "equipmentId": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "borrowedDate": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "expectedReturnDate": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "returnedDate": {
+                  "type": "string",
+                  "format": "date",
+                  "nullable": true
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "Active",
+                    "Returned"
+                  ]
+                },
+                "student": {
+                  "$ref": "#/components/schemas/Student"
+                },
+                "equipment": {
+                  "$ref": "#/components/schemas/Equipment"
+                }
+              },
+              "required": [
+                "id",
+                "studentId",
+                "equipmentId",
+                "borrowedDate",
+                "expectedReturnDate",
+                "returnedDate",
+                "status",
+                "student",
+                "equipment"
+              ],
+              "additionalProperties": false
+            },
+            "StudentCreate": {
+              "type": "object",
+              "properties": {
+                "studentNumber": {
+                  "type": "string"
+                },
+                "fullName": {
+                  "type": "string"
+                },
+                "contact": {
+                  "type": "string",
+                  "nullable": true
+                }
+              },
+              "required": [
+                "studentNumber",
+                "fullName"
+              ],
+              "additionalProperties": false
+            },
+            "StudentUpdate": {
+              "type": "object",
+              "properties": {
+                "studentNumber": {
+                  "type": "string"
+                },
+                "fullName": {
+                  "type": "string"
+                },
+                "contact": {
+                  "type": "string",
+                  "nullable": true
+                }
+              },
+              "required": [
+                "studentNumber",
+                "fullName",
+                "contact"
+              ],
+              "additionalProperties": false
+            },
+            "EquipmentCreate": {
+              "type": "object",
+              "properties": {
+                "equipmentCode": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string",
+                  "nullable": true
+                }
+              },
+              "required": [
+                "equipmentCode",
+                "name"
+              ],
+              "additionalProperties": false
+            },
+            "EquipmentUpdate": {
+              "type": "object",
+              "properties": {
+                "equipmentCode": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string",
+                  "nullable": true
+                }
+              },
+              "required": [
+                "equipmentCode",
+                "name",
+                "description"
+              ],
+              "additionalProperties": false
+            },
+            "Eligibility": {
+              "type": "object",
+              "properties": {
+                "isEligible": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "isEligible"
+              ],
+              "additionalProperties": false
+            },
+            "Checkout": {
+              "type": "object",
+              "properties": {
+                "studentId": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "equipmentId": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "expectedReturnDate": {
+                  "type": "string",
+                  "format": "date"
+                }
+              },
+              "required": [
+                "studentId",
+                "equipmentId",
+                "expectedReturnDate"
+              ],
+              "additionalProperties": false
+            },
+            "Batch": {
+              "type": "object",
+              "properties": {
+                "studentId": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "equipmentIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "minItems": 2,
+                  "uniqueItems": true
+                },
+                "expectedReturnDate": {
+                  "type": "string",
+                  "format": "date"
+                }
+              },
+              "required": [
+                "studentId",
+                "equipmentIds",
+                "expectedReturnDate"
+              ],
+              "additionalProperties": false
+            },
+            "BatchResult": {
+              "type": "object",
+              "properties": {
+                "borrowings": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Borrowing"
+                  }
+                }
+              },
+              "required": [
+                "borrowings"
+              ],
+              "additionalProperties": false
+            },
+            "Return": {
+              "type": "object",
+              "properties": {},
+              "required": [],
+              "additionalProperties": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "openApiOperations": 16,
+      "unchangedPostgreSQL": {
+        "students": [
+          {
+            "Id": 1,
+            "StudentNumber": "ST-100",
+            "Name": "Ada Cruz",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-100"
+          },
+          {
+            "Id": 2,
+            "StudentNumber": "ST-200",
+            "Name": "Ben Diaz",
+            "Contact": null,
+            "IsAllowedToBorrow": false,
+            "NormalizedStudentNumber": "st-200"
+          },
+          {
+            "Id": 3,
+            "StudentNumber": "ST-300",
+            "Name": "Cara Lim",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-300"
+          },
+          {
+            "Id": 4,
+            "StudentNumber": "ST-400",
+            "Name": "Dani Ong",
+            "Contact": null,
+            "IsAllowedToBorrow": true,
+            "NormalizedStudentNumber": "st-400"
+          }
+        ],
+        "equipment": [
+          {
+            "Id": 1,
+            "Identifier": "EQ-001",
+            "Name": "Camera",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-001"
+          },
+          {
+            "Id": 2,
+            "Identifier": "EQ-002",
+            "Name": "Laptop",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-002"
+          },
+          {
+            "Id": 3,
+            "Identifier": "EQ-003",
+            "Name": "Projector",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-003"
+          },
+          {
+            "Id": 4,
+            "Identifier": "EQ-004",
+            "Name": "Tablet",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-004"
+          },
+          {
+            "Id": 5,
+            "Identifier": "EQ-005",
+            "Name": "Microphone",
+            "Description": null,
+            "IsAvailable": false,
+            "NormalizedIdentifier": "eq-005"
+          },
+          {
+            "Id": 6,
+            "Identifier": "EQ-006",
+            "Name": "Tripod",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-006"
+          },
+          {
+            "Id": 7,
+            "Identifier": "EQ-007",
+            "Name": "Speaker",
+            "Description": null,
+            "IsAvailable": true,
+            "NormalizedIdentifier": "eq-007"
+          }
+        ],
+        "borrowings": [
+          {
+            "Id": 1,
+            "StudentId": 1,
+            "EquipmentId": 1,
+            "DateBorrowed": "2026-11-18",
+            "ExpectedReturnDate": "2026-11-26",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          },
+          {
+            "Id": 2,
+            "StudentId": 1,
+            "EquipmentId": 3,
+            "DateBorrowed": "2026-11-19",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": "2026-11-25",
+            "Status": "Returned"
+          },
+          {
+            "Id": 3,
+            "StudentId": 3,
+            "EquipmentId": 4,
+            "DateBorrowed": "2026-11-20",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          },
+          {
+            "Id": 4,
+            "StudentId": 3,
+            "EquipmentId": 5,
+            "DateBorrowed": "2026-11-20",
+            "ExpectedReturnDate": "2026-11-29",
+            "ActualReturnDate": null,
+            "Status": "Active"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+Window: "Campus Equipment Borrowing System", App: EquipmentBorrowing.Desktop.exe.
+	0 window Campus Equipment Borrowing System Secondary Actions: Raise
+		1 title bar (settable, string) Value: Campus Equipment Borrowing System
+			2 menu bar System ID: MenuBar
+				3 menu item System
+			4 button Minimize
+			5 button Maximize
+			6 button Close
+		7 group WindowChrome ID: AvaloniaWindowChrome
+		8 text Campus Equipment Borrowing System
+		9 button Equipment
+		10 button Borrowings
+		11 button Borrow Equipment
+		12 button Students
+		13 button Manage Equipment
+		14 button History & Search
+		15 custom
+			16 text Equipment catalog
+			17 button All equipment
+			18 button Available only
+			19 button Refresh / retry
+			20 text Showing all equipment.
+			21 list
+				22 list item (selectable) EquipmentBorrowing.Domain.Equipment
+					23 text Camera
+					24 text Equipment ID: EQ-001
+					25 text
+					26 text Available: False
+				27 list item (selectable) EquipmentBorrowing.Domain.Equipment
+					28 text Laptop
+					29 text Equipment ID: EQ-002
+					30 text
+					31 text Available: True
+				32 list item (selectable) EquipmentBorrowing.Domain.Equipment
+					33 text Microphone
+					34 text Equipment ID: EQ-005
+					35 text
+					36 text Available: False
+				37 list item (selectable) EquipmentBorrowing.Domain.Equipment
+					38 text Projector
+					39 text Equipment ID: EQ-003
+					40 text
+					41 text Available: True
+				42 scroll bar (settable, float) Value: 0 ID: PART_VerticalScrollBar
+					43 button Line up ID: PART_LineUpButton
+					44 button Page up ID: PART_PageUpButton
+					45 button Page down ID: PART_PageDownButton
+					46 thumb Position
+					47 button Line down ID: PART_LineDownButton
+
+Document text: ```
+Equipment catalog
+Showing all equipment.
+Camera
+Equipment ID: EQ-001
+Available: False
+Laptop
+Equipment ID: EQ-002
+Available: True
+Microphone
+Equipment ID: EQ-005
+Projector
+Equipment ID: EQ-003
+```

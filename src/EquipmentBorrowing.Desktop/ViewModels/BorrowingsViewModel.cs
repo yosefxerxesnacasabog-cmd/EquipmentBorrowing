@@ -21,7 +21,13 @@ public partial class BorrowingsViewModel(LendingService lending) : ViewModelBase
     private bool CanReturn() => IsReady;
 
     [RelayCommand]
-    public async Task LoadBorrowingsAsync()
+    public Task LoadBorrowingsAsync()
+    {
+        Message = string.Empty;
+        return ReloadAsync();
+    }
+
+    private async Task ReloadAsync()
     {
         IsReady = false;
         LoadStatus = "Loading active borrowings...";
@@ -47,6 +53,6 @@ public partial class BorrowingsViewModel(LendingService lending) : ViewModelBase
         var result = await lending.ReturnAsync(SelectedBorrowing?.Id);
         Message = result.Message;
         if (result.Succeeded || result.RefreshRequired)
-            await LoadBorrowingsAsync();
+            await ReloadAsync();
     }
 }

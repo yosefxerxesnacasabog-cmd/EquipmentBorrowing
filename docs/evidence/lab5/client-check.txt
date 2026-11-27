@@ -1,0 +1,14 @@
+PASS HTTP student registration
+PASS HTTP student update
+PASS HTTP equipment registration
+PASS HTTP checkout
+PASS related HTTP records map correctly
+PASS HTTP return
+PASS HTTP returned history and stable identity
+PASS unreachable read message
+PASS lost mutation result requires readback
+PASS mutation retry blocked pending readback
+PASS server reports unknown commit outcome
+PASS no automatic or manual repeat before fresh read
+PASS fresh read permits staff-directed retry
+PASS received HTTP 500 remains distinct from no HTTP response

@@ -1,0 +1,58 @@
+Window: "Campus Equipment Borrowing System", App: EquipmentBorrowing.Desktop.exe.
+	0 window Campus Equipment Borrowing System Secondary Actions: Raise
+		1 title bar (settable, string) Value: Campus Equipment Borrowing System
+			2 menu bar System ID: MenuBar
+				3 menu item System
+			4 button Minimize
+			5 button Maximize
+			6 button Close
+		7 group WindowChrome ID: AvaloniaWindowChrome
+		8 text Campus Equipment Borrowing System
+		9 button Equipment
+		10 button Borrowings
+		11 button Borrow Equipment
+		12 button Students
+		13 button Manage Equipment
+		14 button History & Search
+		231 custom
+			232 text Active borrowings
+			233 button Refresh / retry
+			234 text
+			235 list
+				236 list item (selectable) EquipmentBorrowing.Domain.Borrowing
+					237 text UI Item Edited
+					238 text Equipment ID: UI-EQ
+					239 text Borrowed by: UI Student Edited
+					240 text Student number: UI-500
+					241 text Checkout: 2026-11-27
+					242 text Expected return: 2026-11-29
+				243 list item (selectable) EquipmentBorrowing.Domain.Borrowing
+					244 text Tablet
+					245 text Equipment ID: EQ-004
+					246 text Borrowed by: Cara Lim
+					247 text Student number: ST-300
+					248 text Checkout: 2026-11-20
+					249 text Expected return: 2026-11-29
+				250 scroll bar (settable, float) Value: 0 ID: PART_VerticalScrollBar
+					251 button Line up ID: PART_LineUpButton
+					252 button Page up ID: PART_PageUpButton
+					253 button Page down ID: PART_PageDownButton
+					254 thumb Position
+					255 button Line down ID: PART_LineDownButton
+			256 button Confirm return of selected borrowing
+			257 text
+
+Document text: ```
+Active borrowings
+UI Item Edited
+Equipment ID: UI-EQ
+Borrowed by: UI Student Edited
+Student number: UI-500
+Checkout: 2026-11-27
+Expected return: 2026-11-29
+Tablet
+Equipment ID: EQ-004
+Borrowed by: Cara Lim
+Student number: ST-300
+Checkout: 2026-11-20
+```

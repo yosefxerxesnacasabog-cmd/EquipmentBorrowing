@@ -1,0 +1,75 @@
+Window: "Campus Equipment Borrowing System", App: EquipmentBorrowing.Desktop.exe.
+	0 window Campus Equipment Borrowing System Secondary Actions: Raise
+		1 title bar (settable, string) Value: Campus Equipment Borrowing System
+			2 menu bar System ID: MenuBar
+				3 menu item System
+			4 button Minimize
+			5 button Maximize
+			6 button Close
+		7 group WindowChrome ID: AvaloniaWindowChrome
+		8 text Campus Equipment Borrowing System
+		9 button Equipment
+		10 button Borrowings
+		11 button Borrow Equipment
+		12 button Students
+		13 button Manage Equipment
+		14 button History & Search
+		315 custom
+			316 text Students
+			317 text field (edit) (settable, string) Description: Find by name or number
+			318 button Refresh / retry
+			319 button New student
+			320 text
+			321 list
+				322 list item (selectable) EquipmentBorrowing.Domain.Student
+					355 text Ben Diaz
+					356 text ST-200
+					357 text Eligible: False
+				326 list item (selectable) EquipmentBorrowing.Domain.Student
+					358 text Cara Lim
+					359 text ST-300
+					360 text Eligible: True
+				330 list item (selectable) EquipmentBorrowing.Domain.Student
+					361 text Dani Ong
+					362 text ST-400
+					363 text Eligible: True
+				334 list item (selectable) EquipmentBorrowing.Domain.Student
+					364 text UI Student via Independent HTTP
+					365 text UI-500
+					366 text Eligible: True
+				338 scroll bar (settable, float) Value: 152 ID: PART_VerticalScrollBar
+					339 button Line up ID: PART_LineUpButton
+					340 button Page up ID: PART_PageUpButton
+					341 button Page down ID: PART_PageDownButton
+					342 thumb Position
+					343 button Line down ID: PART_LineDownButton
+			344 pane (scroll viewer)
+				345 text Student number
+				346 text field (edit) (settable, string) Value: UI-500
+				347 text Full name
+				348 text field (edit) (settable, string) Value: UI Student via Independent HTTP
+				349 text Contact (optional)
+				350 text field (edit) (settable, string)
+				351 button Save student
+				352 button Permit borrowing
+				353 button Restrict borrowing
+			354 text Changes saved successfully.
+
+Document text: ```
+Students
+Find by name or number
+Ben Diaz
+ST-200
+Eligible: False
+Cara Lim
+ST-300
+Eligible: True
+Dani Ong
+ST-400
+UI Student via Independent HTTP
+UI-500
+Student number
+Full name
+Contact (optional)
+Changes saved successfully.
+```

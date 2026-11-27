@@ -44,7 +44,12 @@ public partial class StudentsViewModel(CatalogService catalog, StudentManagement
     }
 
     [RelayCommand]
-    public Task LoadStudentsAsync() => IsBusy || loading ? Task.CompletedTask : ReloadAsync(SelectedStudent?.Id, null);
+    public Task LoadStudentsAsync()
+    {
+        if (IsBusy || loading) return Task.CompletedTask;
+        Message = string.Empty;
+        return ReloadAsync(SelectedStudent?.Id, null);
+    }
 
     private async Task ReloadAsync(int? id, string? number)
     {
