@@ -24,3 +24,6 @@ docs/evidence/lab5/*.log
 docs/evidence/lab5/.serve-command
 __pycache__/
 *.pyc
+
+# Local xUnit output may contain workstation paths.
+TestResults/

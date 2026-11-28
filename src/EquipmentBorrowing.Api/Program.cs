@@ -6,6 +6,7 @@ using EquipmentBorrowing.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddDbContextFactory<EquipmentBorrowingDbContext>(PostgreSqlConfiguration.Configure);
 builder.Services.AddSingleton<PostgresOperations>();
 builder.Services.AddSingleton<IStudentRepository, EfStudentRepository>();
@@ -34,3 +35,6 @@ app.MapGroup("/api/v1").MapCatalogEndpoints();
 app.MapGroup("/api/v1").MapWorkflowEndpoints();
 app.MapGet("/openapi/v1.json", () => Results.File(Path.Combine(app.Environment.ContentRootPath, "openapi.json"), "application/json"));
 app.Run();
+
+// Expose the entry point to the integration test host without duplicating routes.
+public partial class Program;

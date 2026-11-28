@@ -1,0 +1,82 @@
+{
+  "baseline": "bd9b44b06d430892ddc04833202f875be3d5a602",
+  "phase": 1,
+  "scope": "Infrastructure verification plus original regression tests; not full TC6 coverage or actual API restart verification",
+  "command": "dotnet test EquipmentBorrowing.slnx --no-restore -m:1 -p:UseSharedCompilation=false --logger trx --results-directory TestResults --verbosity minimal",
+  "timeZone": "UTC+08",
+  "remainingGeneratedDatabases": 0,
+  "runs": [
+    {
+      "project": "EquipmentBorrowing.IntegrationTests",
+      "start": "2026-11-28T23:45:38.4081491+08:00",
+      "failed": 0,
+      "tests": [
+        {
+          "duration": "00:15:06.7062008",
+          "name": "EquipmentBorrowing.IntegrationTests.FixtureVerificationTests.Independent_scenarios_do_not_share_rows_and_reset_restores_the_same_fixture",
+          "outcome": "Passed"
+        },
+        {
+          "duration": "00:00:09.1732813",
+          "name": "EquipmentBorrowing.IntegrationTests.FixtureVerificationTests.Migrated_fixture_exposes_deterministic_related_records_through_real_pipeline",
+          "outcome": "Passed"
+        },
+        {
+          "duration": "00:00:04.6518496",
+          "name": "EquipmentBorrowing.IntegrationTests.FixtureVerificationTests.Checkout_validation_and_persisted_dates_use_injected_clock_instead_of_machine_date",
+          "outcome": "Passed"
+        }
+      ],
+      "total": 3,
+      "passed": 3,
+      "finish": "2026-11-29T00:01:01.9919964+08:00"
+    },
+    {
+      "project": "EquipmentBorrowing.Tests",
+      "start": "2026-11-29T00:01:02.7077815+08:00",
+      "failed": 0,
+      "tests": [
+        {
+          "duration": "00:00:00.0009121",
+          "name": "EquipmentBorrowing.Tests.BorrowEquipmentServiceTests.BorrowEquipmentAsync_WhenEquipmentIsUnavailable_ReturnsFalse",
+          "outcome": "Passed"
+        },
+        {
+          "duration": "00:00:00.0009966",
+          "name": "EquipmentBorrowing.Tests.BorrowEquipmentServiceTests.BorrowEquipmentAsync_WithAvailableEquipment_ReturnsTrue",
+          "outcome": "Passed"
+        },
+        {
+          "duration": "00:00:00.5966581",
+          "name": "EquipmentBorrowing.Tests.BorrowEquipmentServiceTests.BorrowEquipmentAsync_WhenEquipmentDoesNotExist_ReturnsFalse",
+          "outcome": "Passed"
+        },
+        {
+          "duration": "00:00:00.0029168",
+          "name": "EquipmentBorrowing.Tests.BorrowEquipmentServiceTests.DemonstrateSuccessfulBorrowing",
+          "outcome": "Passed"
+        },
+        {
+          "duration": "00:00:00.0007845",
+          "name": "EquipmentBorrowing.Tests.BorrowEquipmentServiceTests.BorrowEquipmentAsync_WhenStudentIsNotAllowed_ReturnsFalse",
+          "outcome": "Passed"
+        },
+        {
+          "duration": "00:00:00.0006830",
+          "name": "EquipmentBorrowing.Tests.BorrowEquipmentServiceTests.BorrowEquipmentAsync_WhenStudentDoesNotExist_ReturnsFalse",
+          "outcome": "Passed"
+        },
+        {
+          "duration": "00:00:00.0031553",
+          "name": "EquipmentBorrowing.Tests.BorrowEquipmentServiceTests.BorrowEquipmentAsync_WhenStudentHasThreeActiveBorrowings_ReturnsFalse",
+          "outcome": "Passed"
+        }
+      ],
+      "total": 7,
+      "passed": 7,
+      "finish": "2026-11-29T00:01:06.1894636+08:00"
+    }
+  ],
+  "database": "PostgreSQL 18, disposable local cluster, distinct generated database per scenario",
+  "fixedLocalDate": "2026-11-10"
+}

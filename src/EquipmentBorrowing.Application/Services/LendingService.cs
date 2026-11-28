@@ -3,7 +3,7 @@ using EquipmentBorrowing.Domain;
 
 namespace EquipmentBorrowing.Application.Services;
 
-public sealed class LendingService(ILendingRepository repository)
+public sealed class LendingService(ILendingRepository repository, TimeProvider? clock = null)
 {
     public Task<IReadOnlyList<Borrowing>> GetActiveAsync() => repository.GetActiveAsync();
 
@@ -24,7 +24,7 @@ public sealed class LendingService(ILendingRepository repository)
             return new(false, minimumItems == 1 ? "Select equipment." : "Select at least two distinct items.");
         if (equipmentIds.Count > 3)
             return new(false, "A student may have at most three active items.", Failure: WriteFailure.Conflict);
-        if (expectedReturnDate is null || expectedReturnDate.Value.Date <= DateTime.Today)
+        if (expectedReturnDate is null || expectedReturnDate.Value.Date <= (clock ?? TimeProvider.System).GetLocalNow().Date)
             return new(false, "Select an expected return date after today.");
 
         return await repository.CheckoutAsync(studentId.Value, equipmentIds.ToArray(), expectedReturnDate.Value.Date);

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EquipmentBorrowing.Infrastructure.Repositories;
 
-public sealed partial class EfBorrowingRepository(PostgresOperations operations) : ILendingRepository
+public sealed partial class EfBorrowingRepository(PostgresOperations operations, TimeProvider? clock = null) : ILendingRepository
 {
     public Task<IReadOnlyList<Borrowing>> GetActiveAsync() =>
         operations.ReadAsync<IReadOnlyList<Borrowing>>(async db =>
@@ -20,7 +20,7 @@ public sealed partial class EfBorrowingRepository(PostgresOperations operations)
             if (!student.IsAllowedToBorrow)
                 return new(false, "This student is restricted from borrowing.", true, WriteFailure.Conflict);
 
-            var today = DateTime.Today;
+            var today = (clock ?? TimeProvider.System).GetLocalNow().Date;
             if (expectedReturnDate <= today)
                 return new(false, "Select an expected return date after today.");
 
@@ -59,7 +59,7 @@ public sealed partial class EfBorrowingRepository(PostgresOperations operations)
             if (loan.Status != BorrowingStatus.Active)
                 return new(false, "This borrowing has already been returned.", true, WriteFailure.Conflict);
 
-            var today = DateTime.Today;
+            var today = (clock ?? TimeProvider.System).GetLocalNow().Date;
             if (today < loan.DateBorrowed.Date)
                 return new(false, "The return date cannot precede checkout. Check the workstation date.");
 

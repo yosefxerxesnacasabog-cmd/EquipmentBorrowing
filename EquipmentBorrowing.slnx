@@ -8,6 +8,7 @@
     <Project Path="src/EquipmentBorrowing.Infrastructure/EquipmentBorrowing.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/EquipmentBorrowing.IntegrationTests/EquipmentBorrowing.IntegrationTests.csproj" />
     <Project Path="tests/EquipmentBorrowing.Tests/EquipmentBorrowing.Tests.csproj" />
   </Folder>
 </Solution>

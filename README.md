@@ -1,3 +1,48 @@
+# Laboratory Activity 6 - automated verification (in progress)
+
+Lab 6 continues the authentic Lab 5 submission at
+`bd9b44b06d430892ddc04833202f875be3d5a602` on branch `lab6`.
+The Lab 5 documentation below remains available as the implementation baseline.
+See [the baseline and six-phase plan](docs/lab6-baseline-and-plan.md).
+
+## Lab 6 test setup
+
+Use .NET SDK 10 and a locally running PostgreSQL server. The new integration
+project uses real PostgreSQL and the actual ASP.NET Core HTTP pipeline.
+Create a dedicated local test role with LOGIN and CREATEDB permission (using
+pgAdmin or your PostgreSQL administration tool). Keep its password local.
+Tests create and drop only their generated `lab6_<GUID>` databases; do not point
+this connection at a shared/production server. Existing application data is not
+used as the fixture. Migrations are applied automatically in each test database.
+
+From the repository root in PowerShell:
+
+```powershell
+$env:LAB6_POSTGRES_ADMIN = 'Host=localhost;Port=5432;Database=postgres;Username=YOUR_TEST_ROLE;Password=YOUR_LOCAL_PASSWORD'
+dotnet restore EquipmentBorrowing.slnx
+dotnet test EquipmentBorrowing.slnx --logger trx --results-directory TestResults
+```
+
+The PostgreSQL role needs permission to create its own test databases and objects,
+not access to existing application data. No manually started API or desktop is
+needed for these in-process integration tests. With no test connection configured,
+the integration tests fail clearly; they do not silently skip or substitute a fake.
+For only the new project use `dotnet test tests/EquipmentBorrowing.IntegrationTests`.
+Test results may include local machine paths; raw outputs stay in ignored
+`TestResults/`. Concise sanitized execution records belong in `docs/`.
+
+Fixture date **D = 2026-11-10** (UTC+08) is injected via TimeProvider, independently
+of the workstation date. Each scenario has a fresh database and each persisted
+snapshot a separate non-pooled connection. Call `ResetAsync` between subcases
+that need the original fixture. TestServer proves real ASP.NET Core routing and
+HTTP handling; it does not prove a real API process restart or desktop behavior.
+Those require the later TC6-E08 and MA6 checks.
+
+**Phase 1 status:** test foundation only. The 22 TC6 objectives and MA6-01/02 are
+not declared complete by these infrastructure checks or by Lab 5 evidence.
+The three fixture checks and seven existing regression tests passed; see the
+[execution and diagnostic record](docs/lab6-execution-record.md).
+
 # Laboratory Activity 5 — API integration and acceptance
 
 **Prepared by:**
